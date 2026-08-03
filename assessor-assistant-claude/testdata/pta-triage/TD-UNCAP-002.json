@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-UNCAP-002",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "A single member of a limited liability company sold a 70% ownership interest in the LLC to an unrelated purchaser. The LLC's only asset is a commercial parcel. The entities are not commonly controlled after the sale.",
+  "expected": {
+    "uncapping": true,
+    "exception": "none",
+    "notes": "27a(6)(h) \u2014 conveyance of more than 50% of an entity's ownership interest is itself a transfer of ownership. Tests whether the model recognises entity-level transfers, not just deeds."
+  }
+}

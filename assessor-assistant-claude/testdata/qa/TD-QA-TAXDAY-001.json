@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-TAXDAY-001",
+  "task": "qa",
+  "area": "tax_day",
+  "synthetic": true,
+  "question": "What is tax day in Michigan, and why does it matter for determining taxable status?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-2|211\\.2\\b"
+    ],
+    "must_include": [
+      "december 31"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "MCL 211.2 \u2014 the date everything else hangs off."
+}

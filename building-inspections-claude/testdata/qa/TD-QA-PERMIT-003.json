@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PERMIT-003",
+  "task": "qa",
+  "area": "permits",
+  "synthetic": true,
+  "question": "Can a homeowner do their own electrical work on the house they live in, or must they hire a licensed electrician?",
+  "expect": {
+    "must_cite": [
+      "act-407|part 8|electrical"
+    ],
+    "must_include": [
+      "homeowner|own home|licens"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "The homeowner-exemption question. High stakes \u2014 a wrong 'yes' sends an untrained resident into a panel."
+}

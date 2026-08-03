@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-JOINT-002",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "A residential parcel was held by Grace Litton and her brother Paul Litton as joint tenants, created in 2009 when Grace was the sole prior owner. Paul died this year and the survivorship interest vested in Grace, who has been a joint tenant since the tenancy was created.",
+  "expected": {
+    "uncapping": false,
+    "exception": "joint_tenancy",
+    "notes": "27a(7)(i) \u2014 terminating a joint tenancy where an original owner has remained a joint tenant throughout. Tests the termination half of the subdivision."
+  }
+}

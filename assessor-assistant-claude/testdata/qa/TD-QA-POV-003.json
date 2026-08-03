@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-POV-003",
+  "task": "qa",
+  "area": "poverty_exemption",
+  "synthetic": true,
+  "question": "A taxpayer was denied a poverty exemption at the July Board of Review. Can they bring the same request to the December Board of Review?",
+  "expect": {
+    "must_cite": [
+      "board.of.review"
+    ],
+    "must_include": [
+      "may not|cannot|not be reconsidered|appeal"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "The BoR Q&A states a July denial may not be reconsidered at December. Tests retrieval of STC guidance, not just statute."
+}

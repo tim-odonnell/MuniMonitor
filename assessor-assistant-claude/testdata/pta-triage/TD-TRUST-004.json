@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-TRUST-004",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Settlor conveyed his residence into a trust whose sole present beneficiary is his longtime business partner, an unrelated individual. The partner will occupy the home.",
+  "expected": {
+    "uncapping": true,
+    "exception": "none",
+    "notes": "TRAP \u2014 a trust conveyance is not automatically excepted. The beneficiary is outside both the settlor/spouse test of (g)(i) and the relative class of (g)(ii). Expected uncapping."
+  }
+}

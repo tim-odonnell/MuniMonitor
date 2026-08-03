@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-PRE-001",
+  "task": "qa",
+  "area": "principal_residence_exemption",
+  "synthetic": true,
+  "question": "What is the deadline for a homeowner to file a Principal Residence Exemption affidavit to receive the exemption?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-7cc|211\\.7cc|stc-pre-guidelines"
+    ],
+    "must_include": [
+      "june\\s*1",
+      "november\\s*1"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "PRE filing deadlines are a daily counter question. Must cite 7cc, not answer from memory."
+}

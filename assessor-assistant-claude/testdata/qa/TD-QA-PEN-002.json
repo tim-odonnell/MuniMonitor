@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-PEN-002",
+  "task": "qa",
+  "area": "penalties_filing",
+  "synthetic": true,
+  "question": "A buyer filed the property transfer affidavit 100 days late on a home they own and occupy as their principal residence. What penalty applies?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-27b|211\\.27b|transfer-of-ownership"
+    ],
+    "must_include": [
+      "\\$\\s*5\\b|5\\.00",
+      "\\$\\s*200|200\\.00"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Verified in 27b(1)(d)(i): $5/day capped at $200 for an owner-occupied principal residence. Tests that the model applies the correct cap rather than the $4,000 one."
+}

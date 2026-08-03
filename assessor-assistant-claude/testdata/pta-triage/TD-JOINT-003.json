@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-JOINT-003",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "A residential parcel is held by two unrelated business associates as joint tenants; that joint tenancy was created in 2018 when both acquired the property together from a third party. This year they deeded the property to a new joint tenancy adding a third unrelated associate, and neither original joint tenant was an owner before 2018.",
+  "expected": {
+    "uncapping": true,
+    "exception": "none",
+    "notes": "TRAP \u2014 reads like a joint tenancy exception but the statute requires at least one person to have been an original owner BEFORE the joint tenancy was initially created. Expected uncapping \u2014 verify against 27a(7)(i) closely."
+  }
+}

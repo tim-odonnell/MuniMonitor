@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-OTHER-004",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Deed conveying a residential parcel from Ellen Prosser to her daughter, with the grantor expressly reserving a life estate to herself over the ENTIRE parcel \u2014 land and dwelling alike. Ellen continues to occupy the property. Only the remainder interest was conveyed; no portion of the parcel is outside the reserved life estate.",
+  "expected": {
+    "uncapping": false,
+    "exception": "other",
+    "notes": "MCL 211.27a(7)(c): the portion subject to a life estate retained by the transferor is not a transfer of ownership until the life estate expires or terminates. Because the life estate here covers the ENTIRE parcel, no portion falls outside it and there is no partial uncapping. [REVISED 2026-08-03: the original facts did not state whether the life estate covered the whole parcel. That matters \u2014 the STC Transfer of Ownership Guidelines state the exemption 'only applies to that portion of the property conveyed that is subject to the life lease' and that 'a partial uncapping can, therefore, occur'. The model's uncap=true answer was defensible on the original ambiguous facts. NOTE A REAL TOOL LIMITATION: the triage schema is binary (uncapping true/false) and CANNOT express partial uncapping, so a genuinely partial case has no correct answer available to the model.]"
+  }
+}

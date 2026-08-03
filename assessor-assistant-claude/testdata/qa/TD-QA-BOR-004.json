@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-BOR-004",
+  "task": "qa",
+  "area": "board_of_review",
+  "synthetic": true,
+  "question": "Does a taxpayer have to protest to the March Board of Review before appealing a residential assessment to the Michigan Tax Tribunal?",
+  "expect": {
+    "must_cite": [
+      "board.of.review"
+    ],
+    "must_include": [
+      "protest|prerequisite|must"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Protest-first requirement for residential. High-stakes procedural answer."
+}

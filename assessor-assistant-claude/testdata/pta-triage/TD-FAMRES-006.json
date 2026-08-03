@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-FAMRES-006",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Deed from Harold Simms to his grandson Blake Simms of a residential parcel. Blake immediately deeds nothing further but converts the front half of the house into a licensed insurance agency office open to the public, living in the rear.",
+  "expected": {
+    "uncapping": true,
+    "exception": "none",
+    "notes": "Commercial purpose following the conveyance defeats (u). Expected uncapping."
+  }
+}

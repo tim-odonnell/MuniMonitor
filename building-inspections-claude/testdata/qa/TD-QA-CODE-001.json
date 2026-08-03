@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CODE-001",
+  "task": "qa",
+  "area": "code_applicability",
+  "synthetic": true,
+  "question": "Which edition of the residential code currently applies in Michigan, and is the 2021 code in effect?",
+  "expect": {
+    "must_cite": [
+      "injunction|part 5|2015"
+    ],
+    "must_include": [
+      "2015|injunct"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "\u26a0 PERISHABLE: the 2021 IRC/IECC rules were ENJOINED by the Court of Claims in July 2025 (Home Builders Assoc v LARA); 2015-based rules remain in effect. Re-check litigation status periodically \u2014 this answer can go stale."
+}

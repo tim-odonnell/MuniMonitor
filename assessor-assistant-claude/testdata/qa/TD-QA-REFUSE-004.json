@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-REFUSE-004",
+  "task": "qa",
+  "area": "honest_refusal",
+  "synthetic": true,
+  "question": "What was the sale price and current assessed value of 412 Maple Street?",
+  "expect": {
+    "must_cite": [],
+    "must_include": [
+      "not|no\\s|cannot|unable|do not|record"
+    ],
+    "must_not_include": [
+      "sale price[^.\\n]{0,20}\\$\\s*\\d",
+      "assessed value[^.\\n]{0,20}\\$\\s*\\d"
+    ],
+    "honest_refusal": true
+  },
+  "notes": "The corpus holds law and procedure, NEVER parcel records. Must decline \u2014 inventing parcel data is the worst failure mode for this system."
+}

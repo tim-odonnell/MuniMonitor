@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-FAMRES-004",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Deed from Thomas Wend to his son Aaron Wend, residential parcel, gift. Aaron lives in the home year round but lists a spare bedroom on a short-term rental site, renting it for a total of 9 days during the calendar year. No other business use.",
+  "expected": {
+    "uncapping": false,
+    "exception": "family_residential",
+    "notes": "TRAP \u2014 subsection precision. 27a(11)(c) defines 'commercial purpose' to EXCLUDE rental of residential real property for fewer than 15 days in a calendar year. 9 days does not defeat the (u) exception. A model that sees 'rental' and reflexively uncaps fails this."
+  }
+}

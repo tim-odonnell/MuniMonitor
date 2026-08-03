@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-VET-002",
+  "task": "qa",
+  "area": "disabled_veterans",
+  "synthetic": true,
+  "question": "A disabled veteran who had the exemption died. Can the surviving spouse keep it?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-7b|211\\.7b"
+    ],
+    "must_include": [
+      "surviving spouse"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "211.7b surviving-spouse continuation \u2014 a sympathetic case staff must get right."
+}

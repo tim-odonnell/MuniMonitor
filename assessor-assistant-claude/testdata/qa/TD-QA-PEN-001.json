@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PEN-001",
+  "task": "qa",
+  "area": "penalties_filing",
+  "synthetic": true,
+  "question": "How many days does a buyer have to file a property transfer affidavit after a transfer of ownership?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-27a|mcl-211-27b|211\\.27a|211\\.27b|transfer-of-ownership"
+    ],
+    "must_include": [
+      "\\b45\\b"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Verified: 45 days."
+}

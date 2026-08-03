@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-XFER-001",
+  "task": "qa",
+  "area": "transfers_uncapping",
+  "synthetic": true,
+  "question": "Does the taxable value of a property uncap in the year of transfer or the year following the transfer?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-27a|211\\.27a|transfer-of-ownership"
+    ],
+    "must_include": [
+      "following|year after|december 31"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Timing of the adjustment \u2014 routinely misstated to taxpayers."
+}

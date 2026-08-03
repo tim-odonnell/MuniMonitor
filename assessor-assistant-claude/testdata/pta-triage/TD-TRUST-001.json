@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-TRUST-001",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Grantor conveyed her residence into the Helen Marsh Revocable Living Trust. Helen is the settlor and the sole present beneficiary of the trust. She continues to live in the home.",
+  "expected": {
+    "uncapping": false,
+    "exception": "trust",
+    "notes": "27a(7)(g)(i) \u2014 settlor is sole present beneficiary. Baseline trust case."
+  }
+}

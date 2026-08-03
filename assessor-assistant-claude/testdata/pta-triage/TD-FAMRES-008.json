@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-FAMRES-008",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Deed from Owen Fletcher to his grandmother Ruth Fletcher, residential parcel, no consideration. Ruth occupies the home; no commercial use.",
+  "expected": {
+    "uncapping": true,
+    "exception": "none",
+    "notes": "TRAP \u2014 direction matters here in a way it does not for parents. Grandson/granddaughter are listed as TRANSFEREES; grandmother/grandfather are not. Grandchild-to-grandparent is not excepted. Expected uncapping."
+  }
+}

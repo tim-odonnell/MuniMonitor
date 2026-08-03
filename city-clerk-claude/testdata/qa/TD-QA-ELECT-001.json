@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-ELECT-001",
+  "task": "qa",
+  "area": "elections",
+  "synthetic": true,
+  "question": "How does a resident register to vote in Michigan, and what is the deadline relative to an election?",
+  "expect": {
+    "must_cite": [
+      "act-116|election law"
+    ],
+    "must_include": [
+      "regist"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Registration procedure and the deadline expressed RELATIVE to an election \u2014 never as a calendar date."
+}

@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-PRE-005",
+  "task": "qa",
+  "area": "principal_residence_exemption",
+  "synthetic": true,
+  "question": "A taxpayer's principal residence exemption was denied. How do they appeal to the Michigan Tax Tribunal, and is there a filing fee?",
+  "expect": {
+    "must_cite": [
+      "stc-pre-guidelines|7cc|211\\.7cc"
+    ],
+    "must_include": [
+      "tribunal",
+      "\\$\\s*25|25\\.00"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Originally written as a refusal probe on the false premise that MTT fees were absent from the corpus. They are not: the STC PRE Guidelines state verbatim 'A $25.00 filing fee may be required' in four places. Converted to a grounded case. Lesson: verify a probe's premise against the corpus BEFORE asserting the corpus cannot answer it."
+}

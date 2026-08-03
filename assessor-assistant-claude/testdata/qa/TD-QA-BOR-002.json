@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-BOR-002",
+  "task": "qa",
+  "area": "board_of_review",
+  "synthetic": true,
+  "question": "When does the July Board of Review meet?",
+  "expect": {
+    "must_cite": [
+      "board.of.review"
+    ],
+    "must_include": [
+      "tuesday",
+      "third monday"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Verified in corpus: Tuesday following the third Monday in July."
+}

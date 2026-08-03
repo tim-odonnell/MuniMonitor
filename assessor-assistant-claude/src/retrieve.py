@@ -27,6 +27,60 @@ class Retriever:
             )
         self.index = json.loads(index_file.read_text())
         self.default_k = cfg["retrieval"]["top_k"]
+        # Minimum LAW-authority chunks guaranteed in a result set. 0 disables.
+        self.min_law = int(cfg["retrieval"].get("min_law_chunks", 1))
+        self.law_ratio = float(cfg["retrieval"].get("law_floor_min_score_ratio", 0.5))
+
+    @staticmethod
+    def _apply_authority_floor(scored: list, k: int, min_law: int,
+                               min_ratio: float = 0.5) -> list:
+        """Guarantee at least `min_law` LAW chunks in the result set, at CONSTANT k.
+
+        Why this exists: the corpus mixes small statutes (mcl-211-7b.md, 5 chunks)
+        with very large secondary guidance (stc-assessors-manual-vol3.md, 382KB).
+        On concept queries the big documents take every slot, so the model answered
+        STATUTORY questions purely from STATE-GUIDANCE — measured 2026-08-03,
+        MCL 211.7b ranked 10th and MCL 211.34d 9th on their own topics with k=6.
+        That defeats the LAW > STATE-GUIDANCE > OFFICE-PRACTICE hierarchy the whole
+        design depends on.
+
+        Size is held constant deliberately: simply raising k would enlarge the
+        triage prompt (already ~11,291 tokens) and worsen the empty-output failures.
+        We displace the LOWEST-scoring non-LAW chunks instead, and only ever promote
+        chunks BM25 already scored above zero — never an unrelated statute.
+        """
+        head = scored[:k]
+        if min_law <= 0 or len(head) < k:
+            return head
+        law_in_head = sum(1 for _s, ch in head if ch.get("authority") == "LAW")
+        want = min(min_law, k) - law_in_head
+        if want <= 0:
+            return head
+        others = [p for p in head if p[1].get("authority") != "LAW"]
+        if not others:
+            return head
+        candidates = [p for p in scored[k:] if p[1].get("authority") == "LAW"]
+
+        # RELEVANCE GUARD. Never trade a strong guidance hit for a weak statute.
+        # Measured 2026-08-03: without this, the question "which FORM does a small
+        # business file" evicted form-5076-small-business-exemption.md — the document
+        # containing the answer — to force in two lower-scoring MCL 211.9o chunks.
+        # A promotion only happens when the statute scores at least `min_ratio` of
+        # the chunk it would displace.
+        promote = []
+        for cand in candidates:
+            if len(promote) >= want or not others:
+                break
+            weakest = others[-1]
+            if cand[0] >= weakest[0] * min_ratio:
+                promote.append(cand)
+                others.pop()
+        if not promote:
+            return head
+        keep = [p for p in head if p[1].get("authority") == "LAW"]
+        merged = keep + others + promote
+        merged.sort(key=lambda pair: pair[0], reverse=True)
+        return merged[:k]
 
     def search(self, query: str, k: int | None = None) -> list[dict]:
         k = k or self.default_k
@@ -47,6 +101,7 @@ class Retriever:
             if score > 0:
                 scored.append((score, ch))
         scored.sort(key=lambda pair: pair[0], reverse=True)
+        selected = self._apply_authority_floor(scored, k, self.min_law, self.law_ratio)
         return [
             {
                 "id": ch["id"],
@@ -55,7 +110,7 @@ class Retriever:
                 "score": round(s, 3),
                 "text": ch["text"],
             }
-            for s, ch in scored[:k]
+            for s, ch in selected
         ]
 
 

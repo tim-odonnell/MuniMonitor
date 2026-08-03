@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-XFER-002",
+  "task": "qa",
+  "area": "transfers_uncapping",
+  "synthetic": true,
+  "question": "What does 'commercial purpose' mean for the residential family-transfer exception, and does a short-term rental count?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-27a|211\\.27a|transfer-of-ownership"
+    ],
+    "must_include": [
+      "15\\s*days|fifteen days"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Verified at 27a(11)(c): rental of residential real property for fewer than 15 days in a calendar year is NOT a commercial purpose. Subsection-precision probe."
+}

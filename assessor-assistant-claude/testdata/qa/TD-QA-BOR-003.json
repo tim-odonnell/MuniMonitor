@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-BOR-003",
+  "task": "qa",
+  "area": "board_of_review",
+  "synthetic": true,
+  "question": "What kinds of corrections can the December Board of Review make?",
+  "expect": {
+    "must_cite": [
+      "board.of.review"
+    ],
+    "must_include": [
+      "clerical|mutual mistake|qualified error"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "December BoR is limited to specific error classes \u2014 a common staff confusion."
+}

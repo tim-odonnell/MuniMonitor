@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PP-002",
+  "task": "qa",
+  "area": "personal_property",
+  "synthetic": true,
+  "question": "What is the true cash value threshold for the small business personal property exemption?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-9o|211\\.9o|form-5076|bulletin"
+    ],
+    "must_include": [
+      "180,?\\s*000"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Threshold question \u2014 must be pulled from 9o text, not recalled."
+}

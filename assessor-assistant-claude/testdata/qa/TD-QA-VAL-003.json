@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-VAL-003",
+  "task": "qa",
+  "area": "valuation_calendar",
+  "synthetic": true,
+  "question": "What is the assessment ratio Michigan assessors must use, relative to true cash value?",
+  "expect": {
+    "must_cite": [
+      "211\\.27|assessors-manual|assessed"
+    ],
+    "must_include": [
+      "50\\s*%|50 percent|one-half"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "The 50% ratio. Basic but must be grounded."
+}

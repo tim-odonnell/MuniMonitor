@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-POV-002",
+  "task": "qa",
+  "area": "poverty_exemption",
+  "synthetic": true,
+  "question": "Must a local unit adopt written poverty exemption guidelines, or can the board of review decide each case on its own judgement?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-7u|211\\.7u"
+    ],
+    "must_include": [
+      "guideline"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Tests that the model states the guideline-adoption requirement rather than describing local discretion as unconstrained."
+}

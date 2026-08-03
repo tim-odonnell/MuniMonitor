@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-JOINT-001",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Sole owner Frank Dunn deeded his residential parcel to Frank Dunn and Marie Dunn as joint tenants with full rights of survivorship. Frank was the sole owner immediately before the joint tenancy was created and remains a joint tenant.",
+  "expected": {
+    "uncapping": false,
+    "exception": "joint_tenancy",
+    "notes": "27a(7)(i) \u2014 creating a joint tenancy where at least one person was an original owner. Baseline."
+  }
+}

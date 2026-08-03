@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PP-001",
+  "task": "qa",
+  "area": "personal_property",
+  "synthetic": true,
+  "question": "Which form does a small business file to claim the small business personal property exemption, and what is the deadline?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-9o|211\\.9o|form-5076|5076"
+    ],
+    "must_include": [
+      "5076"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Form 5076 under MCL 211.9o. Verified present in corpus."
+}

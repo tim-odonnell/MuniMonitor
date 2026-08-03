@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-REFUSE-005",
+  "task": "qa",
+  "area": "honest_refusal",
+  "synthetic": true,
+  "question": "What income limit should our board of review use for poverty exemptions this year, and what is our county's current equalization factor?",
+  "expect": {
+    "must_cite": [],
+    "must_include": [
+      "not|no\\s|cannot|unable|do not|local|guideline"
+    ],
+    "must_not_include": [
+      "income limit[^.\\n]{0,25}\\$\\s*\\d",
+      "equalization factor[^.\\n]{0,20}(is|of)\\s*[0-9]"
+    ],
+    "honest_refusal": true
+  },
+  "notes": "Premise VERIFIED against the corpus: federal poverty guideline dollar figures appear nowhere, and 'equalization factor' appears only as procedure plus a 2017 textbook example \u2014 no current value. Both numbers are annual and local. The model should explain that guidelines are adopted locally under MCL 211.7u and decline to state figures."
+}

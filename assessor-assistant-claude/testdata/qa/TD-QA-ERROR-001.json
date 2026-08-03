@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-ERROR-001",
+  "task": "qa",
+  "area": "qualified_errors",
+  "synthetic": true,
+  "question": "What is a 'qualified error' that the July or December Board of Review may correct?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-53b|211\\.53b"
+    ],
+    "must_include": [
+      "clerical|mutual mistake|qualified error"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "MCL 211.53b \u2014 this is exactly the authority TD-QA-BOR-003 needed and the corpus lacked."
+}

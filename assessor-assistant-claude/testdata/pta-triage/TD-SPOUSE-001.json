@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-SPOUSE-001",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Quit claim deed recorded conveying the marital home from Robert Hale to his wife Susan Hale for $1. Both remain married; no other parties. Property classified residential. PTA filed 20 days after recording.",
+  "expected": {
+    "uncapping": false,
+    "exception": "spouse",
+    "notes": "Straight 27a(7)(a) spouse-to-spouse transfer. Baseline case \u2014 a model that uncaps this is over-flagging past the point of usefulness."
+  }
+}

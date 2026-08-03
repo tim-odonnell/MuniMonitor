@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PRE-003",
+  "task": "qa",
+  "area": "principal_residence_exemption",
+  "synthetic": true,
+  "question": "Can a taxpayer claim a Principal Residence Exemption on two homes in Michigan at the same time?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-7cc|211\\.7cc|7dd|stc-pre-guidelines"
+    ],
+    "must_include": [
+      "\\bone\\b|single|only"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Core PRE rule. Answer must be grounded, not asserted."
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PRE-004",
+  "task": "qa",
+  "area": "principal_residence_exemption",
+  "synthetic": true,
+  "question": "A property owner rents out her basement to a tenant while living upstairs. How does that affect her Principal Residence Exemption?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-7cc|211\\.7cc|7dd|stc-pre-guidelines"
+    ],
+    "must_include": [
+      "portion|percent|partial"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Partial PRE. Tests nuance rather than a yes/no."
+}

@@ -1,15 +1,17 @@
 {
   "llm": {
-    "base_url": "http://127.0.0.1:5802/v1",
+    "base_url": "http://127.0.0.1:18090/v1",
     "api_key": "none",
-    "model": "qwen3.6-35b-reap-nvfp4",
+    "model": "gpt-oss-20b-UD-Q4_K_XL",
     "max_tokens": 16384,
     "timeout_seconds": 600,
     "temperature": 0.2
   },
   "retrieval": {
     "top_k": 6,
-    "max_chunk_chars": 1600
+    "max_chunk_chars": 1600,
+    "min_law_chunks": 2,
+    "law_floor_min_score_ratio": 0.7
   },
   "escalation": {
     "min_hits": 2,

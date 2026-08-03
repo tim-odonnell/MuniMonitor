@@ -1,0 +1,20 @@
+{
+  "case_id": "TD-QA-VAL-001",
+  "task": "qa",
+  "area": "valuation_calendar",
+  "synthetic": true,
+  "question": "What is the inflation rate multiplier for 2026, and how is capped value calculated?",
+  "expect": {
+    "must_cite": [
+      "bulletin-14|1\\.027"
+    ],
+    "must_include": [
+      "capped value",
+      "loss",
+      "addition"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Verified in corpus: 2026 IRM = 1.027; capped value = (prior TV \u2212 losses) \u00d7 IRM + additions. The IRM is the office's perishable number."
+}

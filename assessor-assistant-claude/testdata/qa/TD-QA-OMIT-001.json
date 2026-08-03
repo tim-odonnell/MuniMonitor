@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-OMIT-001",
+  "task": "qa",
+  "area": "omitted_property",
+  "synthetic": true,
+  "question": "Property was omitted from the assessment roll. How many years back can it be placed on the roll, and under what authority?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-154|211\\.154"
+    ],
+    "must_include": [
+      "year"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "MCL 211.154 \u2014 omitted/incorrectly reported property."
+}

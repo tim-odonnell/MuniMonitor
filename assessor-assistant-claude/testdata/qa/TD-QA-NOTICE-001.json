@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-NOTICE-001",
+  "task": "qa",
+  "area": "assessment_notices",
+  "synthetic": true,
+  "question": "What must the annual notice of assessment change tell the property owner, and when must it be sent?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-24c|211\\.24c"
+    ],
+    "must_include": [
+      "notice"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "MCL 211.24c \u2014 a statutorily mandated annual duty of the office."
+}

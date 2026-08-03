@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PP-003",
+  "task": "qa",
+  "area": "personal_property",
+  "synthetic": true,
+  "question": "When must a taxpayer file a personal property statement with the assessor?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-19|211\\.19|form-5076|bulletin"
+    ],
+    "must_include": [
+      "february"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "MCL 211.19 personal property statement timing."
+}

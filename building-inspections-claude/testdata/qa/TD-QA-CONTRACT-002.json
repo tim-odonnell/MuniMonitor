@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CONTRACT-002",
+  "task": "qa",
+  "area": "contractor_licensing",
+  "synthetic": true,
+  "question": "Who is required to be a registered building official or inspector in Michigan?",
+  "expect": {
+    "must_cite": [
+      "act-407|skilled trades|mcl-act-230"
+    ],
+    "must_include": [
+      "registr"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Registration requirement for officials \u2014 verified answerable, this was one of the first live-validated questions in the project."
+}

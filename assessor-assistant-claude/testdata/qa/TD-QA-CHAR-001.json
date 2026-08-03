@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CHAR-001",
+  "task": "qa",
+  "area": "charitable_exemption",
+  "synthetic": true,
+  "question": "What must a nonprofit charitable institution show to qualify for a property tax exemption?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-7o|211\\.7o"
+    ],
+    "must_include": [
+      "charitable"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "MCL 211.7o \u2014 recurring and contentious."
+}

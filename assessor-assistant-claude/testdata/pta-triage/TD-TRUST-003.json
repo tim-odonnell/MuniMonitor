@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-TRUST-003",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "The Alvarez Family Trust conveyed a residential parcel out of the trust to the settlor's son, who occupies it. No commercial use follows the conveyance.",
+  "expected": {
+    "uncapping": false,
+    "exception": "trust",
+    "notes": "27a(7)(v) \u2014 conveyance FROM a trust to an enumerated relative. Different subdivision from (g); tests that the model distinguishes into-trust from out-of-trust."
+  }
+}

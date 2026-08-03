@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-OTHER-002",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Judgment of divorce entered by the circuit court ordering that the marital residence be transferred to one former spouse. The judgment specifies no monetary consideration for the transfer. Deed recorded pursuant to the judgment.",
+  "expected": {
+    "uncapping": false,
+    "exception": "other",
+    "notes": "27a(7)(h) \u2014 transfer pursuant to a court judgment where no specific monetary consideration is ordered. Also arguably (a); either 'other' or 'spouse' reasoning should reach no-uncap."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PERMIT-001",
+  "task": "qa",
+  "area": "permits",
+  "synthetic": true,
+  "question": "A homeowner wants to build a detached shed in their back yard. Do they need a building permit?",
+  "expect": {
+    "must_cite": [
+      "mcl-act-230|construction code|part 4|part 5"
+    ],
+    "must_include": [
+      "permit"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "The most common counter question. Answer must come from the Michigan construction code act / rules, and should flag that local ordinances may also apply."
+}

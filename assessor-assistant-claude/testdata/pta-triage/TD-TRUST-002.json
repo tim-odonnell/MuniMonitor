@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-TRUST-002",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Settlor conveyed a residential parcel into a trust whose sole present beneficiary is the settlor's daughter. The daughter occupies the home and it is not used for any commercial purpose following the conveyance.",
+  "expected": {
+    "uncapping": false,
+    "exception": "trust",
+    "notes": "27a(7)(g)(ii) \u2014 residential property, sole present beneficiary in the enumerated relative class, no commercial use. Tests the post-2014 branch."
+  }
+}

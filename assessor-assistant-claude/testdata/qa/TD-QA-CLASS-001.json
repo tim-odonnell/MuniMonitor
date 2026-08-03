@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CLASS-001",
+  "task": "qa",
+  "area": "classification",
+  "synthetic": true,
+  "question": "What are the statutory real property classifications, and who decides a parcel's classification?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-34c|211\\.34c"
+    ],
+    "must_include": [
+      "agricultural|commercial|industrial|residential|timber|developmental"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "34c classification list plus the assessor's role."
+}

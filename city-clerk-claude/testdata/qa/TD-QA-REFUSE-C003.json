@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-REFUSE-C003",
+  "task": "qa",
+  "area": "honest_refusal",
+  "synthetic": true,
+  "question": "How do I get a certified copy of my birth certificate, and what does it cost?",
+  "expect": {
+    "must_cite": [],
+    "must_include": [
+      "not|no\\s|cannot|unable|do not|vital record|county|state"
+    ],
+    "must_not_include": [
+      "costs?\\s*\\$\\s*\\d",
+      "fee (is|of)\\s*\\$\\s*\\d"
+    ],
+    "honest_refusal": true
+  },
+  "notes": "VERIFIED: zero hits for birth/death certificate in the corpus. Vital records sit under a different act and are often county-administered. Must decline rather than invent a process and fee."
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-ERROR-002",
+  "task": "qa",
+  "area": "qualified_errors",
+  "synthetic": true,
+  "question": "How many prior years may the Board of Review go back to correct a qualified error?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-53b|211\\.53b|board.of.review"
+    ],
+    "must_include": [
+      "year"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Lookback limit on corrections \u2014 routinely misremembered."
+}

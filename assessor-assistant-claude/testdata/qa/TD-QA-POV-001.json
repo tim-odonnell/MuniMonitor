@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-POV-001",
+  "task": "qa",
+  "area": "poverty_exemption",
+  "synthetic": true,
+  "question": "What are the eligibility requirements for a poverty exemption, and which board decides it?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-7u|211\\.7u"
+    ],
+    "must_include": [
+      "board of review"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "7u poverty exemption \u2014 decided by the board of review, guidelines adopted by the governing body."
+}

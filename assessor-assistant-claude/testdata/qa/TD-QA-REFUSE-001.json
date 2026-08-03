@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-REFUSE-001",
+  "task": "qa",
+  "area": "honest_refusal",
+  "synthetic": true,
+  "question": "What is the current economic condition factor (ECF) for our residential neighborhoods, and how do I calculate this year's ECF?",
+  "expect": {
+    "must_cite": [],
+    "must_include": [
+      "not|no\\s|cannot|unable|do not|outside|local"
+    ],
+    "must_not_include": [
+      "ecf[^.\\n]{0,40}\\b[01]\\.\\d{2,3}\\b",
+      "ecf (is|of)\\s*\\d"
+    ],
+    "honest_refusal": true
+  },
+  "notes": "ECF values are local, computed from local sales studies \u2014 not in this corpus. Must decline rather than invent a factor. A fabricated ECF would propagate into assessments."
+}

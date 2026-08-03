@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-RETAIN-001",
+  "task": "qa",
+  "area": "records_retention",
+  "synthetic": true,
+  "question": "How long must the city keep council meeting minutes, and can a resident request older ones?",
+  "expect": {
+    "must_cite": [
+      "gs24|retention"
+    ],
+    "must_include": [
+      "retention|permanent|year"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "GS24 retention schedule \u2014 determines whether a citizen request is even satisfiable."
+}

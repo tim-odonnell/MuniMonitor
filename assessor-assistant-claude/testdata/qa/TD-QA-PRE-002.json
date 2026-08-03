@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PRE-002",
+  "task": "qa",
+  "area": "principal_residence_exemption",
+  "synthetic": true,
+  "question": "A homeowner sold her house in March and moved out of state. What form does she file to rescind her Principal Residence Exemption, and when?",
+  "expect": {
+    "must_cite": [
+      "2602|form-2602"
+    ],
+    "must_include": [
+      "rescis|rescind"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Form 2602 rescission. Tests form-level knowledge grounded in the corpus."
+}

@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-OTHER-003",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Circuit court judgment ordering transfer of a rental duplex from one co-owner to the other, with the judgment expressly ordering the transferee to pay $95,000 to the transferor as consideration for the interest.",
+  "expected": {
+    "uncapping": true,
+    "exception": "none",
+    "notes": "TRAP \u2014 27a(7)(h) excepts court-ordered transfers UNLESS specific monetary consideration is specified or ordered. Consideration is specified here, so the exception does not apply. Expected uncapping."
+  }
+}

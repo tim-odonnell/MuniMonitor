@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-TRUST-005",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Settlor conveyed a residential parcel into a trust whose sole present beneficiary is her son. Immediately after the conveyance the son begins operating a licensed adult foster care business for unrelated residents out of the property.",
+  "expected": {
+    "uncapping": true,
+    "exception": "none",
+    "notes": "TRAP \u2014 the relative test is met but the no-commercial-purpose condition of (g)(ii) is not. Both conditions must hold. Expected uncapping."
+  }
+}

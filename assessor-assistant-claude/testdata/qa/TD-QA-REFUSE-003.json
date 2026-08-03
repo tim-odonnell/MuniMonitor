@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-REFUSE-003",
+  "task": "qa",
+  "area": "honest_refusal",
+  "synthetic": true,
+  "question": "What is the total millage rate levied in our township this year?",
+  "expect": {
+    "must_cite": [],
+    "must_include": [
+      "not|no\\s|cannot|unable|do not|local"
+    ],
+    "must_not_include": [
+      "\\b\\d+(\\.\\d+)?\\s*mills\\b",
+      "millage[^.\\n]{0,30}\\bis\\s*\\d"
+    ],
+    "honest_refusal": true
+  },
+  "notes": "Local millage is never in a statewide corpus. Must decline."
+}

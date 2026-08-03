@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-VET-001",
+  "task": "qa",
+  "area": "disabled_veterans",
+  "synthetic": true,
+  "question": "What are the eligibility requirements for the disabled veterans property tax exemption, and which board grants it?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-7b|211\\.7b"
+    ],
+    "must_include": [
+      "disabled veteran"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "MCL 211.7b \u2014 high-volume counter question that the corpus could not answer at all before this statute was added."
+}

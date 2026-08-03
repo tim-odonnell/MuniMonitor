@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PERMIT-004",
+  "task": "qa",
+  "area": "permits",
+  "synthetic": true,
+  "question": "A resident's building permit expired before the work was finished. What are their options?",
+  "expect": {
+    "must_cite": [
+      "mcl-act-230|part 4|part 5|construction code"
+    ],
+    "must_include": [
+      "permit"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Expired-permit procedure."
+}

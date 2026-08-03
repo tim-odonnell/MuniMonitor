@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-SPOUSE-002",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Owner died testate. Under the will, the residential homestead passed to his surviving spouse. Personal representative recorded a deed to the widow. PTA filed by the widow 40 days after the deed.",
+  "expected": {
+    "uncapping": false,
+    "exception": "spouse",
+    "notes": "27a(7)(a) also covers decedent-to-surviving-spouse. Tests that the model reads the full subdivision, not just the living-spouse half."
+  }
+}

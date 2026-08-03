@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-BOR-001",
+  "task": "qa",
+  "area": "board_of_review",
+  "synthetic": true,
+  "question": "When does the March Board of Review meet, and what is the minimum number of hours it must be in session?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-30|mcl-211-29|211\\.30|211\\.29|board.of.review"
+    ],
+    "must_include": [
+      "second monday",
+      "12 hours|twelve hours"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Verified in corpus: second Monday in March, at least 12 hours that week."
+}

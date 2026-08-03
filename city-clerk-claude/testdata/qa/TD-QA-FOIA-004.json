@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-FOIA-004",
+  "task": "qa",
+  "area": "foia",
+  "synthetic": true,
+  "question": "A resident asked for a city employee's personnel file. Can the city release it?",
+  "expect": {
+    "must_cite": [
+      "act-442|15\\.243|exempt"
+    ],
+    "must_include": [
+      "exempt|privacy"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "The personnel-file trap. This project's zero-tolerance failure is a MISSED exemption flag \u2014 the answer must surface the privacy exemption, not just say yes."
+}

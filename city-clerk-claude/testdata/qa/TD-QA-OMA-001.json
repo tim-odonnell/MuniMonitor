@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-OMA-001",
+  "task": "qa",
+  "area": "open_meetings",
+  "synthetic": true,
+  "question": "A resident wants to know when a public body may go into closed session. What are the permitted purposes?",
+  "expect": {
+    "must_cite": [
+      "act-267|open meetings"
+    ],
+    "must_include": [
+      "closed session"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Core OMA question; OMA violations can void council actions."
+}

@@ -1,0 +1,16 @@
+{
+  "case_id": "TD-QA-VAL-002",
+  "task": "qa",
+  "area": "valuation_calendar",
+  "synthetic": true,
+  "question": "Is taxable value the lower of capped value and assessed value, or the higher?",
+  "expect": {
+    "must_cite": [],
+    "must_include": [
+      "lesser|lower"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Fundamental relationship. A wrong answer here is catastrophic and easy to state confidently."
+}

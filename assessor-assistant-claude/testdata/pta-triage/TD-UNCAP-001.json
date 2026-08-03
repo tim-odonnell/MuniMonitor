@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-UNCAP-001",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Arm's-length sale of a residential parcel from an unrelated seller to an unrelated buyer for $312,000, recorded by warranty deed. Buyer will occupy as a principal residence. PTA filed 10 days after closing.",
+  "expected": {
+    "uncapping": true,
+    "exception": "none",
+    "notes": "Ordinary sale. Baseline uncapping \u2014 a model that finds an exception here is unusable."
+  }
+}

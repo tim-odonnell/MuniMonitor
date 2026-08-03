@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-PEN-003",
+  "task": "qa",
+  "area": "penalties_filing",
+  "synthetic": true,
+  "question": "Same 100-day-late filing, but the property is a commercial building that sold for $2,000,000. What penalty applies?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-27b|211\\.27b|transfer-of-ownership"
+    ],
+    "must_include": [
+      "\\$\\s*20\\b|20\\.00",
+      "1,?000"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Verified in 27b(1)(c)(i): $20/day capped at $1,000 for commercial/industrial at or below $100M. Tests the classification-dependent branch."
+}

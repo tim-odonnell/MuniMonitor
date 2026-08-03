@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-ADDLOSS-001",
+  "task": "qa",
+  "area": "valuation_calendar",
+  "synthetic": true,
+  "question": "How are 'additions' and 'losses' defined for the capped value calculation?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-34d|211\\.34d"
+    ],
+    "must_include": [
+      "addition",
+      "loss"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "MCL 211.34d \u2014 the arithmetic behind every capped value; previously the corpus had the formula but not the definitions."
+}

@@ -65,14 +65,29 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Run the PTA backtest")
     ap.add_argument("--dry-run", action="store_true", help="skip the LLM call")
     ap.add_argument("--case", default=None, help="run a single case_id")
+    ap.add_argument("--cases-dir", default=None,
+                    help="case directory (default: paths.cases_dir from config)")
+    ap.add_argument("--repeat", type=int, default=1,
+                    help="run every case N times and report per-case stability. "
+                         "The model is NOT deterministic at temperature>0 — a single "
+                         "run of a case set cannot distinguish two configurations, "
+                         "because run-to-run variance exceeds the difference between "
+                         "them. Use --repeat 3+ before concluding anything.")
+    ap.add_argument("--include-synthetic", action="store_true",
+                    help="count synthetic cases in the aggregates. Use for pipeline "
+                         "testing against testdata/; NEVER for a deployment gate — "
+                         "real historical determinations are the only valid evidence.")
     args = ap.parse_args()
 
     cfg = load_config()
-    cases_dir = ROOT / cfg["paths"]["cases_dir"]
+    cases_dir = ROOT / (args.cases_dir or cfg["paths"]["cases_dir"])
     results_dir = ROOT / cfg["paths"]["results_dir"]
     results_dir.mkdir(exist_ok=True)
 
     cases = load_cases(cases_dir, args.case)
+    if args.repeat > 1:
+        cases = [dict(c, case_id=f"{c['case_id']}#r{i+1}", _base=c["case_id"])
+                 for c in cases for i in range(args.repeat)]
     if not cases:
         print(f"No pta_triage cases found in {cases_dir}.")
         return 1
@@ -128,8 +143,12 @@ def main() -> int:
     if not args.dry_run:
         # Aggregates cover REAL cases only — synthetic demo cases are excluded
         # (regression G3); they still appear in per-case detail, labeled.
-        scored = [r for r in records if "score" in r and not r.get("synthetic")]
-        synth_scored = [r for r in records if "score" in r and r.get("synthetic")]
+        if args.include_synthetic:
+            scored = [r for r in records if "score" in r]
+            synth_scored = []
+        else:
+            scored = [r for r in records if "score" in r and not r.get("synthetic")]
+            synth_scored = [r for r in records if "score" in r and r.get("synthetic")]
         n = len(scored)
         agree = sum(r["score"]["agree_uncapping"] for r in scored)
         missed = [r["case_id"] for r in scored if r["score"]["missed_uncap"]]
@@ -146,8 +165,11 @@ def main() -> int:
             "",
             f"- Cases run: {len(records)}  (real scored: {n}, synthetic scored: "
             f"{len(synth_scored)}, parse failures: {len(parse_fails)})",
-            "- **All aggregate metrics below cover REAL cases only** — synthetic "
-            "demo cases are excluded and shown in per-case detail.",
+            ("- ⚠ **--include-synthetic: aggregates below INCLUDE synthetic cases.** "
+             "Pipeline evidence only — NOT a deployment gate."
+             if args.include_synthetic else
+             "- **All aggregate metrics below cover REAL cases only** — synthetic "
+             "demo cases are excluded and shown in per-case detail."),
             f"- **Agreement on uncapping call: {agree}/{n}"
             + (f" ({agree / n:.0%})**" if n else "** (no real cases run)"),
             f"- **MISSED UNCAPS (zero-tolerance): {len(missed)}**"
@@ -176,6 +198,22 @@ def main() -> int:
                              f"confidence={v.get('confidence')}")
                 lines.append(f"- file note: {v.get('file_note', '')}")
             lines.append("")
+        if args.repeat > 1:
+            from collections import defaultdict
+            byc = defaultdict(list)
+            for r in records:
+                base = r["case_id"].split("#r")[0]
+                byc[base].append(None if "parse_failure" in r
+                                 else r["score"]["agree_uncapping"])
+            unstable = {k: v for k, v in byc.items() if len(set(map(str, v))) > 1}
+            lines += ["", f"## Stability across {args.repeat} runs", "",
+                      f"- Cases with IDENTICAL outcome every run: "
+                      f"{len(byc) - len(unstable)}/{len(byc)}",
+                      f"- **FLAPPING cases (outcome changed between runs): "
+                      f"{len(unstable)}**"
+                      + (f" — {', '.join(sorted(unstable))}" if unstable else " ✓"),
+                      "", "A flapping case is not evidence about the model's accuracy; "
+                      "it is evidence that one run cannot measure it.", ""]
         report = results_dir / f"backtest-{ts}-report.md"
         report.write_text("\n".join(lines))
         print(f"\nReport: {report}")

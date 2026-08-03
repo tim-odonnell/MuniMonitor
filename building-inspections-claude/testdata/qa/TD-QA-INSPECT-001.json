@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-INSPECT-001",
+  "task": "qa",
+  "area": "inspections",
+  "synthetic": true,
+  "question": "At what stages of construction must a homeowner schedule inspections, and what happens if work is covered before inspection?",
+  "expect": {
+    "must_cite": [
+      "mcl-act-230|part 4|part 5|inspect"
+    ],
+    "must_include": [
+      "inspect"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Covered-work is a real and expensive citizen problem."
+}

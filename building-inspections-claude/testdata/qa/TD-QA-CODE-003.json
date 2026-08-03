@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CODE-003",
+  "task": "qa",
+  "area": "code_applicability",
+  "synthetic": true,
+  "question": "A resident is building a deck. What guard and stair requirements apply?",
+  "expect": {
+    "must_cite": [
+      "part 5|deck|guard"
+    ],
+    "must_include": [
+      "guard|stair|deck"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Corpus has deck (17) / guard (11) / riser (12) hits via the Michigan amendments \u2014 answerable, unlike un-amended IRC sections."
+}

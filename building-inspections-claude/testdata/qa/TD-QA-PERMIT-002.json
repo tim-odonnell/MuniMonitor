@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-PERMIT-002",
+  "task": "qa",
+  "area": "permits",
+  "synthetic": true,
+  "question": "A resident is replacing their water heater. Do they need a plumbing or mechanical permit, and who may do the work?",
+  "expect": {
+    "must_cite": [
+      "part 7|plumbing|part 9a|mechanical|act-407"
+    ],
+    "must_include": [
+      "permit"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Trades-permit question spanning Part 7/9A plus PA 407 licensing."
+}

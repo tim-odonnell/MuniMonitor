@@ -1,0 +1,11 @@
+{
+  "case_id": "TD-OTHER-006",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Two limited liability companies under identical common ownership and control transferred a commercial parcel between themselves as part of an internal reorganization. No change in ultimate beneficial ownership.",
+  "expected": {
+    "uncapping": false,
+    "exception": "other",
+    "notes": "27a(7)(m) \u2014 transfers among commonly controlled legal entities. Note the 45-day proof requirement on STC request."
+  }
+}

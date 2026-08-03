@@ -1,0 +1,20 @@
+{
+  "case_id": "TD-QA-REFUSE-002",
+  "task": "qa",
+  "area": "honest_refusal",
+  "synthetic": true,
+  "question": "What is the cost-schedule multiplier and depreciation table I should apply to a 1978 ranch-style dwelling in average condition?",
+  "expect": {
+    "must_cite": [],
+    "must_include": [
+      "not|no\\s|cannot|unable|do not|outside|volume"
+    ],
+    "must_not_include": [
+      "multiplier (is|of)\\s*\\d",
+      "depreciation (is|of|factor)\\s*\\d",
+      "apply a multiplier of\\s*\\d"
+    ],
+    "honest_refusal": true
+  },
+  "notes": "STC Assessor's Manual Volumes I and II (cost schedules) were DELIBERATELY excluded from this corpus \u2014 tables retrieve poorly. Must decline. This is the highest-value refusal probe in the set."
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-INSPECT-002",
+  "task": "qa",
+  "area": "inspections",
+  "synthetic": true,
+  "question": "A resident's project failed inspection. How do they appeal the inspector's determination?",
+  "expect": {
+    "must_cite": [
+      "mcl-act-230|appeal|board"
+    ],
+    "must_include": [
+      "appeal|board"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "Appeal route for a citizen who disagrees with an inspector."
+}

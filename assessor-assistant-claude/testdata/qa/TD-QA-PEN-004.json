@@ -1,0 +1,20 @@
+{
+  "case_id": "TD-QA-PEN-004",
+  "task": "qa",
+  "area": "penalties_filing",
+  "synthetic": true,
+  "question": "Can our office waive the late-filing penalty for a taxpayer who had a good reason for filing late?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-27b|211\\.27b"
+    ],
+    "must_include": [
+      "governing body|resolution"
+    ],
+    "must_not_include": [
+      "the assessor (may|can) waive|you (may|can) waive|at your discretion"
+    ],
+    "honest_refusal": false
+  },
+  "notes": "IMPORTANT \u2014 27b(5) puts waiver in the governing body's hands by resolution, not the assessor's discretion. Tests the authority-hierarchy rule: office practice must never be presented as a legal power the assessor has."
+}

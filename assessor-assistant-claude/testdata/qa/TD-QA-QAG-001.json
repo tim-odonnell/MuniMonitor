@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-QAG-001",
+  "task": "qa",
+  "area": "qualified_agricultural",
+  "synthetic": true,
+  "question": "What qualifies property as qualified agricultural property for exemption from certain school operating taxes?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-7ee|211\\.7ee"
+    ],
+    "must_include": [
+      "agricultur"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "MCL 211.7ee \u2014 pairs with the 27a(7)(o) transfer exception already tested."
+}
