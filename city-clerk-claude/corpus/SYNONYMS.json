@@ -1,0 +1,248 @@
+{
+  "_README": [
+    "Colloquial -> statutory query expansion for the City Clerk assistant.",
+    "",
+    "WHY THIS EXISTS. Residents do not use statutory vocabulary. Measured 2026-08-03:",
+    "asking 'right to address the public body at a meeting' retrieved MCL 15.263(5) at",
+    "rank 1; asking 'right to speak at a city council meeting' retrieved it at rank 10.",
+    "Asking 'how long does the city have to respond to my FOIA request' put the",
+    "response-clock chunk at rank 19. Citizen phrasing is the phrasing staff actually",
+    "hear at the counter, so retrieval must work in that register.",
+    "",
+    "HOW IT WORKS. When a key phrase appears in the question, its statutory terms are",
+    "appended to the query token list before BM25 scoring. The original words are kept \u2014",
+    "this only ADDS signal, it never replaces the resident's wording.",
+    "",
+    "MAINTENANCE. Add a key whenever staff notice a question the assistant answers",
+    "poorly in plain language but well in statutory language. Keys are matched as",
+    "lowercase substrings of the question. Keep values to terms that genuinely appear",
+    "in the corpus \u2014 expanding to words the statutes do not use adds noise, not recall.",
+    "",
+    "GOTCHA: a bare 'how long' key is ambiguous \u2014 it appears in BOTH 'how long to respond' (FOIA clock) and 'how long must you keep' (retention), and expanding both ways poisoned the retention question with FOIA vocabulary. Keys must be specific enough to disambiguate intent."
+  ],
+  "speak at": [
+    "address",
+    "public",
+    "body",
+    "meeting",
+    "rules"
+  ],
+  "talk at": [
+    "address",
+    "public",
+    "body",
+    "meeting"
+  ],
+  "public comment": [
+    "address",
+    "public",
+    "body",
+    "rules",
+    "recorded"
+  ],
+  "have my say": [
+    "address",
+    "public",
+    "body",
+    "meeting"
+  ],
+  "respond": [
+    "written",
+    "notice",
+    "grant",
+    "deny",
+    "business",
+    "days",
+    "receipt"
+  ],
+  "response time": [
+    "business",
+    "days",
+    "written",
+    "notice",
+    "receipt"
+  ],
+  "get back to me": [
+    "written",
+    "notice",
+    "business",
+    "days"
+  ],
+  "records request": [
+    "public",
+    "record",
+    "freedom",
+    "information",
+    "written",
+    "request"
+  ],
+  "open records": [
+    "public",
+    "record",
+    "freedom",
+    "information"
+  ],
+  "copies of": [
+    "public",
+    "record",
+    "inspect",
+    "copy",
+    "written",
+    "request"
+  ],
+  "foia": [
+    "public",
+    "record",
+    "freedom",
+    "information",
+    "written",
+    "request"
+  ],
+  "run for office": [
+    "nominating",
+    "petition",
+    "affidavit",
+    "identity",
+    "filing",
+    "candidate",
+    "qualifying"
+  ],
+  "get on the ballot": [
+    "nominating",
+    "petition",
+    "affidavit",
+    "identity",
+    "filing",
+    "candidate"
+  ],
+  "become a candidate": [
+    "nominating",
+    "petition",
+    "affidavit",
+    "identity",
+    "candidate"
+  ],
+  "city council ballot": [
+    "nominating",
+    "petition",
+    "affidavit",
+    "candidate",
+    "office"
+  ],
+  "register to vote": [
+    "registration",
+    "elector",
+    "qualified",
+    "application",
+    "clerk"
+  ],
+  "sign up to vote": [
+    "registration",
+    "elector",
+    "qualified",
+    "application"
+  ],
+  "vote by mail": [
+    "absent",
+    "voter",
+    "ballot",
+    "application"
+  ],
+  "mail in ballot": [
+    "absent",
+    "voter",
+    "ballot",
+    "application"
+  ],
+  "early voting": [
+    "absent",
+    "voter",
+    "ballot",
+    "early"
+  ],
+  "closed door": [
+    "closed",
+    "session",
+    "purposes"
+  ],
+  "behind closed doors": [
+    "closed",
+    "session",
+    "purposes"
+  ],
+  "secret meeting": [
+    "closed",
+    "session",
+    "notice",
+    "public"
+  ],
+  "how long do you keep": [
+    "retention",
+    "schedule",
+    "disposal",
+    "record"
+  ],
+  "throw away": [
+    "retention",
+    "disposal",
+    "destroy",
+    "schedule"
+  ],
+  "appeal": [
+    "appeal",
+    "denial",
+    "written",
+    "circuit",
+    "court"
+  ],
+  "turned down": [
+    "denial",
+    "deny",
+    "appeal",
+    "written"
+  ],
+  "denied": [
+    "denial",
+    "deny",
+    "appeal",
+    "written"
+  ],
+  "cost": [
+    "fee",
+    "charge",
+    "labor",
+    "duplication",
+    "deposit"
+  ],
+  "charge me": [
+    "fee",
+    "charge",
+    "labor",
+    "duplication"
+  ],
+  "how much": [
+    "fee",
+    "charge",
+    "labor",
+    "duplication",
+    "deposit"
+  ],
+  "how long does": [
+    "business",
+    "days",
+    "notice",
+    "receipt"
+  ],
+  "long do you have": [
+    "business",
+    "days",
+    "notice",
+    "receipt"
+  ],
+  "how long must": [
+    "retention",
+    "schedule",
+    "disposal",
+    "record"
+  ]
+}

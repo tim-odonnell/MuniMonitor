@@ -98,7 +98,8 @@ _DENIAL = re.compile(
     # Redirects are refusals too: "You'll need to consult the clerk's files to
     # determine whether X is currently registered" asserts nothing.
     r"you('ll| will| should| may| must| need)|consult|contact|refer to|check with|"
-    r"verify with|reach out)\b", re.I)
+    r"verify with|reach out|none of|no information|not in (the|my)|"
+    r"don't (have|contain)|lack)\b", re.I)
 
 
 def strip_denials(text: str) -> str:
@@ -119,9 +120,12 @@ def score_answer(case: dict, answer: str) -> dict:
     # Only count a fabrication if it survives outside a denial sentence.
     fabricated = _hits(must_not, strip_denials(answer))
 
-    # A refusal case passes on the refusal axis when the answer signals it cannot
-    # answer from the corpus AND does not assert a concrete value it invented.
-    declined = bool(_hits(must_inc, answer)) if wants_refusal else None
+    # Refusal detection uses the SAME denial regex as strip_denials, not a
+    # hand-written word list. Two definitions of "this is a refusal" drift apart:
+    # a model that answered "none of the reference documents contain any
+    # information about that" was scored as a FAILURE because the list happened to
+    # contain "do not" and not "none of". One definition, used both ways.
+    declined = bool(_DENIAL.search(answer)) if wants_refusal else None
 
     # EMPTY is its own failure class, not a wrong answer. gpt-oss can ruminate in
     # the reasoning channel until it exhausts max_tokens and emits no content at
@@ -130,7 +134,14 @@ def score_answer(case: dict, answer: str) -> dict:
     # reported distinctly rather than buried in "FAIL".
     empty = not (answer or "").strip()
 
-    ok = (not empty) and (not missing_cites) and (not missing_inc) and (not fabricated)
+    if wants_refusal:
+        # A refusal case is judged ONLY on: did it decline, and did it avoid
+        # asserting something invented. Content patterns do not apply — there is
+        # no content to require when the honest answer is "I don't know".
+        ok = (not empty) and bool(declined) and (not fabricated)
+    else:
+        ok = (not empty) and (not missing_cites) and (not missing_inc) \
+            and (not fabricated)
     return {
         "pass": ok,
         "empty": empty,

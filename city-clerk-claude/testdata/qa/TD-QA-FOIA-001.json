@@ -9,10 +9,10 @@
       "act-442|foia|15\\.23"
     ],
     "must_include": [
-      "5|five"
+      "5\\s*business\\s*days|five\\s*business\\s*days"
     ],
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "The FOIA response clock is the office's most-quoted number. Verified answerable from the act. [REVISED: must_cite now tolerates hyphen-vs-space in chunk IDs (election-law, open-meetings) and real MCL numbering (168.x, 15.2x). The original patterns assumed spaces the filenames don't have.]"
+  "notes": "The FOIA response clock is the office's most-quoted number. Verified answerable from the act. [REVISED: must_cite now tolerates hyphen-vs-space in chunk IDs (election-law, open-meetings) and real MCL numbering (168.x, 15.2x). The original patterns assumed spaces the filenames don't have.] [REVISED: must_include was '5|five', which matches any digit 5 anywhere in the retrieved text (chunk numbers, 15.243). The answerability gate passed spuriously while the model failed 3/3. Now requires the actual '5 business days'.]"
 }
