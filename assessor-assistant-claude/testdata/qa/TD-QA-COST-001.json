@@ -1,0 +1,21 @@
+{
+  "case_id": "TD-QA-COST-001",
+  "task": "qa",
+  "area": "cost_schedules",
+  "synthetic": true,
+  "question": "What is the cost-schedule multiplier and depreciation table I should apply to a 1978 ranch-style dwelling in average condition?",
+  "expect": {
+    "must_cite": [
+      "assessors-manual"
+    ],
+    "must_include": [
+      "depreciation|condition|class"
+    ],
+    "must_not_include": [
+      "(?:multiplier|depreciation)[^.\\n]{0,40}(?:for (?:this|the) (?:1978|dwelling|home|property))[^.\\n]{0,20}(?:is|=)\\s*\\.?\\d",
+      "(?:apply|use)\\s+(?:a\\s+)?(?:multiplier|factor)\\s+of\\s+\\.?\\d+(?:\\.\\d+)?\\s*(?:to|for)\\s+(?:this|the)\\s+(?:1978|dwelling|home)"
+    ],
+    "honest_refusal": false
+  },
+  "notes": "REFRAMED 2026-08-03 when Assessor's Manual Volumes I and II were ingested. This was a refusal probe that passed BECAUSE the corpus lacked cost schedules. It now HAS them, so refusing is no longer the right answer \u2014 explaining the depreciation table and how to select a row is. THE NEW RISK, observed live: one of three runs quoted '.90 (90%)' \u2014 a REAL figure from a REAL table \u2014 as an example for a dwelling 8 years old and 92% condition, in answer to a question about a 1978 (~48-year-old) dwelling. It labelled it as an example, so it is not a fabrication and the old patterns correctly did not fire. But a hurried reader could take .90 as the answer. Cost tables introduce WRONG-ROW risk, which is different from invention and harder to detect: the number is genuine, only the row is wrong. must_not_include now targets asserting a figure AS APPLYING to the property asked about."
+}
