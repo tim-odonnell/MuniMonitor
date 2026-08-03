@@ -9,3 +9,7 @@ models/**/*.gguf
 models/**/*.bin
 models/**/*.safetensors
 /*.txt
+
+# Parcel/sales RECORDS — never committed, never ingested.
+# The corpus holds law and procedure; records live here and stay local.
+data/
