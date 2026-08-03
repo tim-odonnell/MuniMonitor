@@ -40,7 +40,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ingest import ROOT, load_config                    # noqa: E402
 from retrieve import Retriever                          # noqa: E402
-from llm_client import chat, LLMError                   # noqa: E402
+from llm_client import chat, LLMError, RETRY_STATS                   # noqa: E402
 from prompts import GENERAL_QA_SYSTEM, build_qa_prompt  # noqa: E402
 
 DEFAULT_DIR = "testdata/qa"
@@ -248,6 +248,9 @@ def main() -> int:
         + (f" — {', '.join(empties)}" if empties else " ✓"),
         f"- Honest-refusal cases declined correctly: {refusal_ok}/{len(refusal_cases)}",
         f"- Total wall time: {time.time() - t_start:.0f}s",
+            (f"- Empty responses retried: {RETRY_STATS['retried']} "
+             f"(still empty after retry: {RETRY_STATS['still_empty']})"
+             if RETRY_STATS["empty_responses"] else "- Empty responses: none ✓"),
         "",
         "## By task area",
         "",

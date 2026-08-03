@@ -19,9 +19,14 @@ class LLMError(RuntimeError):
     pass
 
 
-def chat(messages: list[dict], cfg: dict | None = None) -> str:
-    """Send a chat completion request; return the assistant message content."""
-    llm = (cfg or load_config())["llm"]
+# Empty responses are counted, not hidden. A retry that silently papers over a
+# 6% failure rate would make the system look healthier than it is; harnesses read
+# these so a report can say how often the model had to be asked twice.
+RETRY_STATS = {"calls": 0, "empty_responses": 0, "retried": 0, "still_empty": 0}
+
+
+def _once(llm: dict, messages: list[dict]) -> str:
+    """One request. Returns content, which may legitimately be empty."""
     url = llm["base_url"].rstrip("/") + "/chat/completions"
     body = json.dumps({
         "model": llm["model"],
@@ -48,9 +53,52 @@ def chat(messages: list[dict], cfg: dict | None = None) -> str:
             f"Cannot reach LLM at {url} — is llama-server running? ({e})"
         ) from e
     try:
-        return data["choices"][0]["message"]["content"]
+        return data["choices"][0]["message"]["content"] or ""
     except (KeyError, IndexError) as e:
         raise LLMError(f"Unexpected response shape: {json.dumps(data)[:500]}") from e
+
+
+def chat(messages: list[dict], cfg: dict | None = None) -> str:
+    """Send a chat completion request; return the assistant message content.
+
+    RETRIES ON AN EMPTY RESPONSE. gpt-oss-20b returns zero characters of content
+    on roughly 6% of PTA triage calls — it spends its budget in the reasoning
+    channel and emits nothing. See docs/benchmarks/2026-08-03-empty-output-
+    investigation.md: the cause is still unknown, and max_tokens, context size and
+    reasoning_effort were each ruled out by measurement.
+
+    This is MITIGATION, not a fix. The failure looks intermittent and independent,
+    so one retry should take the user-visible rate to roughly its square (~0.3%).
+    On the CPU deployment target an empty answer costs the user ~20 minutes of
+    waiting, so a retry is worth its cost there more than anywhere.
+
+    Retries are COUNTED in RETRY_STATS so reports can show how often the model had
+    to be asked twice. Hiding that would make the system look healthier than it is.
+    """
+    llm = (cfg or load_config())["llm"]
+    attempts = max(0, int(llm.get("retry_on_empty", 1))) + 1
+    RETRY_STATS["calls"] += 1
+
+    # A retry only helps because sampling makes the next attempt different. At
+    # temperature 0 generation is deterministic, so re-asking returns the same
+    # empty response — warn rather than burn the time.
+    temp = llm.get("temperature", 0.2)
+    if attempts > 1 and temp == 0:
+        print("WARN: retry_on_empty is set but temperature is 0 — a retry is "
+              "deterministic and cannot produce a different result.", file=sys.stderr)
+        attempts = 1
+
+    for attempt in range(1, attempts + 1):
+        content = _once(llm, messages)
+        if content.strip():
+            return content
+        RETRY_STATS["empty_responses"] += 1
+        if attempt < attempts:
+            RETRY_STATS["retried"] += 1
+            print(f"WARN: model returned an EMPTY response — retrying "
+                  f"({attempt}/{attempts - 1})", file=sys.stderr)
+    RETRY_STATS["still_empty"] += 1
+    return ""
 
 
 def extract_json(text: str) -> dict:

@@ -27,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ingest import ROOT, load_config          # noqa: E402
 from retrieve import Retriever                # noqa: E402
-from llm_client import chat, extract_json, normalize_verdict, LLMError  # noqa: E402
+from llm_client import chat, extract_json, normalize_verdict, LLMError, RETRY_STATS  # noqa: E402
 from prompts import PTA_TRIAGE_SYSTEM, build_user_prompt, triage_context  # noqa: E402
 from citations import validate_citations  # noqa: E402
 
@@ -191,6 +191,9 @@ def main() -> int:
             + (f" — {'; '.join(f'{c}: {u}' for c, u in ungrounded)}" if ungrounded else " ✓"),
             f"- Parse failures: {', '.join(parse_fails) if parse_fails else 'none'}",
             f"- Total wall time: {time.time() - t_start:.0f}s",
+            (f"- Empty responses retried: {RETRY_STATS['retried']} "
+             f"(still empty after retry: {RETRY_STATS['still_empty']})"
+             if RETRY_STATS["empty_responses"] else "- Empty responses: none ✓"),
             "",
             "## Per-case detail",
             "",

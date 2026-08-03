@@ -53,7 +53,9 @@ class Retriever:
         """
         terms = tokenize(query)
         low = query.lower()
-        for phrase, extra in self.synonyms.items():
+        # getattr: a Retriever built via __new__ (as the unit tests do)
+        # has no synonyms attribute, and expansion is optional anyway.
+        for phrase, extra in getattr(self, "synonyms", {}).items():
             if phrase in low:
                 terms.extend(t.lower() for t in extra)
         return terms
@@ -162,8 +164,9 @@ class Retriever:
             if score > 0:
                 scored.append((score, ch))
         scored.sort(key=lambda pair: pair[0], reverse=True)
-        scored = self._reorder_by_doc_cap(scored, self.max_per_doc)
-        selected = self._apply_authority_floor(scored, k, self.min_law, self.law_ratio)
+        scored = self._reorder_by_doc_cap(scored, getattr(self, "max_per_doc", 0))
+        selected = self._apply_authority_floor(scored, k, getattr(self, "min_law", 0),
+                                           getattr(self, "law_ratio", 0.5))
         return [
             {
                 "id": ch["id"],
