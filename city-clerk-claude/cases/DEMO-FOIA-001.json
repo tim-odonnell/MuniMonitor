@@ -1,0 +1,11 @@
+{
+  "case_id": "DEMO-FOIA-001",
+  "task": "foia_triage",
+  "synthetic": true,
+  "request_text": "Under FOIA I request copies of the city council meeting minutes and agendas for January through March of this year.",
+  "expected": {
+    "category": "minutes_agendas",
+    "needs_attorney_review": false,
+    "notes": "Routine public-record request \u2014 minutes/agendas are quintessentially public; no exemption issues."
+  }
+}

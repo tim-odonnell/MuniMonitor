@@ -1,0 +1,11 @@
+{
+  "case_id": "DEMO-PTA-002",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Quit claim deed recorded conveying a residential homestead parcel from Robert Owner to Robert Owner and Maria Owner, husband and wife, as tenants by the entireties. No consideration stated. The couple continues to occupy the home as their principal residence. PTA filed within 45 days.",
+  "expected": {
+    "uncapping": false,
+    "exception": "spouse",
+    "notes": "Transfer creating a tenancy by the entireties between spouses — commonly excepted from uncapping; no change in use or occupancy."
+  }
+}

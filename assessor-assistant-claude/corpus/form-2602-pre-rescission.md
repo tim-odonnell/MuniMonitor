@@ -1,0 +1,135 @@
+AUTHORITY: STATE-GUIDANCE
+
+# Form 2602 — Request to Rescind Principal Residence Exemption (with instructions)
+
+> Source PDF: ../source-pdfs/form-2602-pre-rescission.pdf (downloaded 2026-07-08 from michigan.gov).
+> Text extracted with pdftotext. VERIFY tables/formatting against the PDF.
+
+                                                                                                                                                                            Reset Form
+Michigan Department of Treasury
+2602 (Rev. 04-19)
+                                                                                                                                                                       ASSESSOR’S DATE STAMP
+
+Request to Rescind Principal Residence Exemption (PRE)
+Issued under authority of Public Act 206 of 1893.
+This form must be filed with the assessor for the city or township where the property is located.
+This address may be on your most recent tax bill or assessment notice. For more information regarding the
+PRE, please review the PRE guidelines at www.michigan.gov/pre.
+Type or print in blue or black ink.
+ PART 1: PROPERTY INFORMATION Type or print legibly. Use a separate form for each property tax identification number.
+ 1. Property Tax Identification Number                                                                   2. Name of Local Unit (Check Township or City) 3. County
+                                                                                                              Township
+                                                                                                              City
+ 4. Street Address of Property (Provide a Complete Address)
+
+
+
+ 5. Name of Owner (First, Middle, Last)                                             6. Owner’s Last Four Digits of Social Security Number                7. Owner’s Daytime Telephone Number
+
+                                                                                       XXX-XX-
+ 8. Name of Co-Owner (First, Middle, Last)                                          9. Co-Owner’s Last Four Digits of Social Security Number             10. Co-Owner’s Daytime Telephone Number
+
+                                                                                       XXX-XX-
+
+ PART 2: RESCIND INFORMATION
+11. I am rescinding the Principal Residence Exemption claimed for this property because (check appropriate box(es) below):
+
+              a. I am no longer the owner of the property.
+
+              b. I own the property, but I no longer occupy the property as my principal residence.
+
+              c. I have converted the property to rental property.
+
+              d. I have converted the property to commercial property.
+
+              e. Other:
+
+12. If the portion of the property in line 1 that you own and occupy as your principal residence has changed,
+    enter the new percentage here. ...................................................................................................................... 12.                                %
+
+13. Effective date of the change listed in either 11 or 12. .................................................................................... 13.
+                                                                                                                                                                   Month      Day     Year
+14. This rescission applies to:
+
+              a. Owner and Co-owner as listed in boxes 5 and 8 above.
+
+              b. Owner only, as listed in box 5 above.
+
+              c. Co-owner only, as listed in box 8 above.
+
+ 15a. New Owner's Name                                                                                     15b. New Co-Owner's Name
+
+
+
+ PART 3: OWNER CERTIFICATION
+ Certification: I certify under penalty of perjury the information contained on this document is true and correct to the best of my knowledge.
+16. Owner's Signature/Representative                                                                                                                            Date
+
+
+
+17. Co-Owner's Signature/Representative                                                                                                                         Date
+
+
+
+18. Mailing Address, if Different than Property Address Above
+
+
+
+ PART 4: ASSESSOR’S CERTIFICATION — FOR LOCAL GOVERNMENT USE ONLY
+ Certification: I certify, the Request to Rescind, was properly processed and the PRE was removed                                           What is the first year this change
+                                                                                                                                            will be posted to the tax roll
+ and/or adjusted accordingly.
+                                                                                                                                            (yyyy)?
+ Assessor’s Signature                                                                                                                       Date Certified by Assessor (mm/dd/yyyy)
+2602, Page 2
+
+                                      Instructions for Form 2602
+                          Request to Rescind Principal Residence Exemption
+General Instructions
+This form enables people who are selling or converting their home to another use to rescind their exemption. It also enables people to
+change the percentage that they occupy as their principal residence.
+INTEREST AND PENALTY. If it is determined that you claimed property that is not your principal residence, you may be subject to
+the additional tax plus penalty and interest as determined under the Property Tax Act.
+                                                     Line-by-Line Instructions
+                                             Lines not listed here are explained on the form.
+PART 1: PROPERTY INFORMATION
+Line 1: Property is identified with a property tax identification number. This number will be found on your tax bill and on your property
+tax assessment notice. Enter this number in the space indicated. If you cannot find this number, call your township or city assessor.
+Submit a separate Form 2602 for each exemption being rescinded. Your property number is vital; without it, your township or city
+cannot adjust your property taxes accurately.
+Lines 2-4: Enter the complete property address of the exemption you are rescinding. Check the appropriate box for the city or township.
+If you live in a village, list the township in which the principal residence is located.
+Lines 5-10: Enter the name, the last four digits of the Social Security Number(s) and the daytime telephone number of the legal owner(s).
+NOTE: The request for the last four digits of the Social Security Number is authorized under section 42 USC 405 (c) (2) (C) (i).
+PART 2: RESCIND INFORMATION
+Change an Existing Exemption
+You are required to rescind a principal residence exemption when you no longer own and occupy the property as your principal residence.
+The exemption will be removed December 31st of the year you rescind the exemption.
+Line 11: Check the box(es) that most accurately reflects reason you are rescinding your exemption.
+Line 12: If you own and live in a multiple-unit or multi-purpose property (e.g. a duplex or apartment building, or a storefront with
+an upstairs flat), you can claim an exemption only for the portion that you use as your principal residence. Calculate your portion by
+dividing the floor area of your principal residence by the floor area of the entire building.
+If the parcel of property you are claiming has more than one home on it, you must determine the percentage that you own and
+occupy as your principal residence. A second residence on the same property (e.g. a mobile home or second house), is not part of your
+principal residence even if it is not rented to another person. Your local assessor can tell you the assessed value of each residence to help
+you determine the percentage that is your principal residence.
+If you rent part of your home to another person, you may have to prorate your exemption. If your home is a single-family dwelling
+and the renters enter through a common door of your living area to get to their rooms, you may claim 100 percent exemption if less than
+50 percent of your home is rented to others who use it as a residence. However, if part of the home was converted to an apartment with a
+separate entrance, you must calculate the percentage that is your principal residence, by dividing the floor area of your principal residence
+by the floor area of the entire building.
+Line 13: Enter the date that the change(s) indicated on lines 11 and 12 above became effective.
+Line 14: Select the appropriate box.
+Line 15: If this rescission is being done because of a change in ownership, list the new owner and, if applicable, co-owner on the
+appropriate lines.
+PART 3: OWNER CERTIFICATION
+Sign and date the form. Enter your mailing address if it is different from the address on line 4.
+PART 4: ASSESSOR’S CERTIFICATION — FOR LOCAL GOVERNMENT USE ONLY
+This form is not valid unless certified by an assessor. The assessor must properly process the form and remove and/or adjust the Principal
+Residence Exemption, accordingly.
+Mailing Information
+Mail your completed form to the township or city assessor in which the property is located. This address may be on your most recent tax
+bill or assessment notice. Do not send this form directly to the Department of Treasury.
+If you have any questions contact your local assessor or the PRE Unit of the Michigan Department of Treasury at 517-335-7487, or visit
+www.michigan.gov/PRE.
+

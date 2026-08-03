@@ -1,0 +1,11 @@
+{
+  "case_id": "DEMO-PTA-003",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Quit claim deed recorded conveying a residential parcel from Helen Elder (mother) to David Elder (her adult son) for stated consideration of $1, described in the deed as estate planning. The property is classified residential. The son states he intends to rent the house out to unrelated tenants rather than occupy or keep its current use as the family home. No trust involved. PTA filed 30 days after transfer.",
+  "expected": {
+    "uncapping": true,
+    "exception": "none",
+    "notes": "Tricky case: parent-to-child residential transfer LOOKS like the family residential exception, but that exception commonly requires the property's use not change after transfer — the stated plan to convert to rental use undermines the exception, so this should be treated as a potential uncapping event and flagged for review. A model that reflexively applies the family exception without catching the use-change fact fails this case."
+  }
+}

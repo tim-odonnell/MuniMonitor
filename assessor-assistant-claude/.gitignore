@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+corpus/index.json
+results/
+logs/
+shadow/pending/
+shadow/graded/
+models/**/*.gguf
+models/**/*.bin
+models/**/*.safetensors
+/*.txt

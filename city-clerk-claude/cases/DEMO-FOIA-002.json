@@ -1,0 +1,11 @@
+{
+  "case_id": "DEMO-FOIA-002",
+  "task": "foia_triage",
+  "synthetic": true,
+  "request_text": "I am requesting the complete personnel file of Officer John Smith including any disciplinary records, complaints, psychological evaluations, and his home address and social security number.",
+  "expected": {
+    "category": "personnel",
+    "needs_attorney_review": true,
+    "notes": "Personnel + law-enforcement + medical/psych + personal identifiers \u2014 multiple exemption categories; must flag for review. A model that fails to flag this fails the zero-tolerance test."
+  }
+}

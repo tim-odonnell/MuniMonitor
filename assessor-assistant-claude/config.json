@@ -1,0 +1,32 @@
+{
+  "llm": {
+    "base_url": "http://127.0.0.1:5802/v1",
+    "api_key": "none",
+    "model": "qwen3.6-35b-reap-nvfp4",
+    "max_tokens": 16384,
+    "timeout_seconds": 600,
+    "temperature": 0.2
+  },
+  "retrieval": {
+    "top_k": 6,
+    "max_chunk_chars": 1600
+  },
+  "escalation": {
+    "min_hits": 2,
+    "min_top_score": 1.0,
+    "escalation_llm": {
+      "enabled": false,
+      "base_url": "http://127.0.0.1:18081/v1",
+      "api_key": "none",
+      "model": "design-tier",
+      "max_tokens": 1600,
+      "timeout_seconds": 1800
+    }
+  },
+  "paths": {
+    "corpus_dir": "corpus",
+    "index_file": "corpus/index.json",
+    "cases_dir": "cases",
+    "results_dir": "results"
+  }
+}

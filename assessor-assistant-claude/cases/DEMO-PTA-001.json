@@ -1,0 +1,11 @@
+{
+  "case_id": "DEMO-PTA-001",
+  "task": "pta_triage",
+  "synthetic": true,
+  "facts": "Warranty deed recorded conveying a single-family residential parcel from seller John Q. Public to buyer Jane R. Purchaser, unrelated parties, arm's-length sale through a realtor, stated consideration $285,000. PTA (Form L-4260) filed by the buyer 20 days after closing. No trust, no family relationship between the parties.",
+  "expected": {
+    "uncapping": true,
+    "exception": "none",
+    "notes": "Classic arm's-length sale — clear transfer of ownership, no exception category applies; taxable value uncaps to SEV the following year."
+  }
+}

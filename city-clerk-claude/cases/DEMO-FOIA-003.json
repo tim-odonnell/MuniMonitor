@@ -1,0 +1,11 @@
+{
+  "case_id": "DEMO-FOIA-003",
+  "task": "foia_triage",
+  "synthetic": true,
+  "request_text": "Please provide all emails, texts, and notes between any city official and anyone else mentioning the Riverside development project since 2020.",
+  "expected": {
+    "category": "correspondence_email",
+    "needs_attorney_review": true,
+    "notes": "Tricky: looks routine but is overbroad (clarification needed) AND plausibly sweeps in attorney-client material and pending-litigation records about a development dispute \u2014 flag + clarify, not process blindly."
+  }
+}

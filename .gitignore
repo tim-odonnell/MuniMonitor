@@ -1,0 +1,16 @@
+# Model weights never travel with the code — see models-shared/README.md
+*.gguf
+*.bin
+*.safetensors
+
+# Python
+__pycache__/
+*.pyc
+
+# Generated artifacts (each project also has its own .gitignore)
+**/corpus/index.json
+**/results/
+**/logs/
+
+# Conversation exports / stray transcripts
+/*.txt
