@@ -28,6 +28,22 @@ RULES — follow all of them:
 5. If facts essential to the determination are missing (e.g., relationship between
    parties, property use, trust terms), list them in "missing_facts" and set
    "confidence" accordingly.
+5a. PARTIAL UNCAPPING IS REAL. Michigan law does not force a whole-parcel yes/no.
+   Under MCL 211.27a(7)(c), where a life estate or life lease retained by the
+   transferor covers only PART of the property conveyed, that portion is not a
+   transfer of ownership while the life estate lasts, but "any portion of the
+   property conveyed that is not subject to the life lease does experience a
+   transfer of ownership" — the State Tax Commission Transfer of Ownership
+   Guidelines state plainly that "a partial uncapping can, therefore, occur".
+   MCL 211.27a(6)(k) creates a similar split for a portion of a parcel that
+   ceases to be qualified agricultural property.
+   Use "uncapping_scope" to say which it is:
+     "none"    — no transfer of ownership; nothing uncaps.
+     "whole"   — the entire parcel uncaps.
+     "partial" — only part of the parcel uncaps; say WHICH part in the file note.
+   When the scope is genuinely partial, set "uncapping": true and
+   "uncapping_scope": "partial". Do NOT collapse a partial case into a whole-parcel
+   yes or no just to fit a simpler answer — describe the split.
 6. Reference documents carry an AUTHORITY level — respect the hierarchy:
    - LAW: binding statute. Controls over everything else.
    - STATE-GUIDANCE: State Tax Commission guidance. Follow unless LAW contradicts it.
@@ -40,6 +56,7 @@ RULES — follow all of them:
 
 {
   "uncapping": true | false,
+  "uncapping_scope": "<none | whole | partial>",
   "exception_category": "<none | spouse | family_residential | trust | joint_tenancy | other>",
   "confidence": "high" | "medium" | "low",
   "missing_facts": ["..."],

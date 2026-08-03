@@ -117,6 +117,14 @@ def normalize_verdict(v: dict) -> dict:
         out["exception_raw"] = v.get("exception_category")
         exc = "other"
     out["exception_category"] = exc
+    # Scope: Michigan law allows a PARTIAL uncapping (MCL 211.27a(7)(c) life
+    # estates over part of a parcel; 27a(6)(k) qualified-agricultural splits).
+    # Older cases and older model outputs have no scope field, so infer a
+    # backward-compatible default from the boolean rather than failing.
+    scope = str(v.get("uncapping_scope", "")).strip().casefold()
+    if scope not in ("none", "whole", "partial"):
+        scope = "whole" if out["uncapping"] else "none"
+    out["uncapping_scope"] = scope
     conf = str(v.get("confidence", "")).strip().casefold()
     out["confidence"] = conf if conf in ("high", "medium", "low") else "low"
     mf = v.get("missing_facts") or []

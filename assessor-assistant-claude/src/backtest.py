@@ -50,7 +50,12 @@ def score_case(case: dict, verdict: dict) -> dict:
     exp = case["expected"]
     got_uncap = verdict["uncapping"]
     exp_uncap = bool(exp["uncapping"])
+    # Scope is only scored when the case declares one, so the 28 cases written
+    # before partial uncapping existed are unaffected.
+    exp_scope = str(exp.get("scope", "")).strip().casefold() or None
     return {
+        "agree_scope": (None if exp_scope is None
+                        else verdict.get("uncapping_scope") == exp_scope),
         "agree_uncapping": got_uncap == exp_uncap,
         "missed_uncap": exp_uncap and not got_uncap,
         "false_uncap": (not exp_uncap) and got_uncap,
@@ -177,6 +182,11 @@ def main() -> int:
             f"- False uncaps (human-catchable): {len(false_u)}"
             + (f" — {', '.join(false_u)}" if false_u else ""),
             f"- Exception-category agreement: {exc_agree}/{n}",
+            (lambda sc: f"- Uncapping-scope agreement: {sum(1 for x in sc if x)}/{len(sc)}"
+                        + (" (cases declaring a scope)" if sc else "")
+             if sc else "- Uncapping-scope: no case declares one")(
+                [r["score"]["agree_scope"] for r in scored
+                 if r["score"].get("agree_scope") is not None]),
             f"- **Ungrounded citations in file notes: {len(ungrounded)}/{cites_checked} checked**"
             + (f" — {'; '.join(f'{c}: {u}' for c, u in ungrounded)}" if ungrounded else " ✓"),
             f"- Parse failures: {', '.join(parse_fails) if parse_fails else 'none'}",
