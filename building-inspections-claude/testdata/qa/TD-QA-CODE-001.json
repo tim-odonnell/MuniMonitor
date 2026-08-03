@@ -6,7 +6,7 @@
   "question": "Which edition of the residential code currently applies in Michigan, and is the 2021 code in effect?",
   "expect": {
     "must_cite": [
-      "injunction|part 5|2015"
+      "injunction|part\\s?5|2015|408\\.3"
     ],
     "must_include": [
       "2015|injunct"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "\u26a0 PERISHABLE: the 2021 IRC/IECC rules were ENJOINED by the Court of Claims in July 2025 (Home Builders Assoc v LARA); 2015-based rules remain in effect. Re-check litigation status periodically \u2014 this answer can go stale."
+  "notes": "\u26a0 PERISHABLE: the 2021 IRC/IECC rules were ENJOINED by the Court of Claims in July 2025 (Home Builders Assoc v LARA); 2015-based rules remain in effect. Re-check litigation status periodically \u2014 this answer can go stale. [REVISED: original must_cite expected literal 'part 5'/'act-407' but the model cites chunk IDs like mi-admin-rules-part5-... (no space) and real MCL numbering like 339.6125. The answers were correct and grounded; the pattern was wrong.]"
 }

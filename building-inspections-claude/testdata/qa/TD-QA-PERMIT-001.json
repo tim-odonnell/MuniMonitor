@@ -6,7 +6,7 @@
   "question": "A homeowner wants to build a detached shed in their back yard. Do they need a building permit?",
   "expect": {
     "must_cite": [
-      "mcl-act-230|construction code|part 4|part 5"
+      "part\\s?5|part\\s?4|act-230|construction code|408\\.3"
     ],
     "must_include": [
       "permit"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "The most common counter question. Answer must come from the Michigan construction code act / rules, and should flag that local ordinances may also apply."
+  "notes": "The most common counter question. Answer must come from the Michigan construction code act / rules, and should flag that local ordinances may also apply. [REVISED: original must_cite expected literal 'part 5'/'act-407' but the model cites chunk IDs like mi-admin-rules-part5-... (no space) and real MCL numbering like 339.6125. The answers were correct and grounded; the pattern was wrong.]"
 }

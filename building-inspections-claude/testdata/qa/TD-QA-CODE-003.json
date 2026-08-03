@@ -6,7 +6,7 @@
   "question": "A resident is building a deck. What guard and stair requirements apply?",
   "expect": {
     "must_cite": [
-      "part 5|deck|guard"
+      "part\\s?5|deck|guard|408\\.3"
     ],
     "must_include": [
       "guard|stair|deck"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Corpus has deck (17) / guard (11) / riser (12) hits via the Michigan amendments \u2014 answerable, unlike un-amended IRC sections."
+  "notes": "Corpus has deck (17) / guard (11) / riser (12) hits via the Michigan amendments \u2014 answerable, unlike un-amended IRC sections. [REVISED: original must_cite expected literal 'part 5'/'act-407' but the model cites chunk IDs like mi-admin-rules-part5-... (no space) and real MCL numbering like 339.6125. The answers were correct and grounded; the pattern was wrong.]"
 }

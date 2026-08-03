@@ -6,7 +6,7 @@
   "question": "A resident wants to know when a public body may go into closed session. What are the permitted purposes?",
   "expect": {
     "must_cite": [
-      "act-267|open meetings"
+      "act-267|open[-\\s]?meetings|act-267|15\\.26"
     ],
     "must_include": [
       "closed session"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Core OMA question; OMA violations can void council actions."
+  "notes": "Core OMA question; OMA violations can void council actions. [REVISED: must_cite now tolerates hyphen-vs-space in chunk IDs (election-law, open-meetings) and real MCL numbering (168.x, 15.2x). The original patterns assumed spaces the filenames don't have.]"
 }

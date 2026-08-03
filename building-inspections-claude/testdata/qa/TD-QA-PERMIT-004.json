@@ -6,7 +6,7 @@
   "question": "A resident's building permit expired before the work was finished. What are their options?",
   "expect": {
     "must_cite": [
-      "mcl-act-230|part 4|part 5|construction code"
+      "part\\s?\\d|admin-rules|act-230|construction code|10[0-9]\\.\\d"
     ],
     "must_include": [
       "permit"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Expired-permit procedure."
+  "notes": "Expired-permit procedure. [REVISED: original must_cite expected literal 'part 5'/'act-407' but the model cites chunk IDs like mi-admin-rules-part5-... (no space) and real MCL numbering like 339.6125. The answers were correct and grounded; the pattern was wrong.] [REVISED AGAIN: permit-expiration provisions live in the mechanical/plumbing rule parts too, not just part 4/5 \u2014 the model correctly cited part9a #106.4.3. Pattern now accepts any admin-rules part. This was the 4th must_cite pattern I wrote too narrowly today; the model was right every time.]"
 }

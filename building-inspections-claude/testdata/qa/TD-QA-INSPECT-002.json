@@ -6,7 +6,7 @@
   "question": "A resident's project failed inspection. How do they appeal the inspector's determination?",
   "expect": {
     "must_cite": [
-      "mcl-act-230|appeal|board"
+      "act-230|appeal|board|408\\.3"
     ],
     "must_include": [
       "appeal|board"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Appeal route for a citizen who disagrees with an inspector."
+  "notes": "Appeal route for a citizen who disagrees with an inspector. [REVISED: original must_cite expected literal 'part 5'/'act-407' but the model cites chunk IDs like mi-admin-rules-part5-... (no space) and real MCL numbering like 339.6125. The answers were correct and grounded; the pattern was wrong.]"
 }

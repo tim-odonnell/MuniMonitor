@@ -6,7 +6,7 @@
   "question": "A resident wants copies of the last six months of city council minutes. How do they make the request and how long does the city have to respond?",
   "expect": {
     "must_cite": [
-      "act-442|foia"
+      "act-442|foia|15\\.23"
     ],
     "must_include": [
       "5|five"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "The FOIA response clock is the office's most-quoted number. Verified answerable from the act."
+  "notes": "The FOIA response clock is the office's most-quoted number. Verified answerable from the act. [REVISED: must_cite now tolerates hyphen-vs-space in chunk IDs (election-law, open-meetings) and real MCL numbering (168.x, 15.2x). The original patterns assumed spaces the filenames don't have.]"
 }

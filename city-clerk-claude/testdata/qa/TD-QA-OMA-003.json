@@ -6,7 +6,7 @@
   "question": "Does a resident have the right to speak at a city council meeting, and can the council limit that?",
   "expect": {
     "must_cite": [
-      "act-267|open meetings"
+      "act-267|open[-\\s]?meetings|act-267|15\\.26"
     ],
     "must_include": [
       "address a meeting|address the public body|speak|public comment",
@@ -15,5 +15,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Right to address the public body \u2014 a frequent and contentious counter question. [REVISED: my first expectation used citizen wording. MCL 15.263(5) actually says a person 'shall be permitted to address a meeting of a public body under rules established and recorded by the public body' \u2014 so the answer is yes, subject to the body's recorded rules. ALSO EXPOSED A REAL DEFECT: with citizen phrasing ('speak at a city council meeting') the first OMA chunk retrieves at rank 10 and 18 of 40 hits are Election Law; with statutory phrasing it retrieves at rank 1. Citizen vocabulary is exactly the vocabulary this tool must handle at the counter.]"
+  "notes": "Right to address the public body \u2014 a frequent and contentious counter question. [REVISED: my first expectation used citizen wording. MCL 15.263(5) actually says a person 'shall be permitted to address a meeting of a public body under rules established and recorded by the public body' \u2014 so the answer is yes, subject to the body's recorded rules. ALSO EXPOSED A REAL DEFECT: with citizen phrasing ('speak at a city council meeting') the first OMA chunk retrieves at rank 10 and 18 of 40 hits are Election Law; with statutory phrasing it retrieves at rank 1. Citizen vocabulary is exactly the vocabulary this tool must handle at the counter.] [REVISED: must_cite now tolerates hyphen-vs-space in chunk IDs (election-law, open-meetings) and real MCL numbering (168.x, 15.2x). The original patterns assumed spaces the filenames don't have.]"
 }

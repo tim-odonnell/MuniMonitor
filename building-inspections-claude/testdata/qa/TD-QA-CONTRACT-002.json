@@ -6,7 +6,7 @@
   "question": "Who is required to be a registered building official or inspector in Michigan?",
   "expect": {
     "must_cite": [
-      "act-407|skilled trades|mcl-act-230"
+      "act-407|skilled trades|339\\.|act-230|408\\.3"
     ],
     "must_include": [
       "registr"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Registration requirement for officials \u2014 verified answerable, this was one of the first live-validated questions in the project."
+  "notes": "Registration requirement for officials \u2014 verified answerable, this was one of the first live-validated questions in the project. [REVISED: original must_cite expected literal 'part 5'/'act-407' but the model cites chunk IDs like mi-admin-rules-part5-... (no space) and real MCL numbering like 339.6125. The answers were correct and grounded; the pattern was wrong.]"
 }

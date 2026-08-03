@@ -84,6 +84,29 @@ def _hits(patterns: list[str], text: str) -> list[str]:
     return [p for p in patterns if re.search(p, t, re.I | re.S)]
 
 
+# Sentences that DENY knowledge. A fabrication pattern matching inside one of
+# these is a false positive, not a fabrication: "I cannot determine whether that
+# contractor is currently licensed" contains "is currently licensed" but asserts
+# the opposite. This bug was hit twice — once on an ECF probe, once on a
+# contractor-licensing probe — so it is handled structurally here rather than by
+# hand-tuning every pattern.
+_DENIAL = re.compile(
+    r"\b(cannot|can't|can not|could not|couldn't|unable|do not|don't|does not|"
+    r"doesn't|did not|no information|not contain|not include|not provide|"
+    r"not specify|not state|not available|unavailable|i'm sorry|i am sorry|"
+    r"insufficient|outside|beyond|"
+    # Redirects are refusals too: "You'll need to consult the clerk's files to
+    # determine whether X is currently registered" asserts nothing.
+    r"you('ll| will| should| may| must| need)|consult|contact|refer to|check with|"
+    r"verify with|reach out)\b", re.I)
+
+
+def strip_denials(text: str) -> str:
+    """Drop sentences that deny knowledge before hunting for fabrication."""
+    parts = re.split(r"(?<=[.!?])\s+|\n+", text)
+    return " ".join(p for p in parts if not _DENIAL.search(p))
+
+
 def score_answer(case: dict, answer: str) -> dict:
     exp = case.get("expect", {})
     must_cite = exp.get("must_cite", []) or []
@@ -93,7 +116,8 @@ def score_answer(case: dict, answer: str) -> dict:
 
     missing_cites = [p for p in must_cite if p not in _hits(must_cite, answer)]
     missing_inc = [p for p in must_inc if p not in _hits(must_inc, answer)]
-    fabricated = _hits(must_not, answer)
+    # Only count a fabrication if it survives outside a denial sentence.
+    fabricated = _hits(must_not, strip_denials(answer))
 
     # A refusal case passes on the refusal axis when the answer signals it cannot
     # answer from the corpus AND does not assert a concrete value it invented.

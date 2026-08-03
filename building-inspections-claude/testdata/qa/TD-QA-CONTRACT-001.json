@@ -6,7 +6,7 @@
   "question": "A homeowner hired a contractor who turned out not to be licensed. What can the homeowner do, and what authority governs contractor licensing?",
   "expect": {
     "must_cite": [
-      "act-407|skilled trades"
+      "act-407|skilled trades|339\\."
     ],
     "must_include": [
       "licens|registr"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "PA 407 of 2016 is the CURRENT authority. PA 54 of 1986 was REPEALED effective 2017 \u2014 a model citing PA 54 is wrong."
+  "notes": "PA 407 of 2016 is the CURRENT authority. PA 54 of 1986 was REPEALED effective 2017 \u2014 a model citing PA 54 is wrong. [REVISED: original must_cite expected literal 'part 5'/'act-407' but the model cites chunk IDs like mi-admin-rules-part5-... (no space) and real MCL numbering like 339.6125. The answers were correct and grounded; the pattern was wrong.]"
 }

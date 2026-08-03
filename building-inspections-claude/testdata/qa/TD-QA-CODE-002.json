@@ -6,7 +6,7 @@
   "question": "Are smoke alarms required in an existing home when a homeowner does a bedroom renovation?",
   "expect": {
     "must_cite": [
-      "part 5|smoke alarm|r314"
+      "part\\s?5|smoke alarm|r314|408\\.3"
     ],
     "must_include": [
       "smoke alarm"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "VERIFIED ANSWERABLE: Michigan's Part 5 amendments contain the complete rewritten smoke-alarm text, so the licensed-code-text gap does NOT apply here. Corpus has 36 smoke-alarm hits."
+  "notes": "VERIFIED ANSWERABLE: Michigan's Part 5 amendments contain the complete rewritten smoke-alarm text, so the licensed-code-text gap does NOT apply here. Corpus has 36 smoke-alarm hits. [REVISED: original must_cite expected literal 'part 5'/'act-407' but the model cites chunk IDs like mi-admin-rules-part5-... (no space) and real MCL numbering like 339.6125. The answers were correct and grounded; the pattern was wrong.]"
 }

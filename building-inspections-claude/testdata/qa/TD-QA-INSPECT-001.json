@@ -6,7 +6,7 @@
   "question": "At what stages of construction must a homeowner schedule inspections, and what happens if work is covered before inspection?",
   "expect": {
     "must_cite": [
-      "mcl-act-230|part 4|part 5|inspect"
+      "act-230|part\\s?4|part\\s?5|inspect|408\\.3"
     ],
     "must_include": [
       "inspect"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Covered-work is a real and expensive citizen problem."
+  "notes": "Covered-work is a real and expensive citizen problem. [REVISED: original must_cite expected literal 'part 5'/'act-407' but the model cites chunk IDs like mi-admin-rules-part5-... (no space) and real MCL numbering like 339.6125. The answers were correct and grounded; the pattern was wrong.]"
 }

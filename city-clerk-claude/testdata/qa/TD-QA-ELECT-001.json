@@ -6,7 +6,7 @@
   "question": "How does a resident register to vote in Michigan, and what is the deadline relative to an election?",
   "expect": {
     "must_cite": [
-      "act-116|election law"
+      "act-116|election[-\\s]?law|act-116|168\\."
     ],
     "must_include": [
       "regist"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Registration procedure and the deadline expressed RELATIVE to an election \u2014 never as a calendar date."
+  "notes": "Registration procedure and the deadline expressed RELATIVE to an election \u2014 never as a calendar date. [REVISED: must_cite now tolerates hyphen-vs-space in chunk IDs (election-law, open-meetings) and real MCL numbering (168.x, 15.2x). The original patterns assumed spaces the filenames don't have.]"
 }

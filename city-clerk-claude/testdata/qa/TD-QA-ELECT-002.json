@@ -6,7 +6,7 @@
   "question": "How does a voter request an absent voter ballot, and who is eligible?",
   "expect": {
     "must_cite": [
-      "act-116|election law|absent voter"
+      "act-116|election[-\\s]?law|act-116|168\\.|absent[-\\s]?voter"
     ],
     "must_include": [
       "absent voter|application"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Verified answerable: 739 'absent voter' hits in the Election Law."
+  "notes": "Verified answerable: 739 'absent voter' hits in the Election Law. [REVISED: must_cite now tolerates hyphen-vs-space in chunk IDs (election-law, open-meetings) and real MCL numbering (168.x, 15.2x). The original patterns assumed spaces the filenames don't have.]"
 }

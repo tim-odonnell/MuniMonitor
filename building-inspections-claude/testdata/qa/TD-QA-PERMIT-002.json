@@ -6,7 +6,7 @@
   "question": "A resident is replacing their water heater. Do they need a plumbing or mechanical permit, and who may do the work?",
   "expect": {
     "must_cite": [
-      "part 7|plumbing|part 9a|mechanical|act-407"
+      "part\\s?7|part\\s?9a|plumbing|mechanical|act-407|339\\."
     ],
     "must_include": [
       "permit"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Trades-permit question spanning Part 7/9A plus PA 407 licensing."
+  "notes": "Trades-permit question spanning Part 7/9A plus PA 407 licensing. [REVISED: original must_cite expected literal 'part 5'/'act-407' but the model cites chunk IDs like mi-admin-rules-part5-... (no space) and real MCL numbering like 339.6125. The answers were correct and grounded; the pattern was wrong.]"
 }

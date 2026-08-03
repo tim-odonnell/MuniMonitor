@@ -6,7 +6,7 @@
   "question": "Can the city charge a resident for responding to a FOIA request, and what may be included in the charge?",
   "expect": {
     "must_cite": [
-      "act-442|foia"
+      "act-442|foia|15\\.23"
     ],
     "must_include": [
       "fee|charge|cost"
@@ -14,5 +14,5 @@
     "must_not_include": [],
     "honest_refusal": false
   },
-  "notes": "Fee METHODOLOGY is in the act; the local fee schedule is not. A good answer explains the framework without inventing amounts."
+  "notes": "Fee METHODOLOGY is in the act; the local fee schedule is not. A good answer explains the framework without inventing amounts. [REVISED: must_cite now tolerates hyphen-vs-space in chunk IDs (election-law, open-meetings) and real MCL numbering (168.x, 15.2x). The original patterns assumed spaces the filenames don't have.]"
 }
