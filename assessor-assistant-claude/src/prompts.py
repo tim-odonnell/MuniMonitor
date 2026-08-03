@@ -138,6 +138,8 @@ def triage_context(facts: str, retriever) -> tuple[list[dict], list[dict]]:
         pinned += [{"id": c["id"], "source": c["source"],
                     "authority": c.get("authority", "UNTAGGED"),
                     "score": 0.0, "pinned": True, "text": c["text"]} for c in doc]
-    tail = [h for h in retriever.search(facts)
-            if h["source"] not in PINNED_TRIAGE_SOURCES]
+    # Exclude the pinned sources INSIDE the search rather than filtering after.
+    # Filtering after threw away slots the authority floor had just spent on
+    # statutes the prompt already contained in full.
+    tail = retriever.search(facts, exclude_sources=set(PINNED_TRIAGE_SOURCES))
     return pinned + tail, tail

@@ -129,13 +129,27 @@ class Retriever:
         merged.sort(key=lambda pair: pair[0], reverse=True)
         return merged[:k]
 
-    def search(self, query: str, k: int | None = None) -> list[dict]:
+    def search(self, query: str, k: int | None = None,
+               exclude_sources: set[str] | tuple = ()) -> list[dict]:
+        """exclude_sources: documents the caller ALREADY has in full.
+
+        The PTA triage prompt pins MCL 211.27a and the SOP, then used to discard
+        any retrieved chunk from those sources afterwards. That silently wasted
+        slots: the authority floor would promote a 27a chunk — satisfying its LAW
+        quota — and the caller then dropped it, so a useful guidance chunk had
+        been evicted and replaced by nothing. Measured: 36 chunks -> 35, LAW
+        26 -> 26, no new material. Excluding up front means every slot and every
+        promotion buys something the prompt does not already contain.
+        """
         k = k or self.default_k
+        exclude = set(exclude_sources or ())
         idf = self.index["idf"]
         avg_len = self.index["avg_len"] or 1.0
         q_terms = self.expand(query)
         scored = []
         for ch in self.index["chunks"]:
+            if ch["source"] in exclude:
+                continue
             tf, length = ch["tf"], ch["length"] or 1
             score = 0.0
             for t in q_terms:
