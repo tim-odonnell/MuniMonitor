@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CITIZEN-001",
+  "task": "qa",
+  "area": "permits",
+  "synthetic": true,
+  "question": "Do I need a permit to put up a shed in my back yard?",
+  "expect": {
+    "must_cite": [
+      "part\\s?\\d|act-230|admin-rules|construction code"
+    ],
+    "must_include": [
+      "permit"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "CITIZEN VOICE. Written deliberately in the register a resident uses at the counter, not statutory language. Added 2026-08-03 after discovering the existing suites were phrased semi-statutorily and therefore could not detect the citizen-phrasing retrieval defect at all \u2014 the one clerk case that caught it did so by accident. Building's corpus is small and homogeneous so expansion was already inert here \u2014 these cases exist as regression protection for when licensed code text is added."
+}

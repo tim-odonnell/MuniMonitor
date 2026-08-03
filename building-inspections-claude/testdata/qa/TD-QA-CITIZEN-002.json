@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CITIZEN-002",
+  "task": "qa",
+  "area": "permits",
+  "synthetic": true,
+  "question": "Am I allowed to do the electrical work on my own house myself, or does state law require a licensed electrician?",
+  "expect": {
+    "must_cite": [
+      "act-407|part\\s?8|339\\."
+    ],
+    "must_include": [
+      "homeowner|licens"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "CITIZEN VOICE. Written deliberately in the register a resident uses at the counter, not statutory language. Added 2026-08-03 after discovering the existing suites were phrased semi-statutorily and therefore could not detect the citizen-phrasing retrieval defect at all \u2014 the one clerk case that caught it did so by accident. Plain-language route into the homeowner exemption question. [REVISED: my original question ('can I do the electrical myself or hire somebody?') conflated licensing with permitting, and the model answered the permit half from the building code. Retrieval was fine \u2014 act-407 WAS in context. The question was ambiguous, not the answer wrong. Now asks the licensing question unambiguously.]"
+}

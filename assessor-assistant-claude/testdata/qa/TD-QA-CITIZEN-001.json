@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CITIZEN-001",
+  "task": "qa",
+  "area": "transfers_uncapping",
+  "synthetic": true,
+  "question": "Why did my taxes go up so much after I bought my house? Nobody told me this would happen.",
+  "expect": {
+    "must_cite": [
+      "mcl-211-27a|211\\.27a|transfer-of-ownership"
+    ],
+    "must_include": [
+      "transfer|uncap|taxable"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "CITIZEN VOICE. Written deliberately in the register a resident uses at the counter, not statutory language. Added 2026-08-03 after discovering the existing suites were phrased semi-statutorily and therefore could not detect the citizen-phrasing retrieval defect at all \u2014 the one clerk case that caught it did so by accident. VERIFIED: retrieval MISSED MCL 211.27a entirely before query expansion. This is the single most common taxpayer complaint at an assessing counter."
+}

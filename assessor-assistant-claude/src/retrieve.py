@@ -30,6 +30,53 @@ class Retriever:
         # Minimum LAW-authority chunks guaranteed in a result set. 0 disables.
         self.min_law = int(cfg["retrieval"].get("min_law_chunks", 1))
         self.law_ratio = float(cfg["retrieval"].get("law_floor_min_score_ratio", 0.5))
+        # Max chunks any ONE source document may occupy. Large secondary guidance
+        # (Assessor's Manual 382KB, PRE Guidelines 239KB) otherwise takes every slot.
+        self.max_per_doc = int(cfg["retrieval"].get("max_per_document", 0))
+        # Colloquial -> statutory query expansion (corpus/SYNONYMS.json, optional).
+        self.synonyms = {}
+        if cfg["retrieval"].get("query_expansion", True):
+            syn = ROOT / "corpus" / "SYNONYMS.json"
+            if syn.exists():
+                self.synonyms = {k.lower(): v for k, v in
+                                 json.loads(syn.read_text()).items()
+                                 if not k.startswith("_")}
+
+    def expand(self, query: str) -> list[str]:
+        """Add statutory vocabulary for colloquial phrasings.
+
+        Taxpayers ask "why did my taxes go up after I bought the house", not
+        "was there a transfer of ownership causing the taxable value to uncap".
+        Measured in the sibling clerk project 2026-08-03: citizen phrasing pushed
+        the governing statute from rank 1 to rank 10-19. The taxpayer's own words
+        are ALWAYS kept — expansion only adds terms.
+        """
+        terms = tokenize(query)
+        low = query.lower()
+        for phrase, extra in self.synonyms.items():
+            if phrase in low:
+                terms.extend(t.lower() for t in extra)
+        return terms
+
+    @staticmethod
+    def _reorder_by_doc_cap(scored: list, cap: int) -> list:
+        """Push chunks beyond `cap` from one source DOWN, never drop them.
+
+        Returns a full-length reordering so the authority floor below still has a
+        tail to promote from. Composition order matters: diversify first, then
+        guarantee statutory coverage.
+        """
+        if cap <= 0:
+            return scored
+        head, tail, seen = [], [], {}
+        for pair in scored:
+            src = pair[1].get("source", "?")
+            if seen.get(src, 0) < cap:
+                head.append(pair)
+                seen[src] = seen.get(src, 0) + 1
+            else:
+                tail.append(pair)
+        return head + tail
 
     @staticmethod
     def _apply_authority_floor(scored: list, k: int, min_law: int,
@@ -86,7 +133,7 @@ class Retriever:
         k = k or self.default_k
         idf = self.index["idf"]
         avg_len = self.index["avg_len"] or 1.0
-        q_terms = tokenize(query)
+        q_terms = self.expand(query)
         scored = []
         for ch in self.index["chunks"]:
             tf, length = ch["tf"], ch["length"] or 1
@@ -101,6 +148,7 @@ class Retriever:
             if score > 0:
                 scored.append((score, ch))
         scored.sort(key=lambda pair: pair[0], reverse=True)
+        scored = self._reorder_by_doc_cap(scored, self.max_per_doc)
         selected = self._apply_authority_floor(scored, k, self.min_law, self.law_ratio)
         return [
             {

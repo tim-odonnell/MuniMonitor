@@ -11,7 +11,9 @@
     "top_k": 6,
     "max_chunk_chars": 1600,
     "min_law_chunks": 2,
-    "law_floor_min_score_ratio": 0.7
+    "law_floor_min_score_ratio": 0.7,
+    "max_per_document": 3,
+    "query_expansion": true
   },
   "escalation": {
     "min_hits": 2,

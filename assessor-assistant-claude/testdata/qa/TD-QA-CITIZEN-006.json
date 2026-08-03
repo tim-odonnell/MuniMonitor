@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CITIZEN-006",
+  "task": "qa",
+  "area": "board_of_review",
+  "synthetic": true,
+  "question": "My assessment seems way too high compared to my neighbor. How do I fight it?",
+  "expect": {
+    "must_cite": [
+      "211\\.30|211\\.29|board.of.review"
+    ],
+    "must_include": [
+      "board of review|protest|appeal"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "CITIZEN VOICE. Written deliberately in the register a resident uses at the counter, not statutory language. Added 2026-08-03 after discovering the existing suites were phrased semi-statutorily and therefore could not detect the citizen-phrasing retrieval defect at all \u2014 the one clerk case that caught it did so by accident. Must route to the March board of review and the protest-first requirement, not invite an informal argument at the counter."
+}

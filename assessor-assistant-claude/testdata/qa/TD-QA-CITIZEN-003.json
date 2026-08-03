@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CITIZEN-003",
+  "task": "qa",
+  "area": "poverty_exemption",
+  "synthetic": true,
+  "question": "I'm retired and on a fixed income and I just can't afford this tax bill. Is there any help?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-7u|211\\.7u"
+    ],
+    "must_include": [
+      "poverty|exemption|board of review"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "CITIZEN VOICE. Written deliberately in the register a resident uses at the counter, not statutory language. Added 2026-08-03 after discovering the existing suites were phrased semi-statutorily and therefore could not detect the citizen-phrasing retrieval defect at all \u2014 the one clerk case that caught it did so by accident. Answer must route to the poverty exemption and the board of review, not to a payment plan the assessor cannot offer."
+}

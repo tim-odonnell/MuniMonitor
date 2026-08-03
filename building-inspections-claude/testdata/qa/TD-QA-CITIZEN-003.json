@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CITIZEN-003",
+  "task": "qa",
+  "area": "inspections",
+  "synthetic": true,
+  "question": "I already closed up the wall before you came out. What now?",
+  "expect": {
+    "must_cite": [
+      "part\\s?\\d|act-230|admin-rules|inspection-sop|sop"
+    ],
+    "must_include": [
+      "inspect"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "CITIZEN VOICE. Written deliberately in the register a resident uses at the counter, not statutory language. Added 2026-08-03 after discovering the existing suites were phrased semi-statutorily and therefore could not detect the citizen-phrasing retrieval defect at all \u2014 the one clerk case that caught it did so by accident. Covered-work, asked the way a homeowner actually says it. [REVISED: the model correctly cited the framing-inspection SOP, an OFFICE-PRACTICE source I failed to allow in must_cite. Office practice is a legitimate citation for a 'what do I do now' procedural question \u2014 the authority rules require it not be presented as law, not that it never be cited.]"
+}

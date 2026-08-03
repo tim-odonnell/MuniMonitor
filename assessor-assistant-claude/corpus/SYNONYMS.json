@@ -1,0 +1,84 @@
+{
+  "_README": [
+    "Colloquial -> statutory query expansion for the Assessing Department assistant.",
+    "",
+    "WHY THIS EXISTS. Taxpayers do not use statutory vocabulary. Measured in the",
+    "sibling clerk project 2026-08-03: citizen phrasing pushed the governing statute",
+    "from rank 1 down to rank 10-19, so the model answered from secondary guidance or",
+    "honestly refused. The counter and the phone are exactly where plain language",
+    "arrives, so retrieval has to work in that register.",
+    "",
+    "HOW IT WORKS. When a key phrase appears in the question, its statutory terms are",
+    "appended to the query token list before BM25 scoring. The taxpayer's own words are",
+    "always kept — expansion only ADDS signal, so a question already phrased",
+    "statutorily is unaffected.",
+    "",
+    "MAINTENANCE. Add a key whenever staff notice a question the assistant handles",
+    "poorly in plain language but well in statutory language. Keys match as lowercase",
+    "substrings. Only use terms that genuinely appear in the corpus — expanding to",
+    "words the statutes never use adds noise, not recall.",
+    "",
+    "GOTCHA (learned the hard way in the clerk project): keys must disambiguate INTENT.",
+    "A bare 'how long' appears in both 'how long to respond' and 'how long must you",
+    "keep', and expanding both ways poisoned one of them. Prefer longer, specific keys."
+  ],
+
+  "why did my taxes go up": ["transfer", "ownership", "taxable", "value", "uncapped", "capped"],
+  "why did my taxes increase": ["transfer", "ownership", "taxable", "value", "uncapped"],
+  "taxes went up": ["taxable", "value", "capped", "uncapped", "transfer"],
+  "just bought": ["transfer", "ownership", "affidavit", "uncapped", "taxable"],
+  "just purchased": ["transfer", "ownership", "affidavit", "uncapped"],
+  "when i bought": ["transfer", "ownership", "taxable", "uncapped"],
+
+  "inherited": ["decedent", "distribution", "transfer", "ownership", "trust", "will"],
+  "passed away": ["decedent", "surviving", "spouse", "distribution", "transfer"],
+  "left me the house": ["decedent", "distribution", "transfer", "residential"],
+  "put in a trust": ["conveyance", "trust", "settlor", "beneficiary"],
+  "added my name": ["joint", "tenancy", "original", "owner", "conveyance"],
+  "gave the house to": ["transfer", "ownership", "residential", "commercial", "purpose"],
+
+  "appeal my assessment": ["board", "review", "protest", "petition", "appeal"],
+  "assessment is too high": ["board", "review", "protest", "true", "cash", "value"],
+  "too high": ["board", "review", "protest", "true", "cash", "value"],
+  "disagree with": ["board", "review", "protest", "appeal"],
+  "fight my": ["board", "review", "protest", "appeal"],
+  "neighbor pays less": ["uniform", "true", "cash", "value", "board", "review", "assessed"],
+
+  "can't afford": ["poverty", "exemption", "guidelines", "board", "review"],
+  "cannot afford": ["poverty", "exemption", "guidelines", "board", "review"],
+  "on a fixed income": ["poverty", "exemption", "guidelines", "income"],
+  "hardship": ["poverty", "exemption", "guidelines"],
+
+  "veteran": ["disabled", "veteran", "exemption", "homestead", "surviving", "spouse"],
+  "served in the military": ["disabled", "veteran", "exemption", "homestead"],
+
+  "my home": ["principal", "residence", "exemption", "occupy", "affidavit"],
+  "i live there": ["principal", "residence", "exemption", "occupy"],
+  "moved out": ["rescind", "rescission", "principal", "residence", "exemption"],
+  "moved away": ["rescind", "rescission", "principal", "residence"],
+  "sold my house": ["rescind", "rescission", "principal", "residence", "transfer"],
+  "rent out": ["commercial", "purpose", "principal", "residence", "rental", "exemption"],
+  "renting": ["commercial", "purpose", "rental", "residential", "exemption"],
+  "second home": ["principal", "residence", "exemption", "occupy"],
+  "cottage": ["principal", "residence", "exemption", "occupy"],
+
+  "farm": ["qualified", "agricultural", "property", "exemption", "recapture"],
+  "farmland": ["qualified", "agricultural", "property", "exemption", "recapture"],
+
+  "built a deck": ["additions", "capped", "value", "assessed", "true", "cash"],
+  "added on": ["additions", "capped", "value", "assessed"],
+  "new addition": ["additions", "capped", "value", "assessed"],
+  "tore down": ["losses", "capped", "value", "assessed"],
+  "remodeled": ["additions", "normal", "repair", "maintenance", "assessed"],
+  "how much will it go up": ["capped", "value", "inflation", "rate", "multiplier", "taxable"],
+
+  "business equipment": ["personal", "property", "statement", "exemption", "small", "business"],
+  "my business": ["personal", "property", "statement", "exemption", "small", "business"],
+
+  "what kind of property": ["classification", "classify", "residential", "commercial", "agricultural"],
+  "wrong classification": ["classification", "classify", "appeal", "state", "tax", "commission"],
+
+  "when do i have to file": ["days", "deadline", "affidavit", "filed", "penalty"],
+  "late": ["penalty", "days", "failure", "notify", "affidavit"],
+  "missed the deadline": ["penalty", "days", "failure", "notify", "waive"]
+}

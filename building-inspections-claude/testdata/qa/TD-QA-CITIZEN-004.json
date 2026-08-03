@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CITIZEN-004",
+  "task": "qa",
+  "area": "code_applicability",
+  "synthetic": true,
+  "question": "What year code do you go by around here?",
+  "expect": {
+    "must_cite": [
+      "injunction|part\\s?5|2015|admin-rules"
+    ],
+    "must_include": [
+      "2015|code|injunct"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "CITIZEN VOICE. Written deliberately in the register a resident uses at the counter, not statutory language. Added 2026-08-03 after discovering the existing suites were phrased semi-statutorily and therefore could not detect the citizen-phrasing retrieval defect at all \u2014 the one clerk case that caught it did so by accident. \u26a0 PERISHABLE: 2021 rules enjoined July 2025, 2015-based rules in effect. Re-check litigation status."
+}

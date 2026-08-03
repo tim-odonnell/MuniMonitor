@@ -27,6 +27,45 @@ class Retriever:
             )
         self.index = json.loads(index_file.read_text())
         self.default_k = cfg["retrieval"]["top_k"]
+        self.max_per_doc = int(cfg["retrieval"].get("max_per_document", 0))
+        self.synonyms = {}
+        if cfg["retrieval"].get("query_expansion", True):
+            syn = ROOT / "corpus" / "SYNONYMS.json"
+            if syn.exists():
+                self.synonyms = {k.lower(): v for k, v in
+                                 json.loads(syn.read_text()).items()
+                                 if not k.startswith("_")}
+
+    def expand(self, query: str) -> list[str]:
+        """Add code vocabulary for the way residents actually ask.
+
+        Homeowners ask "do I need a permit for a shed", not "is a detached
+        accessory structure exempt from permit requirements". The resident's own
+        words are ALWAYS kept — expansion only adds terms.
+        """
+        terms = tokenize(query)
+        low = query.lower()
+        for phrase, extra in self.synonyms.items():
+            if phrase in low:
+                terms.extend(t.lower() for t in extra)
+        return terms
+
+    @staticmethod
+    def _cap_per_document(scored: list, k: int, cap: int) -> list:
+        if cap <= 0:
+            return scored[:k]
+        out, seen = [], {}
+        for pair in scored:
+            src = pair[1].get("source", "?")
+            if seen.get(src, 0) >= cap:
+                continue
+            out.append(pair); seen[src] = seen.get(src, 0) + 1
+            if len(out) == k:
+                break
+        if len(out) < k:
+            have = {id(p) for p in out}
+            out.extend(p for p in scored if id(p) not in have)
+        return out[:k]
 
     def search(self, query: str, k: int | None = None,
                include_test_corpus: bool = False) -> list[dict]:
@@ -36,7 +75,7 @@ class Retriever:
         k = k or self.default_k
         idf = self.index["idf"]
         avg_len = self.index["avg_len"] or 1.0
-        q_terms = tokenize(query)
+        q_terms = self.expand(query)
         scored = []
         for ch in self.index["chunks"]:
             if (not include_test_corpus
@@ -54,6 +93,7 @@ class Retriever:
             if score > 0:
                 scored.append((score, ch))
         scored.sort(key=lambda pair: pair[0], reverse=True)
+        scored = self._cap_per_document(scored, k, self.max_per_doc)
         return [
             {
                 "id": ch["id"],

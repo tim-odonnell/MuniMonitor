@@ -1,0 +1,18 @@
+{
+  "case_id": "TD-QA-CITIZEN-002",
+  "task": "qa",
+  "area": "transfers_uncapping",
+  "synthetic": true,
+  "question": "My mom passed away and left me her house. What happens to the taxes now?",
+  "expect": {
+    "must_cite": [
+      "mcl-211-27a|211\\.27a|transfer-of-ownership"
+    ],
+    "must_include": [
+      "transfer|uncap|decedent|distribut"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "CITIZEN VOICE. Written deliberately in the register a resident uses at the counter, not statutory language. Added 2026-08-03 after discovering the existing suites were phrased semi-statutorily and therefore could not detect the citizen-phrasing retrieval defect at all \u2014 the one clerk case that caught it did so by accident. VERIFIED: retrieval MISSED 211.27a before expansion. Sympathetic, high-volume, and the answer turns on the 27a(7) relative exceptions."
+}
