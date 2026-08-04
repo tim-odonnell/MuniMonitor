@@ -4,8 +4,9 @@
   "synthetic": true,
   "facts": "A residential parcel is held by two unrelated business associates as joint tenants; that joint tenancy was created in 2018 when both acquired the property together from a third party. This year they deeded the property to a new joint tenancy adding a third unrelated associate, and neither original joint tenant was an owner before 2018.",
   "expected": {
-    "uncapping": true,
-    "exception": "none",
-    "notes": "TRAP \u2014 reads like a joint tenancy exception but the statute requires at least one person to have been an original owner BEFORE the joint tenancy was initially created. Expected uncapping \u2014 verify against 27a(7)(i) closely."
+    "uncapping": false,
+    "exception": "joint_tenancy",
+    "notes": "\u26a0 CORRECTED 2026-08-04. This case was WRONG and had been since it was written. I had it as a trap expecting uncapping=True on the theory that neither associate was 'an original owner before the joint tenancy was initially created'. MCL 211.27a(7)(i) defines the term against me: 'A joint owner at the time of the last transfer of ownership of the property is an original owner of the property.' The two associates acquired the parcel TOGETHER in 2018 from a third party \u2014 that acquisition was the last transfer of ownership, and they were joint owners at that moment, so both ARE original owners. Both statutory conditions are then met: an original owner exists, and at least one person was a joint tenant at creation and has remained one. Adding a third joint tenant does NOT uncap. THE MODEL GOT THIS RIGHT 3 OF 3 RUNS, quoting the definitional sentence, while the harness scored it a MISSED UNCAP \u2014 the zero-tolerance metric \u2014 in every triage study today. A wrong expected answer does not just lose a point; it actively penalises correct legal reasoning and corrupts the one metric the project treats as a veto. Verify expected answers against the statute's DEFINITIONS, not just its operative clause.",
+    "scope": "none"
   }
 }

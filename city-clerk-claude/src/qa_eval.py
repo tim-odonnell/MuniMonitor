@@ -87,9 +87,19 @@ _MCL_SEP = re.compile(r"(?i)\b(mcl\s*\d{3})[-‑](\d)")
 
 
 def _hits(patterns: list[str], text: str) -> list[str]:
-    """Return the patterns that MATCH text (case-insensitive regex, normalized)."""
+    """Return the patterns that MATCH text (case-insensitive regex, normalized).
+
+    Matching is tried against TWO variants: the normalised text, and the same text
+    with hyphens between letters turned into spaces. Models hyphenate compounds
+    freely — "absent-voter ballot" for "absent voter ballot", "principal-residence"
+    for "principal residence" — and a pattern written with a space silently fails
+    on the hyphenated form. That was the EIGHTH citation/phrase false failure of
+    2026-08-03. Fixing it per-pattern is what let it recur eight times.
+    """
     t = _MCL_SEP.sub(r"\1.\2", _norm(text))
-    return [p for p in patterns if re.search(p, t, re.I | re.S)]
+    dehyph = re.sub(r"(?<=[A-Za-z])-(?=[A-Za-z])", " ", t)
+    return [p for p in patterns
+            if re.search(p, t, re.I | re.S) or re.search(p, dehyph, re.I | re.S)]
 
 
 # Sentences that DENY knowledge. A fabrication pattern matching inside one of
