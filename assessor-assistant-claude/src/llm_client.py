@@ -22,7 +22,8 @@ class LLMError(RuntimeError):
 # Empty responses are counted, not hidden. A retry that silently papers over a
 # 6% failure rate would make the system look healthier than it is; harnesses read
 # these so a report can say how often the model had to be asked twice.
-RETRY_STATS = {"calls": 0, "empty_responses": 0, "retried": 0, "still_empty": 0}
+RETRY_STATS = {"calls": 0, "empty_responses": 0, "retried": 0, "still_empty": 0,
+               "unparseable": 0, "json_retried": 0, "still_unparseable": 0}
 
 
 def _once(llm: dict, messages: list[dict]) -> str:
@@ -99,6 +100,41 @@ def chat(messages: list[dict], cfg: dict | None = None) -> str:
                   f"({attempt}/{attempts - 1})", file=sys.stderr)
     RETRY_STATS["still_empty"] += 1
     return ""
+
+
+def chat_json(messages: list[dict], cfg: dict | None = None) -> dict:
+    """chat() + extract_json(), retrying when the JSON does not parse.
+
+    A SEPARATE FAILURE FROM EMPTINESS, and they were conflated for most of a day.
+    Observed 2026-08-03: a triage call returned after 9.5s (~1,100 tokens of a
+    16,384 budget, so max_tokens was NOT the limit) with output that looked valid
+    and stopped mid-field:
+
+        {"uncapping": false, "uncapping_scope": "none", ..., "file_not
+
+    chat()'s empty-retry never fires on that — the content is not empty, it is
+    truncated. Only a JSON parse can tell the difference, so the retry has to live
+    here rather than in chat(). Counted separately in RETRY_STATS so the two
+    failure modes stay distinguishable in reports.
+    """
+    llm = (cfg or load_config())["llm"]
+    attempts = max(0, int(llm.get("retry_on_empty", 1))) + 1
+    if llm.get("temperature", 0.2) == 0:
+        attempts = 1              # deterministic; a retry returns the same text
+    last = None
+    for attempt in range(1, attempts + 1):
+        raw = chat(messages, cfg)
+        try:
+            return extract_json(raw)
+        except ValueError as e:
+            last = e
+            RETRY_STATS["unparseable"] += 1
+            if attempt < attempts:
+                RETRY_STATS["json_retried"] += 1
+                print(f"WARN: model output would not parse as JSON (likely truncated) "
+                      f"— retrying ({attempt}/{attempts - 1})", file=sys.stderr)
+    RETRY_STATS["still_unparseable"] += 1
+    raise last
 
 
 def extract_json(text: str) -> dict:

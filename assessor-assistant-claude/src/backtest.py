@@ -27,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ingest import ROOT, load_config          # noqa: E402
 from retrieve import Retriever                # noqa: E402
-from llm_client import chat, extract_json, normalize_verdict, LLMError, RETRY_STATS  # noqa: E402
+from llm_client import chat_json, normalize_verdict, LLMError, RETRY_STATS  # noqa: E402
 from prompts import PTA_TRIAGE_SYSTEM, build_user_prompt, triage_context  # noqa: E402
 from citations import validate_citations  # noqa: E402
 
@@ -120,8 +120,7 @@ def main() -> int:
         ]
         t0 = time.time()
         try:
-            raw = chat(messages, cfg)
-            verdict = normalize_verdict(extract_json(raw))
+            verdict = normalize_verdict(chat_json(messages, cfg))
             record["verdict"] = verdict
             record["score"] = score_case(case, verdict)
             record["expected"] = case["expected"]
@@ -194,6 +193,9 @@ def main() -> int:
             (f"- Empty responses retried: {RETRY_STATS['retried']} "
              f"(still empty after retry: {RETRY_STATS['still_empty']})"
              if RETRY_STATS["empty_responses"] else "- Empty responses: none ✓"),
+            (f"- Unparseable/truncated JSON retried: {RETRY_STATS['json_retried']} "
+             f"(still unparseable: {RETRY_STATS['still_unparseable']})"
+             if RETRY_STATS["unparseable"] else "- Unparseable JSON: none ✓"),
             "",
             "## Per-case detail",
             "",
