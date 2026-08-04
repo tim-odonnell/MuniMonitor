@@ -2,10 +2,10 @@
   "case_id": "TD-FAMRES-003",
   "task": "pta_triage",
   "synthetic": true,
-  "facts": "Deed recorded March 2026 from Nadia Reyes to her father Emilio Reyes, residential parcel, $1 consideration. Emilio occupies the property as his home. No commercial use of any kind following the transfer.",
+  "facts": "Deed recorded March 2026 from Nadia Reyes to her father Emilio Reyes, residential parcel, $1 consideration. Emilio occupies the property as his home. No commercial use of any kind following the transfer. The parcel is classified as residential real property under MCL 211.34c.",
   "expected": {
     "uncapping": false,
     "exception": "family_residential",
-    "notes": "Child-to-PARENT direction. 'mother, father' are in the (u) list, so direction does not matter here. Tests against an assumption that the exception runs only downward. [REVISED 2026-08-03: the original facts omitted the transfer date. The model correctly answered that it could not tell whether (7)(t) (Dec 31 2013 - Dec 30 2014) or (7)(u) (after Dec 31 2014) applied, set confidence low, and over-flagged per the prompt's instruction. That was a defect in the test case, not the model. An explicit 2026 date now makes (7)(u) unambiguous.]"
+    "notes": "Child-to-PARENT direction. 'mother, father' are in the (u) list, so direction does not matter here. Tests against an assumption that the exception runs only downward. [REVISED 2026-08-03: the original facts omitted the transfer date. The model correctly answered that it could not tell whether (7)(t) (Dec 31 2013 - Dec 30 2014) or (7)(u) (after Dec 31 2014) applied, set confidence low, and over-flagged per the prompt's instruction. That was a defect in the test case, not the model. An explicit 2026 date now makes (7)(u) unambiguous.] [FACTS TIGHTENED 2026-08-04, systematic audit: the statute defines 'residential real property' as property CLASSIFIED as such under section 34c, and the family/trust exceptions in (7)(u), (7)(g)(ii) and (7)(v) all begin 'Beginning December 31, 2014'. Cases that said only 'residential parcel' with no date left the model unable to tell (7)(t) from (7)(u) \u2014 which is what made TD-FAMRES-003 fail before it was fixed the same way. Classification and a transfer date are now stated wherever they are load-bearing. The legal question each case tests is unchanged.]"
   }
 }
