@@ -1,0 +1,19 @@
+{
+  "case_id": "TD-QA-CITIZEN-007",
+  "task": "qa",
+  "area": "valuation_calendar",
+  "synthetic": true,
+  "question": "Why is my assessment only half of what my house is actually worth? And what limits how much it can go up each year?",
+  "expect": {
+    "must_cite": [
+      "Article-IX|art\\.? ix|const|211\\.27|34d"
+    ],
+    "must_include": [
+      "50\\s*%|50 percent|half|one-half",
+      "inflation|5\\s*%|5 percent|cap"
+    ],
+    "must_not_include": [],
+    "honest_refusal": false
+  },
+  "notes": "CITIZEN VOICE, Proposal A. Const 1963 Art. IX \u00a73 sets uniform ad valorem taxation, assessment at a proportion of true cash value not exceeding 50%, and the taxable-value increase cap. Added 2026-08-03 after the constitution was ingested: \u00a73 retrieved on statutory wording but MISSED on all three citizen phrasings ('half of what my house is worth', 'what limits how much it can go up', 'what is proposal a') \u2014 the single most foundational rule in Michigan property tax, invisible to how every taxpayer asks it. This case exists so a synonym regression is caught by the suite rather than by a probe."
+}

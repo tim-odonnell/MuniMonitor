@@ -78,9 +78,17 @@ def _norm(text: str) -> str:
     return re.sub(r"\s+", " ", text)
 
 
+# Models write MCL citations with a hyphen as readily as a period — "MCL 211-2(2)"
+# for "MCL 211.2(2)", often with a non-breaking hyphen. Normalising the separator
+# means every must_cite pattern works regardless of which form the model chose.
+# This was the SEVENTH citation-pattern false failure of 2026-08-03; the previous
+# six were each fixed case-by-case, which is exactly why it kept recurring.
+_MCL_SEP = re.compile(r"(?i)\b(mcl\s*\d{3})[-‑](\d)")
+
+
 def _hits(patterns: list[str], text: str) -> list[str]:
     """Return the patterns that MATCH text (case-insensitive regex, normalized)."""
-    t = _norm(text)
+    t = _MCL_SEP.sub(r"\1.\2", _norm(text))
     return [p for p in patterns if re.search(p, t, re.I | re.S)]
 
 
