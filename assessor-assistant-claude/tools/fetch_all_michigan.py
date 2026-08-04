@@ -119,6 +119,31 @@ def targets() -> list[tuple[str, str]]:
 
 
 def extract(raw: str, label: str) -> tuple[str, str]:
+    """Pull the section body out of a legislature.mi.gov page.
+
+    ⚠ Constitution pages do NOT use the statute label format. A statute page has a
+    line starting '211.7b Short description…'; a constitution page has 'Sec. 3.'
+    with the article/section only in the title. Matching the statute label against
+    a constitution page silently captured navigation text instead — the 2026-08-03
+    run reported 'ok Art. IX-1  3559 chars' for a file containing no section body
+    at all. Anchor on 'Sec. N.' for constitution objects.
+    """
+    if label.startswith("Art. "):
+        secno = label.rsplit("-", 1)[-1]
+        t = re.sub(r"<script.*?</script>|<style.*?</style>", "", raw, flags=re.S | re.I)
+        t = re.sub(r"<br\s*/?>", "\n", t, flags=re.I)
+        t = re.sub(r"</(p|div|tr|li|h\d)>", "\n", t, flags=re.I)
+        text = html.unescape(re.sub(r"<[^>]+>", "", t)).replace("\xa0", " ")
+        text = re.sub(r"[ \t]+", " ", text)
+        m = re.search(rf"Sec\.\s*{re.escape(secno)}\.", text)
+        if not m:
+            return "", ""          # no section body -> caller skips it
+        start = m.start()
+        tail = re.search(r"\n\s*(History:|Rendered\s|©|Michigan Compiled Laws Complete)",
+                         text[start:])
+        body = text[start:start + tail.start()] if tail else text[start:start + 9000]
+        return f"Const 1963, Art. IX §{secno}", re.sub(r"\n{3,}", "\n\n", body).strip()
+
     t = re.sub(r"<script.*?</script>|<style.*?</style>", "", raw, flags=re.S | re.I)
     t = re.sub(r"<br\s*/?>", "\n", t, flags=re.I)
     t = re.sub(r"</(p|div|tr|li|h\d)>", "\n", t, flags=re.I)

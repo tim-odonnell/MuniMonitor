@@ -376,5 +376,72 @@
     "31",
     "taxable",
     "status"
+  ],
+  "half of what": [
+    "50",
+    "percent",
+    "true",
+    "cash",
+    "value",
+    "uniform",
+    "assessed",
+    "proportion"
+  ],
+  "half my house": [
+    "50",
+    "percent",
+    "true",
+    "cash",
+    "value",
+    "assessed"
+  ],
+  "only half": [
+    "50",
+    "percent",
+    "true",
+    "cash",
+    "value",
+    "proportion",
+    "assessed"
+  ],
+  "how much can it go up": [
+    "inflation",
+    "rate",
+    "5",
+    "percent",
+    "increase",
+    "taxable",
+    "value",
+    "cap"
+  ],
+  "limits how much": [
+    "inflation",
+    "rate",
+    "5",
+    "percent",
+    "increase",
+    "taxable",
+    "value"
+  ],
+  "cap on my taxes": [
+    "inflation",
+    "rate",
+    "increase",
+    "taxable",
+    "value",
+    "5",
+    "percent"
+  ],
+  "proposal a": [
+    "uniform",
+    "general",
+    "ad",
+    "valorem",
+    "50",
+    "percent",
+    "true",
+    "cash",
+    "value",
+    "inflation"
   ]
 }
