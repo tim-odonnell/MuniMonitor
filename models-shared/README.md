@@ -5,8 +5,8 @@ find it — each one's `serve.sh` searches its own `models/` first, then falls
 back to `../models-shared/`. One 11.9 GB download instead of three.
 
 ```bash
-cd models-shared/
-hf download unsloth/gpt-oss-20b-GGUF gpt-oss-20b-UD-Q4_K_XL.gguf --local-dir .
+cd ..   # MuniMonitor root
+./fetch-models.sh        # or: ./fetch-models.sh qwen   (pinned + SHA256-verified)
 ```
 
 Then start whichever department you need:

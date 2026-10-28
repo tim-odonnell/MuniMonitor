@@ -22,15 +22,13 @@ Requires Linux x86-64 (glibc ≥ 2.38), Python 3.10+, and 16 GB RAM. **Zero pip
 installs** for the projects themselves.
 
 ```bash
-git clone <this-repo> && cd MuniMonitor
+git clone https://github.com/tim-odonnell/MuniMonitor.git && cd MuniMonitor
 
 # 1. get the model (~11.9 GB, one download serves all three departments)
-pip install -U huggingface_hub
-cd models-shared/
-hf download unsloth/gpt-oss-20b-GGUF gpt-oss-20b-UD-Q4_K_XL.gguf --local-dir .
+./fetch-models.sh            # pinned revision + SHA256-verified; needs only curl
 
-# 2. start a department
-cd ../assessor-assistant-claude && ./serve.sh
+# 2. start a department (builds its corpus index on first run)
+cd assessor-assistant-claude && ./serve.sh
 # wait for "listening" — ~3.5 min on first load
 
 # 3. THE TRUST RITUAL — always the first thing on new hardware
@@ -45,6 +43,32 @@ python3 src/foia_triage.py --file some-request.txt
 Step 3 is not optional ceremony. Six demo cases carry deliberate traps that
 catch a corrupted download, a wrong chat template, or silent truncation *before*
 any real work depends on the machine.
+
+## Recreating on another computer
+
+Git carries everything except model weights (GitHub caps files at 100 MB).
+`fetch-models.sh` downloads them from Hugging Face pinned to an exact commit and
+checks each against its SHA256, so a fresh machine gets byte-identical files:
+
+| Command | Gets | Size | Lands in |
+|---|---|---|---|
+| `./fetch-models.sh` | gpt-oss-20b UD-Q4_K_XL — validated default | 11.9 GB | `models-shared/` |
+| `./fetch-models.sh qwen` | Qwen3.6-35B-A3B UD-Q4_K_XL — validated, 32 GB RAM | 22.9 GB | `models-shared/` |
+| `./fetch-models.sh vision` | Qwen3-VL-8B + mmproj — building photo screening | 6.3 GB | `building-inspections-claude/models/vision/qwen3-vl-8b/` |
+| `./fetch-models.sh vision-large` | Qwen3-VL-30B-A3B + mmproj | 18.8 GB | `building-inspections-claude/models/vision/qwen3-vl-30b-a3b/` |
+
+Re-running resumes interrupted downloads and skips files that already verify.
+For photo screening: `cd building-inspections-claude && ./serve.sh vision`
+(add `30b` to pick the larger pair), then `python3 src/vision_check.py --calibrate`.
+The vision models are bake-off candidates, **not validated** — see
+`building-inspections-claude/models/vision/README.md`.
+
+What never travels, by design: generated `corpus/index.json` (rebuilt by
+`serve.sh`), `results/` and `logs/`, and **department records** — assessor
+parcel/sales data, shadow-mode cases, and the building golden photo set
+(`eval/photos/`), which each department supplies locally. On a distro older than
+glibc 2.38 the bundled engine won't start; `*/engine/README.md` has the one-line
+rebuild.
 
 ## Which model
 

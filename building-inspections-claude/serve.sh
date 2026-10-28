@@ -49,7 +49,9 @@ MODEL="${GGUFS[0]}"
 [[ ${#GGUFS[@]} -gt 1 ]] && printf 'NOTE: %d models found, using the first. Others:\n%s\n' "${#GGUFS[@]}" "$(printf '  %s\n' "${GGUFS[@]:1}")"
 
 EXTRA=""
-if [[ "$MODE" == vision ]]; then MMPROJ=$(find models/vision models -iname '*mmproj*.gguf' 2>/dev/null | head -1); [[ -z "$MMPROJ" ]] && { echo 'ERROR: vision mode needs an mmproj*.gguf next to the model in models/vision/.'; exit 1; }; EXTRA="--mmproj $MMPROJ"; fi
+# Projector must pair with the model: prefer the one in the model's own folder
+# (fetch-models.sh puts each pair in its own subfolder; both are named mmproj-F16.gguf).
+if [[ "$MODE" == vision ]]; then MMPROJ=$(find "$(dirname "$MODEL")" -maxdepth 1 -iname '*mmproj*.gguf' 2>/dev/null | head -1); [[ -z "$MMPROJ" ]] && MMPROJ=$(find models/vision models -iname '*mmproj*.gguf' 2>/dev/null | head -1); [[ -z "$MMPROJ" ]] && { echo 'ERROR: vision mode needs an mmproj*.gguf next to the model in models/vision/.'; exit 1; }; EXTRA="--mmproj $MMPROJ"; fi
 
 # --- preflight: python + corpus index ---
 command -v python3 >/dev/null || { echo "ERROR: python3 required."; exit 1; }

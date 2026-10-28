@@ -62,13 +62,21 @@ here has passed this project's gates.
 | Light | [`unsloth/Qwen3-VL-8B-Instruct-GGUF`](https://huggingface.co/unsloth/Qwen3-VL-8B-Instruct-GGUF) → `Qwen3-VL-8B-Instruct-UD-Q4_K_XL.gguf` (5.15 GB) | `mmproj-F16.gguf` (1.16 GB) | ~6.3 GB | 16 GB RAM |
 | Larger | [`unsloth/Qwen3-VL-30B-A3B-Instruct-GGUF`](https://huggingface.co/unsloth/Qwen3-VL-30B-A3B-Instruct-GGUF) → `Qwen3-VL-30B-A3B-Instruct-UD-Q4_K_XL.gguf` (17.7 GB) | `mmproj-F16.gguf` (1.08 GB) | ~18.8 GB | 32 GB RAM |
 
-Download both files of a pair:
+Download both files of a pair (pinned revision, SHA256-verified, each pair in its
+own subfolder so the two same-named `mmproj-F16.gguf` files can't cross):
 
 ```bash
-cd models/vision/
-hf download unsloth/Qwen3-VL-8B-Instruct-GGUF \
-    Qwen3-VL-8B-Instruct-UD-Q4_K_XL.gguf mmproj-F16.gguf --local-dir .
+cd ../../..                      # MuniMonitor root
+./fetch-models.sh vision         # 8B pair  -> models/vision/qwen3-vl-8b/
+./fetch-models.sh vision-large   # 30B pair -> models/vision/qwen3-vl-30b-a3b/
 ```
+
+With both present, `./serve.sh vision` takes the first alphabetically (30B);
+pick explicitly with `./serve.sh vision 8B` or `./serve.sh vision 30B`.
+`serve.sh` pairs each model with the projector in its own folder.
+
+The 8B pair passed `--calibrate` on 2026-10-27 (bundled CPU engine). That only
+proves the server sees images — it is not the bake-off.
 
 Vision quality is far more sensitive to model size than text triage is — the
 8B is the honest floor to test, not a safe default. Bake off at least two, on
