@@ -213,6 +213,7 @@ def official_chunks(question: str, cfg: dict | None = None, log=print,
     """Reference chunks from official sources for one question (same shape as websearch chunks)."""
     cfg = cfg or {}
     search_text = expand(question, department)
+    phrases = []
     if rewrite:
         try:
             phrases = rewrite(question)
@@ -222,6 +223,18 @@ def official_chunks(question: str, cfg: dict | None = None, log=print,
             log(f"  officialweb: rewrite failed ({type(e).__name__}) — using the question only")
     budget, per_page = cfg.get("char_budget", 18000), cfg.get("passages_per_page", 3)
     targets = [(u, "cited statute") for u in citation_urls(question)]
+    # Optional: michigan.gov's own (JavaScript) site search through the headless browser layer.
+    if cfg.get("browser"):
+        try:
+            import browser
+            if browser.available():
+                for ph in (phrases or [" ".join(_words(question)[:6])])[:2]:
+                    for title, u in browser.site_search(ph, k=cfg.get("site_hits", 3)):
+                        targets.append((u, f"site search '{ph[:14]}'"))
+            else:
+                log("  officialweb: browser layer requested but Chrome/poppler not found — skipped")
+        except Exception as e:
+            log(f"  officialweb: site search failed ({type(e).__name__}: {e})")
     try:
         index = build_index(log=log)
         hits = search_index(search_text, index, k=cfg.get("index_hits", 4), department=department)
