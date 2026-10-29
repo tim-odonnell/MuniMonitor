@@ -22,6 +22,34 @@ MuniMonitor/
 └── models-shared/                   one model store serving all three
 ```
 
+## What's new (2026-10-29)
+
+- **Synthetic public web UI** (`synthetic-webui/`): one chat for all three departments, for testing
+  only — MuniMonitor routes each message, answers through each department's own code, adds a
+  preliminary transfer determination, FOIA triage or photo screening when relevant, and ends every
+  turn with a machine-readable decision card. Localhost only, with a permanent "unofficial
+  synthetic test system" banner. Start it with `python3 synthetic-webui/server.py`.
+- **Better search over the law** (all departments): statutes are indexed one subsection per passage
+  with their full citation, definitions come along automatically, and plain resident wording is
+  mapped to legal terms. A resident's "12×16 deck, 3 ft up" now finds R 408.30505(x) and gets the
+  right answer (a permit is needed). Rebuild each department's index after updating:
+  `python3 src/ingest.py`.
+- **Keyless official web lookup** (opt-in, assessing): no search engine and no API key — cited
+  statutes are fetched from legislature.mi.gov, and a local index built from the official
+  michigan.gov sitemaps finds agency pages and bulletins. Optional headless-browser layer
+  (`browser.py`, uses your installed Chrome/Chromium) reads JavaScript pages such as michigan.gov's
+  own search. Web search can no longer fail silently.
+- **`fetch-models.sh` picks a model for your RAM**: Gemma 4 E2B under 14 GiB (not validated),
+  gpt-oss-20b on 16 GB machines (validated), Gemma 4 26B-A4B on 24 GB+ (not yet validated).
+- **Fresh-clone fixes**: one default port for all departments, longer timeout for slow computers.
+- Plans: `SYNTHETIC-TESTING-PLAN.md` (synthetic city testing) and `OPEN-SOURCE-PLAN.md`.
+
+Model testing so far (synthetic test cases; see "Status, honestly"): on the 29 property-transfer
+cases, Gemma 4 26B-A4B agreed with the expected answer 96% of the time with **no missed uncappings**;
+gpt-oss-20b 87% with 2 missed; the tiny Gemma 4 E2B only 62–66% with 6 missed — a short verified
+checklist of the statute raised E2B to 79–83% with 1 missed. Larger server-class models (GLM-5.3,
+DeepSeek-V4) reached 98–100%.
+
 ## Quick start
 
 Requires Linux x86-64 (glibc ≥ 2.38), Python 3.10+, and 16 GB RAM. **Zero pip
