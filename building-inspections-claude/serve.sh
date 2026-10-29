@@ -61,12 +61,20 @@ command -v python3 >/dev/null || { echo "ERROR: python3 required."; exit 1; }
 if [[ $UPDATE_CONFIG -eq 1 ]]; then
   MODE="$MODE" PORT="$PORT" MODEL_NAME="$(basename "$MODEL" .gguf)" python3 - <<'PY'
 import json, os
-c = json.load(open("config.json"))
-blk = c["vision"] if os.environ["MODE"] == "vision" and "vision" in c else c["llm"]
-blk["base_url"] = f"http://127.0.0.1:{os.environ['PORT']}/v1"
-blk["model"] = os.environ["MODEL_NAME"]
-json.dump(c, open("config.json", "w"), indent=2)
-print(f"config.json: {os.environ['MODE']} endpoint -> :{os.environ['PORT']} ({os.environ['MODEL_NAME']})")
+# One text server serves all three departments, so text mode repoints every sibling department's
+# config too (otherwise --port or a different model leaves the others pointing at nothing).
+paths = ["config.json"]
+if os.environ["MODE"] == "text":
+    paths += [p for p in ("../assessor-assistant-claude/config.json", "../city-clerk-claude/config.json",
+                          "../building-inspections-claude/config.json")
+              if os.path.exists(p) and not os.path.samefile(p, "config.json")]
+for path in paths:
+    c = json.load(open(path))
+    blk = c["vision"] if os.environ["MODE"] == "vision" and "vision" in c else c["llm"]
+    blk["base_url"] = f"http://127.0.0.1:{os.environ['PORT']}/v1"
+    blk["model"] = os.environ["MODEL_NAME"]
+    json.dump(c, open(path, "w"), indent=2)
+    print(f"{path}: {os.environ['MODE']} endpoint -> :{os.environ['PORT']} ({os.environ['MODEL_NAME']})")
 PY
 fi
 
