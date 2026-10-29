@@ -6,8 +6,14 @@ you may not use this work except in compliance with the License.
 You may obtain a copy of the License in the LICENSE file or at
 http://www.apache.org/licenses/LICENSE-2.0
 
-NOTE: the copyright holder line above is a project placeholder — before wide
-distribution, confirm whether copyright vests in the individual author or the
-municipality (work-for-hire question; consult the city attorney) and update
-this NOTICE accordingly. Third-party components are documented in
+The AI Municipal Assistance Project is the planned non-profit that will own and distribute
+this software.
+
+NOT AN OFFICIAL SOURCE. MuniMonitor is experimental software in development. It is not an
+official tool of any city, township, county or the State of Michigan, and it is not used in any
+official capacity. Its answers can be wrong, incomplete or out of date. Do not rely on it as your
+only source of information: always confirm with the office responsible (for example the local
+assessor, clerk or building department) before you act on anything it says.
+
+Third-party components are documented in
 THIRD-PARTY-NOTICES.md and are NOT covered by this notice.

@@ -80,5 +80,5 @@ exposure · the corpus holds law and procedure, **never the records themselves**
   handled (via the case JSON shape in `src/foia_backtest.py`) — powers the
   validation gate
 - The data-policy conversation: this project touches FOIA-exempt material,
-  voter data boundaries, and (possibly) vital records — same city-attorney/
-  city-manager governance as the sibling projects, ideally one combined policy
+  voter data boundaries, and (possibly) vital records — same local
+  governance as the sibling projects, ideally one combined policy

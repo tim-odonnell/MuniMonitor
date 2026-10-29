@@ -82,5 +82,5 @@ hallucinated measurements · validation gate before staff exposure · git always
 - Real inspection SOPs and checklists (replace the demo file; red-line the vision
   checklists in `src/prompts.py` — they are Claude-drafted and marked [VERIFY])
 - The golden photo set with known outcomes (`docs/vision-test-plan.md`)
-- The city-attorney answer on loading licensed code text into the corpus
+- A decision on whether licensed code text can be loaded into the corpus
   (`corpus/README.md` — ICC copyright constraint)
