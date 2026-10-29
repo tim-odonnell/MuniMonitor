@@ -30,8 +30,8 @@ installs** for the projects themselves.
 ```bash
 git clone https://github.com/tim-odonnell/MuniMonitor.git && cd MuniMonitor
 
-# 1. get the model (~11.9 GB, one download serves all three departments)
-./fetch-models.sh            # pinned revision + SHA256-verified; needs only curl
+# 1. get the model (one download serves all three departments)
+./fetch-models.sh            # picks a model for this machine's RAM; pinned + SHA256-verified; needs only curl
 
 # 2. start a department (builds its corpus index on first run)
 cd assessor-assistant-claude && ./serve.sh
@@ -58,7 +58,10 @@ checks each against its SHA256, so a fresh machine gets byte-identical files:
 
 | Command | Gets | Size | Lands in |
 |---|---|---|---|
-| `./fetch-models.sh` | gpt-oss-20b UD-Q4_K_XL — validated default | 11.9 GB | `models-shared/` |
+| `./fetch-models.sh` | picks by usable RAM: under 14 GiB → `small`, 14–22 GiB (16 GB machines) → `text`, 22 GiB and up → `large` | — | — |
+| `./fetch-models.sh text` | gpt-oss-20b UD-Q4_K_XL — validated | 11.9 GB | `models-shared/` |
+| `./fetch-models.sh small` | Gemma 4 E2B QAT Q4_0 (Google) — **not validated**; low-RAM machines and failure tests. Start with `./serve.sh e2b --ctx 32768` | 3.35 GB | `models-shared/` |
+| `./fetch-models.sh large` | Gemma 4 26B-A4B UD-Q3_K_XL — **not yet validated** (best in testing; some answers run away). Needs 24 GB+ RAM. Start with `./serve.sh 26b --ctx 32768` | 12.9 GB | `models-shared/` |
 | `./fetch-models.sh qwen` | Qwen3.6-35B-A3B UD-Q4_K_XL — validated, 32 GB RAM | 22.9 GB | `models-shared/` |
 | `./fetch-models.sh vision` | Qwen3-VL-8B + mmproj — building photo screening | 6.3 GB | `building-inspections-claude/models/vision/qwen3-vl-8b/` |
 | `./fetch-models.sh vision-large` | Qwen3-VL-30B-A3B + mmproj | 18.8 GB | `building-inspections-claude/models/vision/qwen3-vl-30b-a3b/` |
@@ -79,8 +82,11 @@ rebuild.
 ## Which model
 
 **`gpt-oss-20b-UD-Q4_K_XL`** (11.9 GB, 16 GB RAM headless) is the validated
-default. With 32 GB RAM, **`Qwen3.6-35B-A3B-UD-Q4_K_XL`** (22.9 GB) is the
-validated step up — slower, but cites statutes at subsection precision.
+model and the automatic pick for 16 GB machines. With 32 GB RAM,
+**`Qwen3.6-35B-A3B-UD-Q4_K_XL`** (22.9 GB) is the validated step up — slower, but
+cites statutes at subsection precision. With no argument, `fetch-models.sh` now picks
+by RAM: Gemma 4 E2B under 14 GiB (not validated — expect wrong answers) and Gemma 4
+26B-A4B from 22 GiB (not yet validated, the best performer in current testing).
 
 Full guidance, exact filenames, SHA256s, and why downloading a *smaller* quant
 saves you nothing: **[`models-shared/README.md`](models-shared/README.md)** and
