@@ -9,6 +9,7 @@ Stdlib only. Run:  python3 src/ingest.py
 """
 
 import json
+import os
 import math
 import re
 import shutil
@@ -40,6 +41,11 @@ def detect_authority(text: str) -> str:
 
 
 def load_config() -> dict:
+    # MUNI_CONFIG_DIR (optional): read <dir>/<department-folder>.json instead, so several model
+    # profiles can be tested in parallel without rewriting the shared config.json.
+    alt = os.environ.get("MUNI_CONFIG_DIR")
+    if alt:
+        return json.loads((Path(alt) / f"{ROOT.name}.json").read_text())
     return json.loads((ROOT / "config.json").read_text())
 
 

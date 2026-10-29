@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>City Help Desk — Synthetic Test</title>
+<style>
+  :root { --ink:#1b2530; --muted:#5d6b78; --bg:#f3f5f7; --card:#fff; --line:#cfd6dd;
+          --accent:#1d5c8f; --warn:#8a1c1c; --banner:#5b1a1a; --me:#e3eef8; --verify:#ffe2a8; }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink:#e4e9ee; --muted:#9aa7b3; --bg:#14191e; --card:#1d242b; --line:#34404b;
+            --accent:#6aa7dc; --warn:#f08a8a; --banner:#5b1a1a; --me:#22384b; --verify:#6b5410; } }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 system-ui,sans-serif; color:var(--ink); background:var(--bg); }
+  .synthetic { position:sticky; top:0; z-index:5; background:var(--banner); color:#fff;
+               padding:8px 16px; font-size:13px; text-align:center; }
+  .synthetic b { letter-spacing:.04em; }
+  header { padding:12px 16px 4px; max-width:860px; margin:0 auto; display:flex; gap:12px;
+           align-items:baseline; flex-wrap:wrap; }
+  header h1 { margin:0; font-size:19px; }
+  header .meta { color:var(--muted); font-size:12px; }
+  main { max-width:860px; margin:0 auto; padding:0 16px 200px; }
+  .msg { margin:12px 0; padding:12px 14px; border-radius:10px; background:var(--card);
+         border:1px solid var(--line); overflow-wrap:anywhere; }
+  .msg.me { background:var(--me); margin-left:12%; }
+  .msg .who { font-size:12px; color:var(--muted); margin-bottom:4px; }
+  .dept { display:inline-block; font-size:11px; font-weight:700; padding:1px 8px; border-radius:9px;
+          color:#fff; background:var(--accent); margin-right:6px; }
+  .answer { white-space:pre-wrap; }
+  .verify { background:var(--verify); padding:0 3px; border-radius:3px; font-weight:600; }
+  .draft { border-left:4px solid var(--warn); padding-left:10px; margin-top:8px; }
+  .draft h4 { margin:0 0 4px; font-size:12px; color:var(--warn); letter-spacing:.05em; }
+  .human { background:rgba(138,28,28,.08); border-left:4px solid var(--warn); padding:8px 10px;
+           margin-top:8px; border-radius:0 6px 6px 0; }
+  details { margin-top:8px; font-size:13px; }
+  summary { cursor:pointer; color:var(--muted); }
+  pre { white-space:pre-wrap; font-size:12px; background:var(--bg); padding:8px; border-radius:6px;
+        border:1px solid var(--line); max-height:420px; overflow:auto; }
+  .badge { display:inline-block; font-size:10px; font-weight:700; padding:0 6px; border-radius:8px; color:#fff; }
+  .LAW { background:#8a1c1c; } .STATE-GUIDANCE { background:#1c5d99; } .OFFICE-PRACTICE { background:#3d7a33; }
+  .TEST-CORPUS, .UNTAGGED { background:#777; }
+  .err { color:var(--warn); font-weight:600; }
+  .thumbs img { max-height:90px; border-radius:6px; margin:4px 4px 0 0; border:1px solid var(--line); }
+  form { position:fixed; bottom:0; left:0; right:0; background:var(--card); border-top:1px solid var(--line);
+         padding:10px 16px; }
+  .composer { max-width:860px; margin:0 auto; }
+  textarea { width:100%; min-height:64px; font:inherit; padding:8px; border:1px solid var(--line);
+             border-radius:8px; background:var(--bg); color:var(--ink); resize:vertical; }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:6px; font-size:13px; }
+  select, button { font:inherit; font-size:13px; }
+  button.go { background:var(--accent); color:#fff; border:0; padding:8px 20px; border-radius:6px; cursor:pointer; }
+  button.go[disabled] { opacity:.5; cursor:wait; }
+  .spacer { flex:1; }
+  #working { color:var(--muted); font-size:13px; }
+</style></head><body>
+<div class="synthetic"><b>UNOFFICIAL SYNTHETIC TEST SYSTEM</b> — not affiliated with, endorsed by, or speaking
+for the City of Royal Oak or any government. All people, parcels and records are fictional. Answers are drafts
+from an experimental AI, not legal advice and not official decisions.</div>
+<header><h1>City Help Desk (synthetic)</h1>
+  <span class="meta">Assessing · Clerk · Building — <span id="cfg"></span></span></header>
+<main id="chat">
+  <div class="msg"><div class="who">Help desk</div>
+  Ask about property taxes and assessments, elections and records, or building permits and inspections.
+  You can attach photos (for example of a deck or a permit card). Every answer shows its sources and
+  what the system decided.</div>
+</main>
+<form id="f" onsubmit="send(event)"><div class="composer">
+  <textarea id="m" placeholder="Type your question… (Ctrl+Enter to send)"></textarea>
+  <div class="row">
+    <label>Department <select id="dept">
+      <option value="auto">Let the system decide</option><option value="assessor">Assessing</option>
+      <option value="clerk">Clerk</option><option value="building">Building</option></select></label>
+    <label>📎 Photos <input type="file" id="files" accept="image/jpeg,image/png,image/webp" multiple></label>
+    <label id="itype-wrap" style="display:none">Inspection checklist <select id="itype"></select></label>
+    <span class="spacer"></span>
+    <span id="working"></span>
+    <button type="button" onclick="exportT()">Export transcript</button>
+    <button type="button" onclick="newSession()">New conversation</button>
+    <button class="go" id="go">Send</button>
+  </div>
+  <div class="thumbs" id="thumbs"></div>
+</div></form>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => (s ?? '').toString().replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const mark = s => esc(s).replace(/\[VERIFY\]/g, '<span class="verify">[VERIFY]</span>');
+const NAMES = {assessor:'Assessing', clerk:'Clerk', building:'Building'};
+let session = null, history = [], log = [], images = [];
+fetch('/api/info').then(r => r.json()).then(i => {
+  $('cfg').textContent = 'model config: ' + i.config;
+  $('itype').innerHTML = i.inspection_types.map(t => `<option>${t}</option>`).join('');
+});
+$('files').addEventListener('change', async e => {
+  images = [];
+  for (const f of [...e.target.files].slice(0, 4)) {
+    const b64 = await new Promise(res => { const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]); r.readAsDataURL(f); });
+    images.push({name: f.name, data_b64: b64});
+  }
+  $('thumbs').innerHTML = images.map(im => `<img alt="${esc(im.name)}" src="data:image/*;base64,${im.data_b64}">`).join('');
+  $('itype-wrap').style.display = images.length ? '' : 'none';
+});
+$('m').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) send(e); });
+function add(html, me) { const d = document.createElement('div'); d.className = 'msg' + (me ? ' me' : '');
+  d.innerHTML = html; $('chat').appendChild(d); d.scrollIntoView({behavior:'smooth', block:'end'}); return d; }
+function sources(hits) {
+  if (!hits || !hits.length) return '';
+  return `<details><summary>Sources used (${hits.length})</summary>` + hits.map(h =>
+    `<details><summary><span class="badge ${esc(h.authority)}">${esc(h.authority)}</span> ${esc(h.id)}</summary>
+     <pre>${esc(h.text)}</pre></details>`).join('') + '</details>';
+}
+function humanBox(rt) {
+  if (!rt || rt.route === 'daily') return '';
+  const t = rt.route === 'human_only' ? 'This needs a staff member — the system will not draft an answer'
+                                      : 'Flagged for extra staff review';
+  return `<div class="human"><b>${t}</b><ul>${(rt.reasons||[]).map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+}
+function render(r) {
+  let h = '';
+  if (r.error) h += `<div class="err">${esc(r.error)}</div>`;
+  if (r.answer) h += `<div class="answer">${mark(r.answer)}</div>`;
+  h += humanBox(r.routing);
+  if (r.verdict) { const v = r.verdict;
+    h += `<div class="draft"><h4>PRELIMINARY TRANSFER DETERMINATION — ASSESSOR MUST REVIEW</h4>
+      Uncapping: <b>${v.uncapping ? 'YES — taxable value uncaps' : 'No'}</b> · exception: ${esc(v.exception_category)}
+      · confidence: ${esc(v.confidence)}${(v.missing_facts||[]).length ? '<br>Missing facts: ' + esc(v.missing_facts.join('; ')) : ''}
+      <div class="answer">${mark(v.file_note)}</div></div>`; }
+  if (r.triage) { const t = r.triage;
+    h += `<div class="draft"><h4>RECORDS REQUEST TRIAGE — CLERK MUST REVIEW</h4>
+      Category: ${esc(t.category)} · attorney review: <b>${t.needs_attorney_review ? 'YES' : 'no'}</b>
+      ${(t.review_reasons||[]).length ? '<br>Why: ' + esc(t.review_reasons.join('; ')) : ''}
+      ${(t.clarification_questions||[]).length ? '<br>Questions for you: ' + esc(t.clarification_questions.join(' ')) : ''}
+      ${t.draft_acknowledgment ? `<div class="answer">${esc(t.draft_acknowledgment)}</div>` : ''}</div>`; }
+  if (r.report) { const p = r.report;
+    h += `<div class="draft"><h4>PHOTO SCREENING — AN INSPECTOR MUST REVIEW (never a pass/fail)</h4>
+      Image quality: ${esc(p.image_quality)}
+      ${p.observations.length ? '<br><b>Seen:</b><ul>' + p.observations.map(x => `<li>${esc(x)}</li>`).join('') + '</ul>' : ''}
+      ${p.possible_concerns.length ? '<b>Possible concerns:</b><ul>' + p.possible_concerns.map(c =>
+        `<li>${esc(c.concern)} <span class="meta">(${esc(c.confidence)}; ${esc(c.visible_evidence)})</span></li>`).join('') + '</ul>' : ''}
+      ${p.cannot_verify_from_photo.length ? '<b>Can\'t tell from a photo:</b> ' + esc(p.cannot_verify_from_photo.join('; ')) : ''}</div>`; }
+  return h + sources(r.hits);
+}
+async function send(e) {
+  e && e.preventDefault();
+  const msg = $('m').value.trim(); if (!msg && !images.length) return;
+  add(`<div class="who">You</div><div class="answer">${esc(msg)}</div>` +
+      (images.length ? `<div class="thumbs">${images.map(im => `<img src="data:image/*;base64,${im.data_b64}">`).join('')}</div>` : ''), true);
+  const body = {session, message: msg, history, department: $('dept').value, images,
+                inspection_type: $('itype').value};
+  $('m').value = ''; $('go').disabled = true;
+  const t0 = Date.now(); const tick = setInterval(() => $('working').textContent =
+    `thinking… ${Math.round((Date.now()-t0)/1000)}s (accuracy over speed — this can take minutes)`, 1000);
+  try {
+    const resp = await fetch('/api/turn', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+    const r = await resp.json();
+    if (r.error && !r.results) { add(`<div class="err">${esc(r.error)}</div>`); return; }
+    session = r.session;
+    const text = r.results.map(x => x.answer || '').join('\n').trim();
+    history.push({role:'user', text: msg}, {role:'assistant', text});
+    log.push({message: msg, images: images.map(i => i.name), response: r});
+    add(`<div class="who"><span class="dept">${esc(NAMES[r.department])}</span>Help desk</div>` +
+        r.results.map(render).join('<hr>') +
+        `<details><summary>Decision card (what the system decided)</summary><pre>${esc(JSON.stringify(r.decision_card, null, 2))}</pre></details>`);
+  } catch (err) { add(`<div class="err">Request failed: ${esc(err.message)}</div>`); }
+  finally { clearInterval(tick); $('working').textContent = ''; $('go').disabled = false;
+            images = []; $('files').value = ''; $('thumbs').innerHTML = ''; $('itype-wrap').style.display = 'none'; }
+}
+function exportT() {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify({session, turns: log}, null, 2)], {type:'application/json'}));
+  a.download = `transcript-${session || 'empty'}.json`; a.click();
+}
+function newSession() { session = null; history = []; log = [];
+  [...document.querySelectorAll('.msg')].slice(1).forEach(n => n.remove()); }
+</script>
+</body></html>
