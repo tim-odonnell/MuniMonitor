@@ -22,8 +22,28 @@
     "A bare 'how long' appears in both 'how long to respond' and 'how long must you",
     "keep', and expanding both ways poisoned one of them. Prefer longer, specific keys.",
     "",
-    "REGRESSION 2026-08-03: after the corpus grew to 243 documents, 'What is tax day in Michigan' pushed MCL 211.2 to rank 7 \u2014 one slot outside the window \u2014 because the newly-added millage-rollback bulletins outranked it, and the model then gave a WRONG definition of tax day from those. Statutory phrasing still ranked it 1st. Adding corpus can BREAK a previously-working question; re-measure after every expansion, and expect to add synonym keys as the corpus grows."
+    "REGRESSION 2026-08-03: after the corpus grew to 243 documents, 'What is tax day in Michigan' pushed MCL 211.2 to rank 7 \u2014 one slot outside the window \u2014 because the newly-added millage-rollback bulletins outranked it, and the model then gave a WRONG definition of tax day from those. Statutory phrasing still ranked it 1st. Adding corpus can BREAK a previously-working question; re-measure after every expansion, and expect to add synonym keys as the corpus grows.",
+    "REGRESSION 2026-10-29 (brief 18b): the structured-chunking port split form-2602.md",
+    "(Request to Rescind Principal Residence Exemption) into small chunks, and the",
+    "W-A04 question ('moved out ... renting it to my nephew') no longer surfaced the",
+    "rescission form at all \u2014 the baseline run had correctly told the resident to file",
+    "Form 2602. There is no stemmer, so the resident's 'renting' never matched the",
+    "form's own 'rent part of your home / renters / rented' vocabulary. The 'renting'",
+    "and 'rent out' keys now carry those surface forms; measured effect: the",
+    "rescission chunk rises from rank ~7 (unserved) to the served set, and BM25 gives",
+    "zero delta to every chunk that was outranking it.",
+    "REGRESSION 2026-10-29 #2 (brief 18b gate): the same port scattered MCL 211.24c",
+    "(annual notice of assessment) into 16 subsection chunks, and for 'What must the",
+    "annual notice of assessment change tell the owner, and when must it be sent?'",
+    "NOT ONE of them served — the question's words are exactly the words every STC",
+    "bulletin and manual section also uses, so the statute's chunks ranked as low as",
+    "168th. The statute's own subsection labels carry the token '24c', which the",
+    "question never says; the 'notice of assessment' key now adds it. Measured",
+    "effect: 211.24c(4) (14-day mailing deadline) serves at rank 2 and 211.24c(1)",
+    "(notice contents) at rank 6; A/B over all 48 eval cases: 1/48 served sets",
+    "change (the target case only)."
   ],
+  "notice of assessment": ["24c"],
   "why did my taxes go up": [
     "transfer",
     "ownership",
@@ -228,14 +248,32 @@
     "principal",
     "residence",
     "rental",
-    "exemption"
+    "exemption",
+    "rent",
+    "rented",
+    "renters"
   ],
   "renting": [
     "commercial",
     "purpose",
     "rental",
     "residential",
-    "exemption"
+    "exemption",
+    "rent",
+    "rented",
+    "renters"
+  ],
+  "renting it to": [
+    "transfer",
+    "ownership",
+    "residential",
+    "conveyance",
+    "commercial",
+    "purpose",
+    "son",
+    "daughter",
+    "brother",
+    "sister"
   ],
   "second home": [
     "principal",

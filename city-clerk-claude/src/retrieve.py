@@ -7,6 +7,7 @@ CLI use:       python3 src/retrieve.py "does a spousal transfer uncap" --k 5
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -15,6 +16,10 @@ from ingest import ROOT, load_config, tokenize  # noqa: E402
 
 K1 = 1.5
 B = 0.75
+
+# Max definition chunks appended to one result set (RET-3). Definition chunks are
+# full max_chars-sized, so this bounds the prompt growth from expansion.
+DEF_EXPANSION_CAP = 4
 
 
 class Retriever:
@@ -40,6 +45,43 @@ class Retriever:
                 self.synonyms = {k.lower(): v for k, v in
                                  json.loads(syn.read_text()).items()
                                  if not k.startswith("_")}
+        # Defined-term map built at ingest (RET-3): when a retrieved chunk uses a
+        # defined term, the chunk that DEFINES it is appended to the result set.
+        self.definitions = self.index.get("definitions", {})
+        self.by_id = {c["id"]: c for c in self.index["chunks"]}
+
+    def _expand_definitions(self, hits: list[dict]) -> list[dict]:
+        """Append the chunks DEFINING terms used in the hits (ported from
+        rag-exp/run.py expand_definitions). Uses of a quoted term ("public record")
+        rank before bare word matches; capped at DEF_EXPANSION_CAP. TEST-CORPUS
+        definitions are never appended."""
+        defs = getattr(self, "definitions", {})
+        by_id = getattr(self, "by_id", {})
+        if not defs or not by_id:
+            return hits
+        have = {h["id"] for h in hits}
+        quoted, bare = [], []
+        for h in hits:
+            text = h["text"].lower()
+            for term, cid in defs.items():
+                if cid in have:
+                    continue
+                if by_id[cid].get("authority") == "TEST-CORPUS":
+                    continue
+                if f'"{term}"' in text:
+                    quoted.append(cid)
+                elif re.search(r"(?<![a-z])" + re.escape(term) + r"(?![a-z])", text):
+                    bare.append(cid)
+        added, seen = [], set(have)
+        for cid in quoted + bare:
+            if len(added) >= DEF_EXPANSION_CAP or cid in seen:
+                continue
+            seen.add(cid)
+            ch = dict(by_id[cid])
+            ch["expanded"] = True
+            ch["score"] = 0.0
+            added.append(ch)
+        return hits + added
 
     def expand(self, query: str) -> list[str]:
         """Add statutory vocabulary for colloquial phrasings.
@@ -108,7 +150,7 @@ class Retriever:
                 scored.append((score, ch))
         scored.sort(key=lambda pair: pair[0], reverse=True)
         scored = self._cap_per_document(scored, k, getattr(self, "max_per_doc", 0))
-        return [
+        results = [
             {
                 "id": ch["id"],
                 "source": ch["source"],
@@ -118,6 +160,8 @@ class Retriever:
             }
             for s, ch in scored[:k]
         ]
+        # RET-3: append chunks defining terms the results use (never displace a slot).
+        return self._expand_definitions(results)
 
 
 def main() -> int:

@@ -31,11 +31,26 @@ RULE_RE = re.compile(r"\bR\s?(408\.\d{3,5}[a-z]?)\b")
 CODE_SEC_RE = re.compile(r"\b(R\d{3}(?:\.\d+)+)\b")
 
 
+def normalize_label(label: str) -> str:
+    """CIT-2 (brief 09 item 9): models mangle chunk labels while citing the RIGHT
+    chunk — they drop or add a `corpus/`/`overlay/` prefix, or write dots for
+    dashes in the file name (`mcl-211.27a.md` for `mcl-211-27a.md`). A match
+    after this normalization is GROUNDED but logged in findings["slips"], so the
+    drift stays visible instead of silently passing (or falsely failing)."""
+    name, _, idx = label.partition("#")
+    if name.endswith(".md"):
+        name = name[:-3]
+    name = name.split("/")[-1].replace(".", "-").lower()
+    return f"{name}#{idx}"
+
+
 def validate_citations(text: str, provided_chunks: list[dict]) -> dict:
-    """Return {"checked": n, "ungrounded": ["kind:cite", ...]} for one text."""
+    """Return {"checked": n, "ungrounded": ["kind:cite", ...], "slips": [...]}
+    for one text. slips = label cites grounded only after normalization."""
     ids = [c.get("id", "") for c in provided_chunks]
+    norm_ids = {normalize_label(i): i for i in ids}
     blob = " ".join(c.get("text", "") for c in provided_chunks)
-    findings = {"checked": 0, "ungrounded": []}
+    findings = {"checked": 0, "ungrounded": [], "slips": []}
 
     def check(kind: str, cite: str, ok: bool) -> None:
         findings["checked"] += 1
@@ -45,7 +60,16 @@ def validate_citations(text: str, provided_chunks: list[dict]) -> dict:
                 findings["ungrounded"].append(entry)
 
     for m in LABEL_RE.finditer(text):
-        check("label", m.group(1), m.group(1) in ids)
+        cite = m.group(1)
+        if cite in ids:
+            check("label", cite, True)
+        elif normalize_label(cite) in norm_ids:
+            entry = f"label:{cite} -> {norm_ids[normalize_label(cite)]}"
+            if entry not in findings["slips"]:
+                findings["slips"].append(entry)
+            check("label", cite, True)
+        else:
+            check("label", cite, False)
     for m in BARE_NUM_RE.finditer(text):
         for n in re.split(r"\s*,\s*", m.group(1)):
             check("chunk-index", n, any(i.endswith(f"#{n}") for i in ids))
@@ -59,10 +83,13 @@ def validate_citations(text: str, provided_chunks: list[dict]) -> dict:
 
 
 def merge_findings(*findings: dict) -> dict:
-    out = {"checked": 0, "ungrounded": []}
+    out = {"checked": 0, "ungrounded": [], "slips": []}
     for f in findings:
         out["checked"] += f["checked"]
         for u in f["ungrounded"]:
             if u not in out["ungrounded"]:
                 out["ungrounded"].append(u)
+        for s in f.get("slips", []):
+            if s not in out["slips"]:
+                out["slips"].append(s)
     return out
