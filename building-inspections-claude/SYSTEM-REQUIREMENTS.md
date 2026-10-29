@@ -14,8 +14,7 @@ gates):
 generation scales with memory bandwidth (MoE active-weight bytes per token:
 ~3.4GB for the 20B, ~5.2GB for the 35B), prompt processing scales with CPU
 compute. Re-measure on your actual box with:
-`llama-bench -m <gguf> -p 2048 -n 128` (bundled at
-`/home/user/llama.cpp-portable/build-cpu/bin/llama-bench`, or any llama.cpp build).
+`llama-bench -m <gguf> -p 2048 -n 128` (from any llama.cpp build).
 
 **What a "triage case" means below:** one full assessor/clerk backtest case —
 ~13-14K-token prompt (the pinned statutes) + 1.5-3K tokens of thinking/output.

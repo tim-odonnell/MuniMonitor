@@ -4,7 +4,7 @@
 is suddenly out, could the assistant guide a temporary replacement well enough — and
 how do we find out before it matters?*
 
-Sibling to `/home/user/assessor-assistant-claude/substitute-drill/` — same method,
+Sibling to `assessor-assistant-claude/substitute-drill/` — same method,
 adapted to this department's work.
 
 ---

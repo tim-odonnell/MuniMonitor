@@ -5,8 +5,8 @@
 
 > **This folder is Claude's work** (built with Claude Code, July 2026). Third
 > sibling project — same architecture and standing rules as
-> `/home/user/assessor-assistant-claude/` and
-> `/home/user/building-inspections-claude/`, with both projects' audit lessons
+> `assessor-assistant-claude/` and
+> `building-inspections-claude/`, with both projects' audit lessons
 > applied from day one (validation gate before staff surfaces; tests and git from
 > the start; string-discipline normalization; no copy-port branding drift).
 
@@ -52,7 +52,7 @@ city-clerk-claude/
 ## Quickstart
 
 ```bash
-cd /home/user/city-clerk-claude
+cd MuniMonitor/city-clerk-claude
 python3 src/ask.py --no-llm "how many business days to respond to a FOIA request"
 # with a llama-server on :18080 (config.json):
 python3 src/ask.py "when can a public body meet in closed session"

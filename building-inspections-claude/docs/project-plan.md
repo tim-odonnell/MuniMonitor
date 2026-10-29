@@ -1,6 +1,6 @@
 # Building & Inspections Assistant — Project Plan
 
-Sibling project to `/home/user/assessor-assistant-claude/`, built with its lessons
+Sibling project to `assessor-assistant-claude/`, built with its lessons
 applied from day one. The biggest one, learned the hard way there: **validate the
 core capability before building infrastructure around it.** This plan puts the
 vision-model validation gate ahead of everything staff-facing.

@@ -4,9 +4,8 @@
 > guide written for someone who has never used Ubuntu.
 
 > **This folder is Claude's work** (built with Claude Code, July 2026).
-> It is intentionally separate from `/home/user/assessor-assistant/`, which holds the
-> planning documents and the DeepSeek-R1 design-prompt workflow. Nothing in that folder
-> is modified by this build; compare the two efforts freely.
+> It was built separately from an earlier planning workspace (planning documents and a
+> DeepSeek-R1 design-prompt workflow) that is not part of this repository.
 
 ## What this is
 
@@ -70,7 +69,7 @@ assessor-assistant-claude/
 ## Quickstart
 
 ```bash
-cd /home/user/assessor-assistant-claude
+cd MuniMonitor/assessor-assistant-claude
 
 # 1. Put real documents in corpus/ (see "What you still need to provide" below).
 #    Demo placeholder docs are included so the pipeline runs out of the box.

@@ -4,7 +4,7 @@
 > guide written for someone who has never used Ubuntu.
 
 > **This folder is Claude's work** (built with Claude Code, July 2026). Sibling
-> project to `/home/user/assessor-assistant-claude/` — same architecture, same
+> project to `assessor-assistant-claude/` — same architecture, same
 > standing rules, built for the municipal Building & Inspections department, with
 > that project's audit lessons applied from day one (validation gate before
 > staff-facing surfaces; git from commit one; parse_bool discipline inherited).
@@ -61,7 +61,7 @@ building-inspections-claude/
 ## Quickstart
 
 ```bash
-cd /home/user/building-inspections-claude
+cd MuniMonitor/building-inspections-claude
 python3 src/ingest.py                                  # index the corpus (demo doc included)
 python3 src/ask.py --no-llm "framing inspection prerequisites"   # retrieval check
 python3 src/vision_check.py framing photo.jpg --dry-run          # see the exact prompt

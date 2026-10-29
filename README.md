@@ -50,6 +50,12 @@ gpt-oss-20b 87% with 2 missed; the tiny Gemma 4 E2B only 62–66% with 6 missed 
 checklist of the statute raised E2B to 79–83% with 1 missed. Larger server-class models (GLM-5.3,
 DeepSeek-V4) reached 98–100%.
 
+Web lookup (60 harder questions per condition, incl. law that is not in the corpus): with the keyless
+official lookup every answer received official passages (the old search-engine route returned nothing
+for about half). Gemma 4 E2B went from 25% to 30% correct (current corpus + web) and from 30% to 42%
+(new statute index + web); adding the headless-browser site search did not help a model that small.
+Results for larger models are in progress.
+
 ## Quick start
 
 Requires Linux x86-64 (glibc ≥ 2.38), Python 3.10+, and 16 GB RAM. **Zero pip
