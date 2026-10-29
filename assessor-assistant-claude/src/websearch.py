@@ -21,6 +21,8 @@ import json
 import re
 import subprocess
 import tempfile
+import threading
+import time
 import urllib.parse
 import urllib.request
 from html.parser import HTMLParser
@@ -83,11 +85,34 @@ def is_official(url: str) -> bool:
     return any(d == o or d.endswith("." + o) for o in OFFICIAL_DOMAINS)
 
 
-def search(query: str, cfg: dict) -> list[dict]:
+_last_search = [0.0]
+_search_lock = threading.Lock()
+
+
+def search(query: str, cfg: dict, log=print) -> list[dict]:
+    """One SearXNG query. Searches are spaced (min_interval_s, default 2 s) because bursts get
+    SearXNG's upstream engines to suspend it ("too many requests", CAPTCHA), after which every
+    search silently returns nothing (finding WEB-2). An empty result is retried with backoff."""
     base = cfg.get("searxng_url", "http://127.0.0.1:8888")
     url = f"{base}/search?" + urllib.parse.urlencode({"q": query, "format": "json"})
-    with urllib.request.urlopen(url, timeout=cfg.get("timeout_seconds", 30)) as r:
-        return json.load(r).get("results", [])
+    waits = cfg.get("retry_waits_s", [10, 30])
+    for attempt in range(len(waits) + 1):
+        with _search_lock:
+            gap = cfg.get("min_interval_s", 2.0) - (time.time() - _last_search[0])
+            if gap > 0:
+                time.sleep(gap)
+            _last_search[0] = time.time()
+        with urllib.request.urlopen(url, timeout=cfg.get("timeout_seconds", 30)) as r:
+            data = json.load(r)
+        results = data.get("results", [])
+        down = [f"{e[0]}: {e[1]}" for e in data.get("unresponsive_engines", [])]
+        log(f"  web: query {query[:80]!r} -> {len(results)} results"
+            + (f" (engines down: {', '.join(down)})" if down else ""))
+        if results or attempt == len(waits):
+            return results
+        log(f"  web: no results — retrying in {waits[attempt]} s")
+        time.sleep(waits[attempt])
+    return []
 
 
 def fetch_text(url: str, timeout: int = 30, max_bytes: int = 15_000_000) -> str:
@@ -138,21 +163,38 @@ def queries(question: str) -> list[str]:
 
 
 def web_chunks(question: str, cfg: dict, log=print) -> list[dict]:
+    """Return web reference chunks. provider "official" (default since 2026-10-29): keyless lookup of
+    official Michigan sources only (officialweb.py — citation fetch + sitemap index + link hop,
+    optionally with model-written search phrases via cfg["rewrite_llm"]). provider "searxng": the
+    original metasearch path below (scrapes public engines, which block automated use — WEB-2)."""
+    if cfg.get("provider", "official") == "official":
+        import officialweb
+        rw = officialweb.make_rewriter(cfg["rewrite_llm"]) if cfg.get("rewrite_llm") else None
+        return officialweb.official_chunks(question, cfg, log=log,
+                                           department=cfg.get("department", "assessor"), rewrite=rw)
+    return searxng_chunks(question, cfg, log=log)
+
+
+def searxng_chunks(question: str, cfg: dict, log=print) -> list[dict]:
     """Search, fetch and excerpt; return reference chunks (official sources first)."""
     max_pages = cfg.get("max_pages", 4)
     per_page = cfg.get("passages_per_page", 3)
     budget = cfg.get("char_budget", 18000)
     seen, results = set(), []
     for q in queries(question):
-        for r in search(q, cfg):
+        for r in search(q, cfg, log=log):
             key = _page_key(r.get("url") or "")
             if key and key not in seen:
                 seen.add(key); results.append(r)
     # Relevance gate: a long question still pulls junk ("MCL" = knee ligament); keep official
     # hits and anything sharing at least 3 terms with the question in its title/snippet.
     q_terms = _terms(question)
+    n_raw = len(results)
     results = [r for r in results if is_official(r["url"])
                or len(q_terms & _terms((r.get("title") or "") + " " + (r.get("content") or ""))) >= 3]
+    log(f"  web: {n_raw} unique results, {len(results)} pass the relevance gate")
+    if not results:
+        log("  web: NO WEB PASSAGES for this question (search empty or nothing relevant)")
     results.sort(key=lambda r: not is_official(r["url"]))   # stable: keeps search order within each group
     chunks, used = [], 0
     for r in results:
@@ -175,4 +217,6 @@ def web_chunks(question: str, cfg: dict, log=print) -> list[dict]:
                            "score": 0.0, "web": True,
                            "text": f"(fetched live from {r['url']})\n{p}"})
         log(f"  web: {auth:12s} {r['url'][:100]}")
+    if results and not chunks:
+        log("  web: NO WEB PASSAGES — every candidate page failed to fetch or had no relevant text")
     return chunks
