@@ -148,6 +148,27 @@
     "ballot",
     "application"
   ],
+  "absentee": [
+    "absent",
+    "voter",
+    "ballot",
+    "application",
+    "elector",
+    "clerk"
+  ],
+  "moved within": [
+    "removed",
+    "transfer",
+    "registration",
+    "precinct",
+    "election"
+  ],
+  "polling place": [
+    "election",
+    "precinct",
+    "registration",
+    "vote"
+  ],
   "mail in ballot": [
     "absent",
     "voter",
