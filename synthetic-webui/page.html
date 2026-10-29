@@ -53,7 +53,8 @@
 </style></head><body>
 <div class="synthetic"><b>UNOFFICIAL SYNTHETIC TEST SYSTEM</b> — not affiliated with, endorsed by, or speaking
 for the City of Royal Oak or any government. All people, parcels and records are fictional. Answers are drafts
-from an experimental AI, not legal advice and not official decisions.</div>
+from an experimental AI, not legal advice and not official decisions — <b>never rely on this as your only source;
+always confirm with the official office before acting.</b></div>
 <header><h1>City Help Desk (synthetic)</h1>
   <span class="meta">Assessing · Clerk · Building — <span id="cfg"></span></span></header>
 <main id="chat">
@@ -158,6 +159,7 @@ async function send(e) {
     log.push({message: msg, images: images.map(i => i.name), response: r});
     add(`<div class="who"><span class="dept">${esc(NAMES[r.department])}</span>Help desk</div>` +
         r.results.map(render).join('<hr>') +
+        `<div class="meta" style="margin-top:8px">Not an official answer — confirm with the responsible office before acting.</div>` +
         `<details><summary>Decision card (what the system decided)</summary><pre>${esc(JSON.stringify(r.decision_card, null, 2))}</pre></details>`);
   } catch (err) { add(`<div class="err">Request failed: ${esc(err.message)}</div>`); }
   finally { clearInterval(tick); $('working').textContent = ''; $('go').disabled = false;

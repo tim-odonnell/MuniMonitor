@@ -45,9 +45,8 @@ Phase 2 (real pilot) starts only after the synthetic gates pass.
 2. **No validation against real departmental cases.** 112 cases are synthetic; real golden sets
    are 0/3 departments (`*/TODO.md` P0). Everything else is secondary to this.
 3. **The building vision surface has no validated model** (`building-inspections-claude/TODO.md`).
-4. **Copyright holder unresolved.** `NOTICE` says "The AI Municipal Assistance Project — a
-   placeholder… work-for-hire question; consult the city attorney". You cannot accept outside
-   contributions or publish cleanly until the owner is known.
+4. **Ownership — resolved 2026-10-29.** Tim owns it (built on his own time). The NOTICE holder,
+   "The AI Municipal Assistance Project", is the non-profit Tim plans to form to own and distribute it.
 5. **Correctness bugs with silent failure modes** (brief 01): one `LLMError` aborts a harness and
    discards completed results (H1); clerk pinned exemptions can silently no-op (H2b); pinned budget
    overflow only WARNs (M1); truncated think-blocks accepted (M4); dead `min_top_score` trigger (M2).
@@ -136,13 +135,15 @@ Goal: no known silent failure, no injection that flips a zero-tolerance verdict.
 TD backtest 3× with zero missed uncaps on the validated model; no truncation can reach a user
 silently.
 
-### Phase 1 — Ownership, name and licence (≈ parallel to Phase 0; calendar-bound by the attorney)
+### Phase 1 — Ownership, name and licence (≈ parallel to Phase 0)
 
-1. **Resolve copyright ownership** (city attorney / your employment terms): individual, the
-   municipality, or assign to a neutral entity. Update `NOTICE` and every per-department `NOTICE`.
+1. **Copyright ownership — DECIDED 2026-10-29 (Tim):** built on Tim's own time, Tim owns it (not the
+   municipality; Royal Oak is only the synthetic test city). The NOTICE holder stays "The AI Municipal
+   Assistance Project" — the non-profit Tim will form to own and distribute it; assign copyright to it
+   once it exists. Every NOTICE and the README carry a "not an official source — always confirm with
+   the responsible office" statement (Tim, 2026-10-29).
 2. Keep **Apache-2.0** (patent grant, government-friendly, already in place). Adopt the
-   **Developer Certificate of Origin** (`Signed-off-by:`) for contributions — lighter than a CLA,
-   which municipal lawyers often won't sign.
+   **Developer Certificate of Origin** (`Signed-off-by:`) for contributions — lighter than a CLA.
 3. Pick a neutral name and rename folders (drop `-claude`): e.g. `assessing/`, `building/`,
    `clerk/`. Check the name for trademark conflicts and municipal-software namesakes.
 4. Write `SECURITY.md` (private vulnerability reporting), `CODE_OF_CONDUCT.md`,
@@ -263,7 +264,7 @@ association grants, state innovation funds, foundation civic-tech grants. A main
 - Clerk shadow mode + web UI; meeting-minutes drafting as a separate validated surface.
 - Assessor: PRE processing, Board of Review prep, taxpayer-inquiry drafting; async escalation.
 - Building: vision with a validated model and a real photo golden set; licensed code text (lane 2/3
-  of the copyright strategy) once the attorney memo exists.
+  of the copyright strategy) once a licensing decision exists.
 - A single multimodal model serving all three departments if one passes every gate (Gemma 4 26B-A4B
   is the current candidate under test).
 - Additional departments only by the same template (treasurer, planning/zoning) — each needs its
@@ -289,7 +290,7 @@ association grants, state innovation funds, foundation civic-tech grants. A main
 3. Add `finish_reason` handling and set context from brief-11 evidence.
 4. Decide the two expected-answer fixes from brief 02.
 5. Re-fetch the stale corpus files (Election Law, OMA, Act 230) and add STC Bulletins 4–14 of 2026.
-6. Ask the city attorney the ownership question (and, while there, the AI-log retention question).
+6. Decide the AI-log retention policy for the web UI transcripts.
 7. Choose the public name; plan the folder rename.
 8. Start the assessing governance briefing and the 30-case golden set.
 9. Correct SYSTEM-REQUIREMENTS with measured speeds.

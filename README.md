@@ -8,6 +8,12 @@ engine; a department can run these on a single ordinary desktop.
 Every output is a **draft for the responsible human official.** That is the
 design constraint the whole system is built around, not a disclaimer bolted on.
 
+> **Not an official source.** MuniMonitor is experimental software in development. It is not an
+> official tool of any city, township, county or the State of Michigan, and it is not used in any
+> official capacity. Its answers can be wrong, incomplete or out of date. Do not rely on it as your
+> only source of information: always confirm with the office responsible (for example the local
+> assessor, clerk or building department) before you act on anything it says.
+
 ```
 MuniMonitor/
 ├── assessor-assistant-claude/       Assessing — PTA/uncapping triage, Q&A, shadow mode, web UI
