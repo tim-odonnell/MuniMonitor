@@ -37,6 +37,21 @@ class TestOfficialWeb(unittest.TestCase):
         top = o.search_index("When must the March board of review meet?", idx, department="assessor")
         self.assertTrue(top[0][1].endswith("/board-of-review"))
 
+    def test_web_labels_short_unique_and_valid(self):
+        import citations
+        import websearch
+        urls = ["https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-211-27a",
+                "https://www.michigan.gov/treasury/-/media/Project/Websites/treasury/STC/Bulletins/2026/"
+                "Bulletin-12-of-2026---Property-Tax-and-Equalization-Calendar-for-2027.pdf?rev=1e7f&hash=5557",
+                "https://www.michigan.gov/treasury/-/media/Project/Websites/treasury/STC/Bulletins/2026/"
+                "Bulletin-12-of-2026---Property-Tax-and-Equalization-Calendar-for-2027.pdf?rev=2abc&hash=9999"]
+        labels = [websearch._label(u, 0) for u in urls]
+        self.assertEqual(len(set(labels)), 3)                       # same file, new revision = new label
+        for lab in labels:
+            self.assertLessEqual(len(lab), 50)                      # WEB-5: models copy short labels exactly
+            self.assertTrue(citations.LABEL_RE.fullmatch(f"[{lab}]"))
+        self.assertTrue(labels[0].startswith("web-mileg-mcl-211-27a-"))
+
     def test_expand_unknown_department_is_noop(self):
         self.assertEqual(o.expand("hello there", "nope"), "hello there")
 

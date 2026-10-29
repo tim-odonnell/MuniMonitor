@@ -17,7 +17,9 @@ Authority of web passages:
 Web text is UNTRUSTED input (prompt injection, brief 06): the system prompt tells the
 model never to follow instructions found in it.
 """
+import hashlib
 import json
+import os
 import re
 import subprocess
 import tempfile
@@ -141,11 +143,24 @@ def _passages(text: str, question: str, k: int, size: int = 1500) -> list[str]:
     return [wins[i].strip() for i in keep]
 
 
+SITE_CODES = {"legislature.mi.gov": "mileg", "michigan.gov": "migov", "courts.michigan.gov": "micourts",
+              "ecfr.gov": "ecfr"}
+
+
 def _label(url: str, n: int) -> str:
-    """A citation label the existing validator accepts: web-<slug>.md#n"""
+    """A short citation label the validator accepts: web-<site>-<name>-<hash6>.md#n, e.g.
+    web-mileg-mcl-211-27a-1a2b3c.md#0. Kept short on purpose: models copy-edit long labels
+    ("web-...5278.pdf-rev-.md#0"), which then fail grounding (finding WEB-5). The hash keeps pages
+    unique; the full URL travels in the passage text."""
     u = urllib.parse.urlparse(url)
-    slug = re.sub(r"[^A-Za-z0-9._-]+", "-", (u.netloc + u.path + ("-" + u.query if u.query else "")))
-    return f"web-{slug.strip('-')[:90]}.md#{n}"
+    host = _domain(url)
+    site = next((c for h, c in SITE_CODES.items() if host == h or host.endswith("." + h)),
+                re.sub(r"[^a-z0-9]", "", host.split(".")[0])[:10] or "site")
+    q = dict(urllib.parse.parse_qsl(u.query))
+    raw = q.get("objectName") or os.path.splitext(u.path.rstrip("/").rsplit("/", 1)[-1])[0]
+    name = re.sub(r"[^a-z0-9]+", "-", raw.lower()).strip("-")[:24].strip("-") or "page"
+    digest = hashlib.sha1(url.encode()).hexdigest()[:6]
+    return f"web-{site}-{name}-{digest}.md#{n}"
 
 
 STATUTE_NUM = re.compile(r"\b(\d{2,3}\.\d{1,4}[a-z]{0,2})\b")
