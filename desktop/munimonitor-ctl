@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# munimonitor-ctl start|stop - start or stop the model server + synthetic web UI.
+# start: llama-server (:18080) + synthetic-webui (:8600) as systemd user units, then opens the page.
+# Closing a terminal never takes them down. Reports through desktop notifications (notify-send)
+# when available, and prints to stdout either way.
+# Override with env vars: MUNIMONITOR_MODEL (serve.sh name filter, default e2b), MUNIMONITOR_CTX
+# (default 32768), MUNIMONITOR_NEED_MIB (free-RAM floor before loading, default 5500).
+set -u
+
+ACT=${1:-}
+ROOT=$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)
+MODEL=${MUNIMONITOR_MODEL:-e2b}
+CTX=${MUNIMONITOR_CTX:-32768}
+NEED_MIB=${MUNIMONITOR_NEED_MIB:-5500}
+LLM=http://127.0.0.1:18080
+UI=http://127.0.0.1:8600
+ICON=$ROOT/desktop/munimonitor.png
+
+note() { # note <urgency> <title> <body>
+    command -v notify-send >/dev/null && notify-send -i "$ICON" -u "$1" -a MuniMonitor "$2" "$3" 2>/dev/null
+    echo "$2 - $3"
+}
+fail() { note critical "$1" "$2"; exit 1; }
+
+case "$ACT" in
+stop)
+    systemctl --user stop munimonitor-webui.service munimonitor-llm.service 2>/dev/null
+    note normal "MuniMonitor stopped" "Model and web UI are unloaded."
+    exit 0 ;;
+start) ;;
+*) echo "usage: munimonitor-ctl start|stop" >&2; exit 2 ;;
+esac
+
+command -v systemd-run >/dev/null || fail "systemd not found" "This launcher needs a systemd user session."
+ls "$ROOT"/models-shared/*.gguf >/dev/null 2>&1 \
+    || fail "No model downloaded" "Run ./fetch-models.sh small (or text/large) in $ROOT first."
+
+if curl -sf -o /dev/null -m 3 "$UI/" && curl -sf -o /dev/null -m 3 "$LLM/health"; then
+    note normal "MuniMonitor is already running" "Opening $UI"
+    xdg-open "$UI" >/dev/null 2>&1 &
+    exit 0
+fi
+
+avail=$(( $(awk '/^MemAvailable:/{print $2}' /proc/meminfo) / 1024 ))
+[ "$avail" -ge "$NEED_MIB" ] || fail "Not started: low memory" "Only ${avail} MiB available, need ${NEED_MIB} MiB."
+
+note normal "Loading MuniMonitor" "Starting the model and the web UI."
+t0=$(date +%s)
+
+if ! systemctl --user is-active --quiet munimonitor-llm.service; then
+    systemctl --user reset-failed munimonitor-llm.service 2>/dev/null
+    systemd-run --user --quiet --unit=munimonitor-llm -p MemorySwapMax=0 \
+        -p WorkingDirectory="$ROOT/assessor-assistant-claude" \
+        "$ROOT/assessor-assistant-claude/serve.sh" "$MODEL" --ctx "$CTX" >/dev/null 2>&1 \
+        || fail "Could not start the model" "journalctl --user -u munimonitor-llm"
+fi
+if ! systemctl --user is-active --quiet munimonitor-webui.service; then
+    systemctl --user reset-failed munimonitor-webui.service 2>/dev/null
+    systemd-run --user --quiet --unit=munimonitor-webui -p MemoryMax=1G -p MemorySwapMax=0 \
+        -p WorkingDirectory="$ROOT" /usr/bin/env python3 -I "$ROOT/synthetic-webui/server.py" >/dev/null 2>&1 \
+        || fail "Could not start the web UI" "journalctl --user -u munimonitor-webui"
+fi
+
+ok=""
+for _ in $(seq 1 120); do
+    if curl -sf -o /dev/null -m 2 "$LLM/health" && curl -sf -o /dev/null -m 2 "$UI/"; then ok=1; break; fi
+    systemctl --user is-active --quiet munimonitor-llm.service || break
+    sleep 1
+done
+[ -n "$ok" ] || fail "MuniMonitor did not come up" "$(journalctl --user -u munimonitor-llm -n 4 --no-pager 2>/dev/null | tail -c 300)"
+
+note normal "MuniMonitor is ready ($(( $(date +%s) - t0 ))s)" "Opening $UI - unofficial synthetic test system."
+xdg-open "$UI" >/dev/null 2>&1 &

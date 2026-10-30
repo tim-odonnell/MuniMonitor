@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f5d8c"/>
+      <stop offset="1" stop-color="#17304d"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="url(#bg)"/>
+  <!-- dome -->
+  <path d="M98 88 A30 30 0 0 1 158 88 Z" fill="#e8eef5"/>
+  <rect x="126" y="46" width="4" height="14" fill="#e8eef5"/>
+  <path d="M130 46 L146 51 L130 56 Z" fill="#f2b84b"/>
+  <!-- pediment -->
+  <path d="M64 108 L128 78 L192 108 Z" fill="#f4f7fa"/>
+  <rect x="64" y="108" width="128" height="9" fill="#dfe7ef"/>
+  <!-- columns -->
+  <g fill="#f4f7fa">
+    <rect x="72" y="119" width="14" height="60"/>
+    <rect x="97" y="119" width="14" height="60"/>
+    <rect x="122" y="119" width="14" height="60"/>
+    <rect x="147" y="119" width="14" height="60"/>
+    <rect x="172" y="119" width="14" height="60"/>
+  </g>
+  <!-- steps -->
+  <rect x="62" y="179" width="132" height="9" fill="#dfe7ef"/>
+  <rect x="54" y="188" width="148" height="9" fill="#c8d3df"/>
+  <!-- monitor pulse line -->
+  <path d="M30 222 H92 L104 204 L120 238 L136 210 L146 222 H226" fill="none"
+        stroke="#f2b84b" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -84,6 +84,17 @@ Step 3 is not optional ceremony. Six demo cases carry deliberate traps that
 catch a corrupted download, a wrong chat template, or silent truncation *before*
 any real work depends on the machine.
 
+## Desktop launcher (optional, Linux with systemd)
+
+```bash
+desktop/install-launcher.sh        # adds "MuniMonitor Start" / "MuniMonitor Stop" to the app menu and ~/Desktop
+```
+
+Double-click **MuniMonitor Start** (or run `desktop/munimonitor-ctl start`): it checks free RAM, starts the
+model server (:18080) and the synthetic web UI (:8600) as systemd user units, waits until both answer, and
+opens `http://127.0.0.1:8600`. **Stop** unloads both. It needs a model from `./fetch-models.sh` first.
+`MUNIMONITOR_MODEL` (default `e2b`), `MUNIMONITOR_CTX` and `MUNIMONITOR_NEED_MIB` override the defaults.
+
 ## Recreating on another computer
 
 Git carries everything except model weights (GitHub caps files at 100 MB).
