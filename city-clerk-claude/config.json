@@ -12,7 +12,8 @@
     "top_k": 6,
     "max_chunk_chars": 1600,
     "max_per_document": 3,
-    "query_expansion": true
+    "query_expansion": true,
+    "hybrid": true
   },
   "paths": {
     "corpus_dir": "corpus",
