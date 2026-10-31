@@ -13,6 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ingest import ROOT, load_config, tokenize  # noqa: E402
+from hybrid import HybridIndex  # noqa: E402
 
 K1 = 1.5
 B = 0.75
@@ -44,6 +45,10 @@ class Retriever:
         # defined term, the chunk that DEFINES it is appended to the result set.
         self.definitions = self.index.get("definitions", {})
         self.by_id = {c["id"]: c for c in self.index["chunks"]}
+        # Hybrid ranking (stemmed + word-pair BM25 fused with the original score).
+        # Built lazily on first search; set retrieval.hybrid=false to disable.
+        self.hybrid = bool(cfg["retrieval"].get("hybrid", True))
+        self._hybrid_index = None
 
     def _expand_definitions(self, hits: list[dict]) -> list[dict]:
         """Append the chunks DEFINING terms used in the hits (ported from
@@ -111,6 +116,18 @@ class Retriever:
             out.extend(p for p in scored if id(p) not in have)
         return out[:k]
 
+    def _rank(self, pool: dict, q_terms: list[str]) -> list:
+        """pool: {chunk position: (BM25 score, chunk)} for every searchable chunk."""
+        if not getattr(self, "hybrid", False):
+            return [(s, ch) for s, ch in pool.values() if s > 0]
+        if self._hybrid_index is None:
+            self._hybrid_index = HybridIndex(self.index["chunks"])
+        base = [0.0] * len(self.index["chunks"])
+        for pos, (s, _ch) in pool.items():
+            base[pos] = s
+        fused = self._hybrid_index.fuse(base, q_terms)
+        return [(fused[pos], ch) for pos, (_s, ch) in pool.items() if fused[pos] > 0]
+
     def search(self, query: str, k: int | None = None,
                include_test_corpus: bool = False) -> list[dict]:
         """include_test_corpus: TEST-CORPUS chunks (stand-in material from another
@@ -120,8 +137,8 @@ class Retriever:
         idf = self.index["idf"]
         avg_len = self.index["avg_len"] or 1.0
         q_terms = self.expand(query)
-        scored = []
-        for ch in self.index["chunks"]:
+        scored, pool = [], {}
+        for pos, ch in enumerate(self.index["chunks"]):
             if (not include_test_corpus
                     and ch.get("authority", "UNTAGGED") == "TEST-CORPUS"):
                 continue
@@ -134,8 +151,8 @@ class Retriever:
                 score += idf.get(t, 0.0) * (f * (K1 + 1)) / (
                     f + K1 * (1 - B + B * length / avg_len)
                 )
-            if score > 0:
-                scored.append((score, ch))
+            pool[pos] = (score, ch)
+        scored = self._rank(pool, q_terms)
         scored.sort(key=lambda pair: pair[0], reverse=True)
         scored = self._cap_per_document(scored, k, getattr(self, "max_per_doc", 0))
         results = [
